@@ -1,0 +1,39 @@
+
+## Game
+Initialise game					Board, Location, Player, Character, Card, Moveable Piece, CardCombination
+Know win state					Card, CardCombination
+Know game state
+Do turn logic					UI
+Parse player commands				UI
+Know Players					Player			
+
+## Board
+Initialise map				
+Know the layout					Location, MoveablePiece
+
+## UI
+Display the board after moves			Board
+Display questions and receive commands		Game
+
+## CardCombination
+Hold a Room/Character/Weapon combination	Card
+
+## Location
+Knows where on the map it is			Board	
+Knows what piece is in it currently		MoveablePiece
+
+## Room (extends Location)
+Knows about exits
+
+## Hallway (extends Location)
+
+## MovablePiece
+Know position					Board, Location
+
+## Player
+Know cards in hand				Card
+Knows what Character it is			Character
+
+## Card
+Know if it matches another Card
+Know if it matches a Room/Weapon/Character	Room, Weapon, Character

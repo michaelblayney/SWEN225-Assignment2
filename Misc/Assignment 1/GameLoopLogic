@@ -1,0 +1,46 @@
+Ordered list of players
+Current player
+
+doTurn()
+roll dice to get number of steps player can take
+move()
+if (player is now in a room)
+(UI) ask if they want to make a suggestion (y/n)
+yes -> makeSuggestion()
+(UI) ask if they want to make an accusation (y/m)
+no -> makeAccusation()
+Increment to next player
+
+makeAccusation()
+(UI) Ask for room/person/item combo (could select from numbered lists by typing number) and parse
+check triplet against murder scenario
+if it matches, player wins
+else remove player from game
+
+makeSuggestion()
+(UI) Ask for person/item combo (could select from numbered lists by typing number) and parse
+(Board) Move character and item to this room.
+iterate through non-current players in turn order:
+    get list of cards that match the suggestion in selected non-current player's cards.
+   if(no matching cards)
+       if (players remaining)
+          skip this player
+       else
+          tell player no one can refute, break
+   if(1 card matching)
+       show to current player, break
+    if(>1 card)
+        ask this nt player which they want to show, show to current player, break
+
+move(number of moves)
+Loop(until out of moves)
+if(in hallway)
+	Options: n, e, w, s, end turn
+Ask for 1 move
+	Board.movePiece(Piece, char)
+if(in room)
+	Options: stay in room or keep moving
+	Options: accuse or suggest (turn ending), end turn, exit1, exit2…
+Ask for 1 move
+	Board.movePiece(Piece, char) OR return suggest/accuse
+

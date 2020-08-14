@@ -1,0 +1,200 @@
+//Unable to update umple code due to error at [19,2]
+//Unable to update umple code due to error at [18,2]
+class Game
+{
+  CardCombination murderSolution;
+Boolean gameFinished;
+1 <- 2..6 Player;
+  1 <- 1 Board;
+  1 -- 1 UI;
+  1 -- 6 Weapon;
+  1 -- 9 Room;
+  1 -- 6 Character;
+}
+
+class Player
+{
+  
+  Boolean isEliminated;
+}
+
+class Board
+{
+  
+  1 -- * Location;
+    1 -- * MoveablePiece;
+}
+
+class Card
+{
+  name;
+1..* -> 1 Player;
+
+  }
+
+class WeaponCard
+{
+  isA Card;
+}
+
+class PersonCard
+{
+  isA Card;
+}
+
+class RoomCard
+{
+  isA Card;
+  1 -- 1 Room;
+}
+
+class Character
+{
+    isA MoveablePiece;
+
+  
+  1 -- 0..1 Player;
+  1 -- 1 PersonCard;
+}
+
+class Location
+{
+  1 -- 0..1 MoveablePiece;
+}
+
+class Room
+{
+  name;
+Boolean isDoor;
+isA Location;
+}
+
+class Hallway
+{
+  isA Location;
+}
+
+class Weapon
+{
+  isA MoveablePiece;
+  1 -- 1 WeaponCard;
+}
+
+class UI
+{
+}
+
+class MoveablePiece
+{
+  int x;
+  int y;
+  name;
+}
+
+class CardCombination
+{
+  * -- * Player;
+  * -- * Game;
+}
+
+
+
+namespace -;
+
+
+class Game
+{
+  position 293 45 244 75;
+  position.association Game__Player 0,64 119,0;
+  position.association Board__Game 135,75 31,0;
+  position.association Game__UI 245,6 0,7;
+  position.association Game__Weapon 24,75 4,0;
+  position.association Game__Room 67,75 33,0;
+  position.association Character__Game 22,75 29,0;
+}
+
+class Player
+{
+  position 82 234 109 41;
+}
+
+class Board
+{
+  position 454 175 109 42;
+  position.association Board__Game 26,0 106,42;
+  position.association Board__Location 110,36 91,0;
+    position.association Board__MoveablePiece 42,42 86,0;
+}
+
+class Card
+{
+  position 80 443 109 41;
+  position.association Card__Player 48,0 80,58;
+  position.association Card__Card:roleName 29,0 10,0;
+  position.association Card__Card:roleName 74,0 74,0;
+  }
+
+class WeaponCard
+{
+  position 28 564 109 42;
+}
+
+class PersonCard
+{
+  position 153 564 109 42;
+}
+
+class RoomCard
+{
+  position 274 565 109 42;
+  position.association RoomCard__Room 109,2 38,28;
+  position.association Room__RoomCard 110,0 0,35;
+}
+
+class Character
+{
+  position 241 425 109 41;
+  position.association Character__Game 48,0 13,42;
+  position.association Character__Player 0,10 115,58;
+  position.association Character__PersonCard 61,58 103,0;
+}
+
+class Location
+{
+  position 625 287 109 61;
+  position.association Location__MoveablePiece 0,12 110,18;
+}
+
+class Room
+{
+  position 574 390 109 58;
+}
+
+class Hallway
+{
+  position 716 391 109 41;
+}
+
+class Weapon
+{
+  position 365 426 109 41;
+  position.association Weapon__WeaponCard 9,41 110,0;
+}
+
+class UI
+{
+  position 707 43 109 41;
+}
+
+class MoveablePiece
+{
+  position 391 280 109 75;
+}
+
+class CardCombination
+{
+  position 104 112 109 41;
+  position.association CardCombination__Player 59,42 78,0;
+  position.association CardCombination__Game 123,0 0,11;
+}
+//$?[End_of_model]$?
