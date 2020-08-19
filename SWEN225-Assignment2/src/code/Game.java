@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 //import com.sun.tools.sjavac.server.SysInfo;
 
 public class Game {
@@ -483,7 +484,16 @@ public class Game {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
+		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                GUI.doGUI();
+            }
+        });
+		
+		
 		new Game();
+		
 	}
 
 }
