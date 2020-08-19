@@ -46,9 +46,9 @@ public class Game {
 	// INTERFACE
 	// ------------------------
 
-	public void delete() {
-
-	}
+//	public void delete() {
+//
+//	}
 
 	/**
 	 * Initializes and instantiates everything as-needed. FOR NOW, this includes the
@@ -114,7 +114,7 @@ public class Game {
 		//ui.println(murderSolution.toString());
 
 		//put remaining cards into deck to dealt out once players are created
-		dealDeck = new ArrayList<Card>();
+		dealDeck = new ArrayList<>();
 		dealDeck.addAll(weaponDeck);
 		dealDeck.addAll(characterDeck);
 		dealDeck.addAll(roomDeck);
@@ -140,7 +140,7 @@ public class Game {
 		players = new Player[numPlayers];
 		for(int i = 0; i < numPlayers; i++) { //Asking each player which character they want to be
 			int index = 0;
-			HashMap<Integer, Integer> indexTable = new HashMap<Integer, Integer>();
+			HashMap<Integer, Integer> indexTable = new HashMap<>();
 
 			ui.println("-------------------");
 			ui.println("Player " + (i + 1) + " please select your character");
@@ -167,7 +167,6 @@ public class Game {
 			}
 
 			ui.println("Player " + (i + 1) + " has chosen: " + board.characters[indexTable.get(selection)].toString());
-			index = 0;
 		}
 
 		//Move Mrs. Scarlet to the front of players
@@ -182,9 +181,7 @@ public class Game {
 			}
 		}
 		if(missSPlayer != null) { //If there is a player that selected Miss Scarlett, put them at the front of the player turn array
-			for(int i = index; i > 0; i--) {
-				players[i] = players[i - 1];
-			}
+			System.arraycopy(players, 0, players, 1, index);
 			players[0] = missSPlayer;
 		}
 	}
