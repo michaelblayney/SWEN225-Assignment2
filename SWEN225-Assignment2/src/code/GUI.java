@@ -28,6 +28,7 @@ public class GUI {
 	private static Dimension interactionDimension = new Dimension(cardsWidth+boardWidth, interactionHeight);
 
 	JFrame frame;	//root component of the GUI
+	SwitchPanel interactionPanel;
 
 	public GUI() {
 		frame = new JFrame("CLUEDO");
@@ -70,10 +71,11 @@ public class GUI {
 		boardPanel.setPreferredSize(boardDimension);
 		
 		// make interaction panel
-		JPanel interactionPanel = new InteractionPanel();
+		interactionPanel = new InteractionPanel(new CardLayout());
 		interactionPanel.setOpaque(true);
 		interactionPanel.setBackground(Color.BLUE);
 		interactionPanel.setPreferredSize(interactionDimension);
+		interactionPanel.switchToView("Moving");
 				
 		// add stuff to frame
 		frame.setJMenuBar(menuBar);
@@ -83,12 +85,12 @@ public class GUI {
 		gamePanel.add(boardPanel, BorderLayout.CENTER);
 		gamePanel.add(interactionPanel, BorderLayout.SOUTH);
 		
+		// set up panel to switch between init and gameplay
 		SwitchPanel panelSwitch = new SwitchPanel(new CardLayout());
 		panelSwitch.add(initPanel, "Game Setup");
 		panelSwitch.add(gamePanel, "Gameplay");
 		frame.getContentPane().add(panelSwitch);
 		panelSwitch.switchToView("Game Setup");
-		//((CardLayout) panelSwitch.getLayout()).show(panelSwitch, "Game Setup");
 		
 		// display
 		frame.pack();
@@ -97,7 +99,20 @@ public class GUI {
 		}
 	
 	public void setState(gameState s) {
-		// change interaction pane to appropriate view
+		switch(s) {
+		case ACCUSING:
+			interactionPanel.switchToView("Accusing");
+			break;
+		case SUGGESTING:
+			interactionPanel.switchToView("Suggesting");
+			break;
+		case MOVING:
+			interactionPanel.switchToView("Moving");
+			break;
+		case EXITING:
+			interactionPanel.switchToView("Exiting");
+			break;
+		}
 	}
 	
 
