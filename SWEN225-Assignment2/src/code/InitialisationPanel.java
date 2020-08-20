@@ -22,7 +22,7 @@ public class InitialisationPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(this.getParent() instanceof SwitchPanel)
-			((SwitchPanel) this.getParent()).switchToGame();
+			((SwitchPanel) this.getParent()).switchToView("Gameplay");
 	
 	}
 	

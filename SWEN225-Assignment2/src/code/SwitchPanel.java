@@ -19,12 +19,8 @@ public class SwitchPanel extends JPanel {
 	}
 
 
-	public void switchToGame() {
-		((CardLayout) getLayout()).show(this, "Gameplay");
-	}
-	
-	public void switchToInit() {
-		((CardLayout) getLayout()).show(this, "Game Setup");
+	public void switchToView(String s) {
+		((CardLayout) getLayout()).show(this, s);
 	}
 	
 }

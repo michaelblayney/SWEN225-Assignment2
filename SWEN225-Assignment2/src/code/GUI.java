@@ -87,7 +87,8 @@ public class GUI {
 		panelSwitch.add(initPanel, "Game Setup");
 		panelSwitch.add(gamePanel, "Gameplay");
 		frame.getContentPane().add(panelSwitch);
-		((CardLayout) panelSwitch.getLayout()).show(panelSwitch, "Game Setup");
+		panelSwitch.switchToView("Game Setup");
+		//((CardLayout) panelSwitch.getLayout()).show(panelSwitch, "Game Setup");
 		
 		// display
 		frame.pack();
