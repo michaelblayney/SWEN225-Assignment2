@@ -38,7 +38,7 @@ public class GUI {
 
 		// make menu bar
 		// TODO changing colour not working
-		JMenuBar menuBar = new JMenuBar();
+		JMenuBar menuBar = new CluedoMenuBar();
 		menuBar.setOpaque(true);
 		menuBar.setBackground(Color.GREEN);
      	menuBar.setPreferredSize(menuDimension);
