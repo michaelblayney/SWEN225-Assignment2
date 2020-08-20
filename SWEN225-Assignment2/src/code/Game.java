@@ -10,6 +10,8 @@ import javax.swing.*;
 
 public class Game {
 
+	public enum gameState { SUGGESTING, ACCUSING, MOVING, EXITING};
+	
 	// Constants
 	int maxNumOfPlayers = 6;
 	int minNumOfPlayers = 2;
@@ -34,6 +36,7 @@ public class Game {
 	private Scanner scan;
 	private int numPlayers;
 	private ArrayList<Card> dealDeck;
+	private Player currentPlayer;
 
 	// ------------------------
 	// CONSTRUCTOR
@@ -209,7 +212,7 @@ public class Game {
 			}
 			
 			//Getting correct player whom is taking the turn
-			Player currentPlayer = players[whichPlayersTurn];
+			currentPlayer = players[whichPlayersTurn];
 			
 			if(!currentPlayer.isEliminated()) {
 				ui.println("----------------------------");
@@ -480,6 +483,10 @@ public class Game {
 		int die1 = (int) (Math.random() * 6 + 1);
 		int die2 = (int) (Math.random() * 6 + 1);
 		return die1 + die2;
+	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	public static void main(String[] args) throws InterruptedException {
