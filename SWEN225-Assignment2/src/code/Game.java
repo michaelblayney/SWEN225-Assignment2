@@ -26,6 +26,7 @@ public class Game {
 	// Variables/fields
 
 	private UI ui;
+	private GUI gui;
 	private Board board;
 	private boolean gameFinished = false; // If set to true, immediately kills the game loop.
 	private CardCombination murderSolution;
@@ -60,6 +61,7 @@ public class Game {
 	private void init() {
 		board = new Board(this, roomNames);
 		ui = new UI(this);
+		gui = new GUI();
 		cardInit();
 
 		// Getting number of players
@@ -482,11 +484,11 @@ public class Game {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                GUI.doGUI();
-            }
-        });
+//		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                new GUI();
+//            }
+//        });
 		
 		
 		new Game();
