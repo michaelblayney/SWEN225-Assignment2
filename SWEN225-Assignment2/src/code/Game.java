@@ -6,11 +6,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 //import com.sun.tools.sjavac.server.SysInfo;
 
-public class Game {
+public class Game extends Observable{
 
-	public enum gameState { SUGGESTING, ACCUSING, MOVING, EXITING};
+	public enum GameState { SUGGESTING, ACCUSING, MOVING, EXITING };
+	private GameState gameState;
 	
 	// Constants
 	int maxNumOfPlayers = 6;
@@ -65,7 +68,9 @@ public class Game {
 		board = new Board(this, roomNames);
 		ui = new UI(this);
 		gui = new GUI();
+		this.addObserver(gui);
 		cardInit();
+		gameState = GameState.MOVING;
 
 		// Getting number of players
 		ui.println("CLUEDO");
@@ -78,6 +83,7 @@ public class Game {
 		// Creating Players, and assigning the players to characters
 		createPlayers(numPlayers);
 		dealCards();
+		notifyObservers();
 	}
 
 	/* Creates all cards and the weapons and characters.
@@ -487,6 +493,10 @@ public class Game {
 	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public GameState getGameState() {
+		return gameState;
 	}
 
 	public static void main(String[] args) throws InterruptedException {

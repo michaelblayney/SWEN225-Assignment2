@@ -5,15 +5,17 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
-import code.Game.gameState;
+import code.Game.GameState;
 
 
 
-public class GUI {
+public class GUI implements Observer{
 	private static int scale = 1;
 	private static int menuHeight = 30;
 	private static int boardHeight = 400;
@@ -98,8 +100,11 @@ public class GUI {
 		
 		}
 	
-	public void setState(gameState s) {
-		switch(s) {
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		switch(((Game)o).getGameState()) {
 		case ACCUSING:
 			interactionPanel.switchToView("Accusing");
 			break;
@@ -113,6 +118,7 @@ public class GUI {
 			interactionPanel.switchToView("Exiting");
 			break;
 		}
+		
 	}
 	
 
