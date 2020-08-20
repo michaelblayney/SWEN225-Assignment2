@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
+import code.Game.gameState;
+
 
 
 public class GUI {
@@ -92,5 +94,10 @@ public class GUI {
 		frame.setVisible(true);
 		
 		}
+	
+	public void setState(gameState s) {
+		// change interaction pane to appropriate view
+	}
+	
 
 }
