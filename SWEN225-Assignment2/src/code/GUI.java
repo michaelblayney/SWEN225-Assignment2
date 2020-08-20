@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
@@ -24,28 +25,27 @@ public class GUI {
 	private static Dimension cardDimension = new Dimension(cardsWidth, boardHeight);
 	private static Dimension interactionDimension = new Dimension(cardsWidth+boardWidth, interactionHeight);
 
-
+	JFrame frame;	//root component of the GUI
+	
+	
 	public static void doGUI() {
+		
+		// initialise root component
 		JFrame frame = new JFrame("CLUEDO");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// lock window size if needed
 		// TODO decide how to handle
-		// frame.setResizable(false);
+		frame.setResizable(false);
 		
 
 		// make menu bar
 		// TODO changing colour not working
-		JMenuBar menuBar = new JMenuBar();
+		JMenuBar menuBar = new CluedoMenuBar();
 		menuBar.setOpaque(true);
 		menuBar.setBackground(Color.GREEN);
      	menuBar.setPreferredSize(menuDimension);
-		JMenuItem menuItemNew = new JMenuItem("New Game");
-		JMenuItem menuItemExit = new JMenuItem("Exit");
-     	menuBar.add(menuItemNew);
-     	menuBar.add(menuItemExit);
 		
-
 		// make game (enclosing) panel
 		JPanel gamePanel = new JPanel();
 		gamePanel.setOpaque(true);
