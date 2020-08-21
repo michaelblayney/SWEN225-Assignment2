@@ -259,22 +259,26 @@ public class Game extends Observable{
 				if(startedInHall) movesLeft = 0;
 				//Suggestion
 				if(!hasSuggested) {
+					//GameState switching and GUI updating
+					gameState = GameState.SUGGESTING;
+					gui.update(this, "Suggesting");
+
 					ui.println("Do you want to make an suggestion? (y / n)");
 					char suggestChar = ui.scanChar(validYesNoChars, scan);
 					if(suggestChar == 'y') {
-						gameState = GameState.SUGGESTING;
-						System.out.println("GameState changed to: " + gameState);
 						doSuggest(currentPlayer);
 						hasSuggested = true;
 					}
 				}
 				
 				//Accusation
+				//GameState switching and GUI updating
+				gameState = GameState.ACCUSING;
+				gui.update(this, "Accusing");
+
 				ui.println("Do you want to make an accusation? (y / n)");
 				char accuseChar = ui.scanChar(validYesNoChars, scan);
 				if(accuseChar == 'y') {
-					gameState = GameState.ACCUSING;
-					System.out.println("GameState changed to: " + gameState);
 					boolean accuseResult = doAccuse(currentPlayer);
 					if(accuseResult) {
 						winGame(currentPlayer);
@@ -284,8 +288,10 @@ public class Game extends Observable{
 				
 				//Leave room
 				if(movesLeft > 0) {
+					//GameState switching and GUI updating
 					gameState = GameState.EXITING;
-					System.out.println("GameState changed to: " + gameState);
+					gui.update(this, "Exiting");
+
 					boolean isFinished = leaveRoom(currentPlayer);
 					movesLeft -= 1;
 					if(isFinished) break;
@@ -295,8 +301,10 @@ public class Game extends Observable{
 				// If player is NOT in a room
 				// ---------------
 				//Move player or end turn
+				//GameState switching and GUI updating
 				gameState = GameState.MOVING;
-				System.out.println("GameState changed to: " + gameState);
+				gui.update(this, "Moving");
+
 				startedInHall = true;
 				ui.println("Moves left: " + movesLeft);
 				ui.println("Please enter a direction to move in (n, s, e, w, or f to finish your turn)");
