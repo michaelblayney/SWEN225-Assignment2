@@ -70,7 +70,7 @@ public class Game extends Observable{
 		gui = new GUI();
 		this.addObserver(gui);
 		cardInit();
-		gameState = GameState.MOVING;
+		//gameState = GameState.MOVING;
 
 		// Getting number of players
 		ui.println("CLUEDO");
@@ -255,12 +255,15 @@ public class Game extends Observable{
 			// If player is in a room
 			// ---------------
 			if(board.isPlayerInRoom(currentPlayer)) {
+
 				if(startedInHall) movesLeft = 0;
 				//Suggestion
 				if(!hasSuggested) {
 					ui.println("Do you want to make an suggestion? (y / n)");
 					char suggestChar = ui.scanChar(validYesNoChars, scan);
 					if(suggestChar == 'y') {
+						gameState = GameState.SUGGESTING;
+						System.out.println("GameState changed to: " + gameState);
 						doSuggest(currentPlayer);
 						hasSuggested = true;
 					}
@@ -270,6 +273,8 @@ public class Game extends Observable{
 				ui.println("Do you want to make an accusation? (y / n)");
 				char accuseChar = ui.scanChar(validYesNoChars, scan);
 				if(accuseChar == 'y') {
+					gameState = GameState.ACCUSING;
+					System.out.println("GameState changed to: " + gameState);
 					boolean accuseResult = doAccuse(currentPlayer);
 					if(accuseResult) {
 						winGame(currentPlayer);
@@ -279,6 +284,8 @@ public class Game extends Observable{
 				
 				//Leave room
 				if(movesLeft > 0) {
+					gameState = GameState.EXITING;
+					System.out.println("GameState changed to: " + gameState);
 					boolean isFinished = leaveRoom(currentPlayer);
 					movesLeft -= 1;
 					if(isFinished) break;
@@ -288,6 +295,8 @@ public class Game extends Observable{
 				// If player is NOT in a room
 				// ---------------
 				//Move player or end turn
+				gameState = GameState.MOVING;
+				System.out.println("GameState changed to: " + gameState);
 				startedInHall = true;
 				ui.println("Moves left: " + movesLeft);
 				ui.println("Please enter a direction to move in (n, s, e, w, or f to finish your turn)");
