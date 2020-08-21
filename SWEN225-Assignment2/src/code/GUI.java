@@ -77,7 +77,7 @@ public class GUI implements Observer{
 		interactionPanel.setOpaque(true);
 		interactionPanel.setBackground(Color.BLUE);
 		interactionPanel.setPreferredSize(interactionDimension);
-		interactionPanel.switchToView("Moving");
+		interactionPanel.switchToView("Suggesting");
 				
 		// add stuff to frame
 		frame.setJMenuBar(menuBar);

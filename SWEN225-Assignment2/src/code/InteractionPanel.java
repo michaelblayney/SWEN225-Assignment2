@@ -1,6 +1,6 @@
 package code;
 
-import java.awt.CardLayout;
+import java.awt.*;
 
 import javax.swing.*;
 
