@@ -254,10 +254,15 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		if(e.getActionCommand().equals("Yes"))
 			switchPanelTo("Character");
 
+		if(e.getActionCommand().equals("No"))
+			if(this.getParent() instanceof InteractionPanel)
+				((InteractionPanel) this.getParent()).switchToView("Accusing");
+
 		if(e.getActionCommand().equals("Suggest selected character"))	// A bit round about but doing it for now
 			switchPanelTo("Weapon");
 
 		if(e.getActionCommand().equals("Suggest selected weapon"))
-			switchPanelTo("Question");
+				if(this.getParent() instanceof InteractionPanel)
+					((InteractionPanel) this.getParent()).switchToView("Accusing");
 	}
 }

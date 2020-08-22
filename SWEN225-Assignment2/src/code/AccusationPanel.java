@@ -364,6 +364,10 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		if(e.getActionCommand().equals("Yes"))
 			switchPanelTo("Character");
 
+		if(e.getActionCommand().equals("No"))
+			if(this.getParent() instanceof InteractionPanel)
+				((InteractionPanel) this.getParent()).switchToView("Exiting");
+
 		if(e.getActionCommand().equals("Accuse selected character"))	// A bit round about but doing it for now
 			switchPanelTo("Room");
 
@@ -371,7 +375,8 @@ public class AccusationPanel extends JPanel implements ActionListener {
 			switchPanelTo("Weapon");
 
 		if(e.getActionCommand().equals("Make accusation"))
-			switchPanelTo("Question");
+				if(this.getParent() instanceof InteractionPanel)
+					((InteractionPanel) this.getParent()).switchToView("Exiting");
 	}
 	
 }
