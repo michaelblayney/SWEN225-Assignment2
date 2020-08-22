@@ -2,80 +2,262 @@ package code;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SuggestionPanel extends JPanel {
+public class SuggestionPanel extends JPanel implements ActionListener {
+
+	JPanel questionPanel, characterPanel, weaponPanel;
+	String currentPlayerName = "Michael";	// Just for now
 
 	public SuggestionPanel() {
+		setLayout(new CardLayout()); // The SuggestionPanel has multiple panels it switches between
+		createQuestionPanel();
+		add(questionPanel, "Question");
+		//switchPanelTo("Question");
+		createCharacterPanel();
+		add(characterPanel, "Character");
+		//switchPanelTo("Character");
+		createWeaponPanel();
+		add(weaponPanel, "Weapon");
+		//switchPanelTo("Weapon");
+	}
 
-		JButton button;
-		JLabel label;
-		this.setLayout(new GridBagLayout());
+	public void createQuestionPanel(){
+		questionPanel = new JPanel();
+		JLabel titleLabel, promptLabel, nameLabel;
+		JButton yesButton, noButton;
 		GridBagConstraints constraints = new GridBagConstraints();
-//		if (shouldFill) {
-//			//natural height, maximum width
-//			c.fill = GridBagConstraints.HORIZONTAL;
-//		}
 
-		label = new JLabel("Suggesting");
-		constraints.gridwidth = 1;
-		constraints.weightx = 0;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		//constraints.insets = new Insets(5,290,0,0);  //Hardcoding now as having issues with finding width
+		questionPanel.setLayout(new GridBagLayout());
+
+		titleLabel = new JLabel("Suggesting");
+		constraints.weighty = 1;	// Removing vertical blank space
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		add(label, constraints);
+		constraints.insets = new Insets(5, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.PAGE_START;
+		questionPanel.add(titleLabel, constraints);
 
-		label = new JLabel("Would you like to  make a suggestion?");
-		constraints.weightx = 3;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		//constraints.insets = new Insets(5,210,0,0);  //Hardcoding now as having issues with finding width
+		nameLabel = new JLabel(currentPlayerName + "'s turn");
+		constraints.weightx = 1;	// Removing horizontal blank space
+		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
+		constraints.gridy = 0;
+		constraints.insets = new Insets(5, 5, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		questionPanel.add(nameLabel, constraints);
+
+		promptLabel = new JLabel("Would you like to make a suggestion?");
 		constraints.gridx = 0;
 		constraints.gridy = 1;
-		add(label, constraints);
+		constraints.weighty = 20;	// Move it up towards the title
+		constraints.insets = new Insets(5, 0, 0, 0); // Reset insets
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Reset anchor
+		questionPanel.add(promptLabel, constraints);
 
-		button = new JButton("Yes");
-		constraints.gridwidth = 2;
-		constraints.weightx = 0.5;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+		yesButton = new JButton("Yes");
+		yesButton.addActionListener(this);
 		constraints.gridx = 0;
 		constraints.gridy = 2;
-		add(button, constraints);
+		constraints.weighty = 100; // Move it up as far as possible
+		constraints.insets = new Insets(0, 0, 0, 80);	// Separate buttons as they are in same square
+		questionPanel.add(yesButton, constraints);
 
-		button = new JButton("No");
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.weightx = 0.5;
-		constraints.gridx = 1;
+		noButton = new JButton("No");
+		constraints.gridx = 0;
 		constraints.gridy = 2;
-		add(button, constraints);
-//
-//		button = new JButton("Button 3");
-//		constraints.fill = GridBagConstraints.HORIZONTAL;
-//		constraints.weightx = 0.5;
-//		constraints.gridx = 2;
-//		constraints.gridy = 1;
-//		this.add(button, constraints);
-//
-//		button = new JButton("Long-Named Button 4");
-//		constraints.fill = GridBagConstraints.HORIZONTAL;
-//		constraints.ipady = 40;      //make this component tall
-//		constraints.weightx = 0.0;
-//		constraints.gridwidth = 3;
-//		constraints.gridx = 1;
-//		constraints.gridy = 2;
-//		this.add(button, constraints);
+		constraints.weighty = 100;
+		constraints.insets = new Insets(0, 80, 0, 0);	// Separate buttons as they are in same square
+		questionPanel.add(noButton, constraints);
+	}
 
-		button = new JButton("Make Suggestion");
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.ipady = 5;       //reset to default
-		constraints.weighty = 1.0;   //request any extra vertical space
-		constraints.anchor = GridBagConstraints.PAGE_END; //bottom of space
-		constraints.insets = new Insets(10,10,10,10);  //top padding
-		constraints.gridx = 1;       //aligned with button 2
-		constraints.gridwidth = 2;   //2 columns wide
-		constraints.gridy = 3;       //third row
-		button.setEnabled(false);
-		this.add(button, constraints);
+	public void createCharacterPanel(){
+		characterPanel = new JPanel();
+		JLabel titleLabel, promptLabel, nameLabel;
+		JRadioButton mrsWhiteRB, mrGreenRB, mrsPeacockRB, profPlumRB, msScarletRB, colMustardRB;
+		JButton confirmCharacter;
+		GridBagConstraints constraints = new GridBagConstraints();
 
+		characterPanel.setLayout(new GridBagLayout());
 
+		titleLabel = new JLabel("Suggesting");
+		constraints.weighty = 1;	// Removing vertical blank space
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.insets = new Insets(5, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.PAGE_START;
+		characterPanel.add(titleLabel, constraints);
+
+		nameLabel = new JLabel(currentPlayerName + "'s turn");
+		constraints.weightx = 1;	// Removing horizontal blank space
+		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
+		constraints.gridy = 0;
+		constraints.insets = new Insets(5, 5, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		characterPanel.add(nameLabel, constraints);
+
+		promptLabel = new JLabel("Who do you suggest?");
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.weighty = 20;	// Move it up towards the title
+		constraints.insets = new Insets(5, 0, 0, 0); // Reset insets
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Reset anchor
+		characterPanel.add(promptLabel, constraints);
+
+		mrsWhiteRB = new JRadioButton("Mrs. White");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.weighty = 100;	// Affects the distance between 2 rows of radio buttons
+		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
+		characterPanel.add(mrsWhiteRB, constraints);
+
+		mrGreenRB = new JRadioButton("Mr. Green");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.insets = new Insets(15, 0, 0, 10); //
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
+		characterPanel.add(mrGreenRB, constraints);
+
+		mrsPeacockRB = new JRadioButton("Mrs. Peacock");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
+		characterPanel.add(mrsPeacockRB, constraints);
+
+		profPlumRB = new JRadioButton("Professor Plum");
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.weighty = 200;	//Push the two rows of radio buttons up
+		constraints.insets = new Insets(0, 120, 0, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
+		characterPanel.add(profPlumRB, constraints);
+
+		msScarletRB = new JRadioButton("Miss Scarlet");
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.insets = new Insets(0, 14, 0, 10); // Temp fix on alignment errors
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
+		characterPanel.add(msScarletRB, constraints);
+
+		colMustardRB = new JRadioButton("Colonel Mustard");
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.insets = new Insets(0, 0, 0, 100); // Temp fix on alignment errors
+		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
+		characterPanel.add(colMustardRB, constraints);
+
+		confirmCharacter = new JButton("Suggest selected character");
+		confirmCharacter.addActionListener(this);
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.weighty = 1;
+		constraints.insets = new Insets(0, 0, 10, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor right
+		characterPanel.add(confirmCharacter, constraints);
+	}
+
+	public void createWeaponPanel(){
+		weaponPanel = new JPanel();
+		JLabel titleLabel, promptLabel, nameLabel;
+		JRadioButton candleRB, pipeRB, daggerRB, revolverRB, ropeRB, spannerRB;
+		JButton confirmWeapon;
+		GridBagConstraints constraints = new GridBagConstraints();
+
+		weaponPanel.setLayout(new GridBagLayout());
+
+		titleLabel = new JLabel("Suggesting");
+		constraints.weighty = 1;	// Removing vertical blank space
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.insets = new Insets(5, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.PAGE_START;
+		weaponPanel.add(titleLabel, constraints);
+
+		nameLabel = new JLabel(currentPlayerName + "'s turn");
+		constraints.weightx = 1;	// Removing horizontal blank space
+		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
+		constraints.gridy = 0;
+		constraints.insets = new Insets(5, 5, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		weaponPanel.add(nameLabel, constraints);
+
+		promptLabel = new JLabel("What weapon do you suggest?");
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.weighty = 20;	// Move it up towards the title
+		constraints.insets = new Insets(5, 0, 0, 0); // Reset insets
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Reset anchor
+		weaponPanel.add(promptLabel, constraints);
+
+		candleRB = new JRadioButton("Candlestick");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.weighty = 100;	// Affects the distance between 2 rows of radio buttons
+		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
+		weaponPanel.add(candleRB, constraints);
+
+		pipeRB = new JRadioButton("Lead Pipe");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.insets = new Insets(15, 0, 0, 10); //
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
+		weaponPanel.add(pipeRB, constraints);
+
+		daggerRB = new JRadioButton("Dagger");
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
+		weaponPanel.add(daggerRB, constraints);
+
+		revolverRB = new JRadioButton("Revolver");
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.weighty = 200;	//Push the two rows of radio buttons up
+		constraints.insets = new Insets(0, 120, 0, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
+		weaponPanel.add(revolverRB, constraints);
+
+		ropeRB = new JRadioButton("Rope");
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.insets = new Insets(0, 0, 0, 36); // Temp fix on alignment errors
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
+		weaponPanel.add(ropeRB, constraints);
+
+		spannerRB = new JRadioButton("Spanner");
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.insets = new Insets(0, 0, 0, 116); // Temp fix on alignment errors
+		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
+		weaponPanel.add(spannerRB, constraints);
+
+		confirmWeapon = new JButton("Suggest selected weapon");
+		confirmWeapon.addActionListener(this);
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.weighty = 1;
+		constraints.insets = new Insets(0, 0, 10, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor right
+		weaponPanel.add(confirmWeapon, constraints);
+	}
+
+	public void switchPanelTo(String s) {
+		((CardLayout) getLayout()).show(this, s);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Yes"))
+			switchPanelTo("Character");
+
+		if(e.getActionCommand().equals("Suggest selected character"))	// A bit round about but doing it for now
+			switchPanelTo("Weapon");
+
+		if(e.getActionCommand().equals("Suggest selected weapon"))
+			switchPanelTo("Question");
 	}
 }
