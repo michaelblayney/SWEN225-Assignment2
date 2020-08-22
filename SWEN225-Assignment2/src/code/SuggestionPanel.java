@@ -64,6 +64,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		questionPanel.add(yesButton, constraints);
 
 		noButton = new JButton("No");
+		noButton.addActionListener(this);
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.weighty = 100;
