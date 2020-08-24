@@ -243,7 +243,8 @@ public class Game extends Observable{
 		displayPlayerCards(currentPlayer);
 		ui.println("");
 		
-		ui.drawBoard(board, null);
+		//ui.drawBoard(board, null);
+		gui.drawBoard(board, null);
 		ui.println("");
 		
 		int movesLeft = RollDice();
@@ -314,7 +315,8 @@ public class Game extends Observable{
 				} else {
 					if(board.isPlayerMoveValid(currentPlayer, moveChar)){//If the move entered is valid
 						board.movePlayer(currentPlayer, moveChar);
-						ui.drawBoard(board, null);
+						//ui.drawBoard(board, null);
+						gui.drawBoard(board, null);
 						movesLeft -= 1;}
 					else{//If the move entered was NOT valid.
 						ui.println("Invalid move, please try again.");
@@ -480,7 +482,8 @@ public class Game extends Observable{
 	private boolean leaveRoom(Player currentPlayer) {
 		ArrayList<Location> exits = board.getAvailableExits(currentPlayer);
 		int numOfExits = exits.size();
-		ui.drawBoard(board, exits);
+		//ui.drawBoard(board, exits);
+		gui.drawBoard(board, exits);
 		ui.print("Which exit would you like to take? [");
 		//Printing valid exits
 		 ui.print("Exit (1)");
@@ -491,7 +494,8 @@ public class Game extends Observable{
 			return true;
 		}
 		board.vacatePlayerFromRoom(currentPlayer, exits.get(exit-1));//Uses -1 as the array starts from 0, but the questions start from 1.
-		ui.drawBoard(board, null);
+		//ui.drawBoard(board, null);
+		gui.drawBoard(board,null);
 		return false;
 	}
 

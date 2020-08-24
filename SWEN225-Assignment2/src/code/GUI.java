@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,8 @@ public class GUI implements Observer{
 	private static Dimension interactionDimension = new Dimension(cardsWidth+boardWidth, interactionHeight);
 
 	JFrame frame;	//root component of the GUI
+	BoardPanel boardPanel;//Board, upon which the tileset and character/weapon icons are drawn
+
 	SwitchPanel interactionPanel;
 
 	public GUI() {
@@ -67,7 +70,7 @@ public class GUI implements Observer{
 		cardsPanel.setPreferredSize(cardDimension);
 		
 		// make board panel
-		JPanel boardPanel = new BoardPanel();
+		boardPanel = new BoardPanel();
 		boardPanel.setOpaque(true);
 		boardPanel.setBackground(Color.ORANGE);
 		boardPanel.setPreferredSize(boardDimension);
@@ -119,6 +122,10 @@ public class GUI implements Observer{
 			break;
 		}
 		
+	}
+
+	public void drawBoard(Board board, ArrayList<Location> cellsToHighlight){
+		boardPanel.drawBoard(board, cellsToHighlight);
 	}
 	
 
