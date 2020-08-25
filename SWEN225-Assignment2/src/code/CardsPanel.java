@@ -2,6 +2,7 @@ package code;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.*;
 
@@ -29,41 +30,38 @@ public class CardsPanel extends JPanel {
 		
 		
 		
+		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
+		constraints.gridheight = 8;
+		constraints.gridwidth = 3;
 		
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
 		constraints.weightx = 0;
-		constraints.weighty = 0;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		//constraints.insets = new Insets(5,290,0,0);  //Hardcoding now as having issues with finding width
+		constraints.weighty = 1;	// Removing vertical blank space
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+		constraints.insets = new Insets(5, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.PAGE_START;
 		add(label, constraints);
 
 		label = new JLabel("Your hand:");
-		constraints.weightx = 3;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		//constraints.insets = new Insets(5,210,0,0);  //Hardcoding now as having issues with finding width
-		constraints.gridx = 0;
+		constraints.weightx = 1;	// Removing horizontal blank space
+		constraints.weighty = 1;
+		constraints.gridx = 0;	
 		constraints.gridy = 1;
+		constraints.insets = new Insets(15, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(label, constraints);
-
-		button = new JButton("Yes");
-		constraints.gridwidth = 2;
-		constraints.weighty = 1;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridx = 0;
+		
+		label = new JLabel("Weapons:");
+		constraints.gridx = 0;	
 		constraints.gridy = 2;
-		add(button, constraints);
 
-		button = new JButton("No");
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.weighty = 1;
-		constraints.gridx = 1;
-		constraints.gridy = 2;
-		add(button, constraints);
+		constraints.insets = new Insets(30, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(label, constraints);
+		
+		
 	}
 	
 }
