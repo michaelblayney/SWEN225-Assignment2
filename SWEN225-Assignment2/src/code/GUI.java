@@ -37,6 +37,7 @@ public class GUI implements Observer{
 	BoardPanel boardPanel;//Board, upon which the tileset and character/weapon icons are drawn
 
 	SwitchPanel interactionPanel;
+	SwitchPanel panelSwitch;
 
 	public GUI(Board b, Game g) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		
@@ -97,7 +98,7 @@ public class GUI implements Observer{
 		gamePanel.add(interactionPanel, BorderLayout.SOUTH);
 		
 		// set up panel to switch between init and gameplay
-		SwitchPanel panelSwitch = new SwitchPanel(new CardLayout());
+		panelSwitch = new SwitchPanel(new CardLayout());
 		panelSwitch.add(initPanel, "Game Setup");
 		panelSwitch.add(gamePanel, "Gameplay");
 		frame.getContentPane().add(panelSwitch);
@@ -106,27 +107,33 @@ public class GUI implements Observer{
 		// display
 		frame.pack();
 		frame.setVisible(true);
-		doPlayerSetup();
+		//doPlayerSetup();
 		
 		}
 	
 
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		switch(((Game)o).getGameState()) {
-		case ACCUSING:
-			interactionPanel.switchToView("Accusing");
-			break;
-		case SUGGESTING:
-			interactionPanel.switchToView("Suggesting");
-			break;
-		case MOVING:
-			interactionPanel.switchToView("Moving");
-			break;
-		case EXITING:
-			interactionPanel.switchToView("Exiting");
-			break;
+		if(arg instanceof GameState) {
+			switch(((Game)o).getGameState()) {
+			case SETTING_UP:
+				panelSwitch.switchToView("Game Setup");
+				doPlayerSetup();
+				panelSwitch.switchToView("Gameplay");
+				break;
+			case ACCUSING:
+				interactionPanel.switchToView("Accusing");
+				break;
+			case SUGGESTING:
+				interactionPanel.switchToView("Suggesting");
+				break;
+			case MOVING:
+				interactionPanel.switchToView("Moving");
+				break;
+			case EXITING:
+				interactionPanel.switchToView("Exiting");
+				break;
+			}
 		}
 		
 	}

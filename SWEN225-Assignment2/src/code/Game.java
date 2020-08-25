@@ -12,8 +12,8 @@ import java.util.Observer;
 
 public class Game extends Observable{
 
-	public enum GameState { SUGGESTING, ACCUSING, MOVING, EXITING };
-	private GameState gameState;
+	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING };
+	private GameState gameState;	// please only use setGameStateTo() to modify this - it has the notify built in
 	
 	// Constants
 	int maxNumOfPlayers = 6;
@@ -70,9 +70,12 @@ public class Game extends Observable{
 		
 		cardInit();
 		players = new Player[numPlayers];
+		
 		gui = new GUI(board, this);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		this.addObserver(gui);
-		
+		setGameStateTo(GameState.SETTING_UP);
+
+		setGameStateTo(GameState.MOVING);
 		//gameState = GameState.MOVING;
 
 		// Getting number of players
@@ -88,7 +91,7 @@ public class Game extends Observable{
 		
 		//createPlayer("Vlad");
 		dealCards();
-		notifyObservers();
+		//notifyObservers();
 	}
 
 	/* Creates all cards and the weapons and characters.
@@ -581,6 +584,14 @@ public class Game extends Observable{
 	
 	public GameState getGameState() {
 		return gameState;
+	}
+	
+	
+	
+	public void setGameStateTo(GameState state) {
+		gameState = state;
+		this.setChanged();
+		notifyObservers(gameState);
 	}
 
 	public static void main(String[] args) throws InterruptedException {

@@ -13,7 +13,7 @@ public class InitialisationPanel extends JPanel implements ActionListener {
 
 	public InitialisationPanel() {
 	
-	JButton button = new JButton("Set up Game");
+	/*JButton button = new JButton("Set up Game");
 	add(button);
 	button.addActionListener(this);
 	
@@ -24,7 +24,7 @@ public class InitialisationPanel extends JPanel implements ActionListener {
 	JComboBox numPlayersSelector = new JComboBox(numOptions);
 	numPlayersSelector.addActionListener(this);
 	add(numPlayersSelector);
-	
+	*/
 	
 	}
 
@@ -32,9 +32,9 @@ public class InitialisationPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 			
 		
-		if(this.getParent() instanceof SwitchPanel)
+		/*if(this.getParent() instanceof SwitchPanel)
 			((SwitchPanel) this.getParent()).switchToView("Gameplay");
-	
+	*/
 		
 	}
 	

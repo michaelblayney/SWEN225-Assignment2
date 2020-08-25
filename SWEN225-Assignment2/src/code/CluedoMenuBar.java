@@ -3,9 +3,7 @@ package code;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 /* Custom JMenuBar class
  * TODO implement "New Game"
@@ -18,9 +16,9 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
 	
 	public CluedoMenuBar() {
  	
- 	menuItemNew = new JButton("New Game");
+ 	/*menuItemNew = new JButton("New Game");
  	menuItemNew.addActionListener(this);
- 	add(menuItemNew);
+ 	add(menuItemNew);*/
  	
 	menuItemExit = new JButton("Exit");
 	menuItemExit.addActionListener(this);
@@ -30,8 +28,17 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(menuItemExit)) {
-			System.exit(0);
-		}
+			int exitChoice = JOptionPane.showConfirmDialog(
+				    this.getParent(),
+				    "Are you sure you wish to exit?",
+				    "Exit CLUEDO",
+				    JOptionPane.YES_NO_OPTION);
+			if(exitChoice==0) {
+				System.exit(0);
+			}
+		}/*else if(e.getSource().equals(menuItemNew)) {
+			((GUI)this.getParent().getParent()).;
+		}*/
 		
 	}
 }
