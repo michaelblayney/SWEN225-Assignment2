@@ -101,7 +101,7 @@ public class GUI implements Observer{
 		panelSwitch.add(initPanel, "Game Setup");
 		panelSwitch.add(gamePanel, "Gameplay");
 		frame.getContentPane().add(panelSwitch);
-		panelSwitch.switchToView("Gameplay");
+		panelSwitch.switchToView("Game Setup");
 		
 		// display
 		frame.pack();
