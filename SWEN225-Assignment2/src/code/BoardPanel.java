@@ -15,6 +15,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 
 	private Board boardField;//TODO REMOVE THIS WHEN ABLE
+	private static final int lineWidth=2;
 
 	//Temporary constructor
 	public BoardPanel(Board b){
@@ -79,8 +80,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 		int cellWidth=(int) (this.getSize().getWidth()/25);
 		for(int i=0; i<25; i++){
 			for(int j=0; j<25; j++){
-				g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
-				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1, g, null, i, j);
+				//g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
+				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth,cellHeight, g, null, i, j);//TODO ADD BOARD INPUT HERE
 			}
 		}
 
@@ -155,14 +156,15 @@ public class BoardPanel extends JPanel implements MouseListener{
 			g.drawLine(xTopLeft+cellWidth, yTopLeft, xTopLeft+cellWidth, yTopLeft+cellHeight);
 
 		//Bottom wall
-		if(cellX>=cells.length || cellY+1>=cells[0].length || cells[cellX][cellY+1]==null)//If top wall would be null, draw line.
-			g.drawLine(xTopLeft, yTopLeft+cellHeight, xTopLeft+cellWidth, yTopLeft+cellHeight);
+		if(cellX>=cells.length || cellY+1>=cells[0].length || cells[cellX][cellY+1]==null) {//If top wall would be null, draw line.
+			g.drawLine(xTopLeft, yTopLeft + cellHeight, xTopLeft + cellWidth, yTopLeft + cellHeight);
+		}
 		else if (cells[cellX][cellY+1].getClass().equals(thisCell.getClass())|| ((cells[cellX][cellY+1] instanceof Room) && ((Room)cells[cellX][cellY+1]).isDoor())){
 			//Do nothing! This happens if the compared tile is the same as this one, or if it's a doorway.
 		} else//Else, they're definitely different types, so draw a wall
 			g.drawLine(xTopLeft, yTopLeft+cellHeight, xTopLeft+cellWidth, yTopLeft+cellHeight);
 
-
+		g.setColor(Color.red);//for debugging. Anything which is drawn which SHOULDN'T be drawn will be in red.
 
 	}
 
