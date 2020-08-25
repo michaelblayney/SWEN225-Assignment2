@@ -19,6 +19,8 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
  	/*menuItemNew = new JButton("New Game");
  	menuItemNew.addActionListener(this);
  	add(menuItemNew);*/
+		
+	//JLabel currPlayerLabel = new JLabel(currentPlayer + "'s turn");
  	
 	menuItemExit = new JButton("Exit");
 	menuItemExit.addActionListener(this);

@@ -134,6 +134,8 @@ public class GUI implements Observer{
 				interactionPanel.switchToView("Exiting");
 				break;
 			}
+		}else if(arg instanceof Player) {
+			
 		}
 		
 	}

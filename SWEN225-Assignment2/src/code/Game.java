@@ -593,6 +593,12 @@ public class Game extends Observable{
 		this.setChanged();
 		notifyObservers(gameState);
 	}
+	
+	public void setCurrentPlayerTo(Player player) {
+		currentPlayer = player;
+		this.setChanged();
+		notifyObservers(currentPlayer);
+	}
 
 	public static void main(String[] args) throws InterruptedException {
 		
