@@ -30,12 +30,18 @@ public class GUI implements Observer{
 	private static Dimension cardDimension = new Dimension(cardsWidth, boardHeight);
 	private static Dimension interactionDimension = new Dimension(cardsWidth+boardWidth, interactionHeight);
 
+	
+	private Game game; 
+	
 	JFrame frame;	//root component of the GUI
 	BoardPanel boardPanel;//Board, upon which the tileset and character/weapon icons are drawn
 
 	SwitchPanel interactionPanel;
 
-	public GUI(Board b) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
+	public GUI(Board b, Game g) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
+		
+		
+		this.game = g;
 		frame = new JFrame("CLUEDO");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -95,11 +101,12 @@ public class GUI implements Observer{
 		panelSwitch.add(initPanel, "Game Setup");
 		panelSwitch.add(gamePanel, "Gameplay");
 		frame.getContentPane().add(panelSwitch);
-		panelSwitch.switchToView("Game Setup");
+		panelSwitch.switchToView("Gameplay");
 		
 		// display
 		frame.pack();
 		frame.setVisible(true);
+		doPlayerSetup();
 		
 		}
 	
@@ -128,5 +135,41 @@ public class GUI implements Observer{
 		boardPanel.drawBoard(board, cellsToHighlight);
 	}
 	
+	public void doPlayerSetup() {
+		
+		Object[] possibilities = {2, 3, 4, 5, 6};
+		int numPlayers = (Integer)JOptionPane.showInputDialog(
+		                    frame,
+		                    "How many players will there be?",
+		                    "Setup",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null,
+		                    possibilities,
+		                    2);
+
+		game.setNumPlayers(numPlayers);
+		
+		for(int i=0; i<numPlayers; i++) {
+			String playerName = (String)JOptionPane.showInputDialog(
+                    frame,
+                    ("What is Player " + (i+1) + "'s name?"),
+                    "Setup",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    null,
+                    null,
+                    null);
+			
+			String playerCharacter = (String)JOptionPane.showInputDialog(
+                    frame,
+                    ("What character would you like to play, " + playerName+"?"),
+                    "Setup",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    game.getUnassignedCharacters(),
+                    null);
+			
+			game.createPlayer(playerName, playerCharacter);
+		}
+	}
 
 }
