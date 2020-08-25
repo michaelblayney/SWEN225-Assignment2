@@ -35,7 +35,7 @@ public class GUI implements Observer{
 
 	SwitchPanel interactionPanel;
 
-	public GUI() {
+	public GUI(Board b) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		frame = new JFrame("CLUEDO");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -70,7 +70,7 @@ public class GUI implements Observer{
 		cardsPanel.setPreferredSize(cardDimension);
 		
 		// make board panel
-		boardPanel = new BoardPanel();
+		boardPanel = new BoardPanel(b);//TODO REMOVE BOARD AS A REQUIREMENT AS SOON AS POSSIBLE
 		boardPanel.setOpaque(true);
 		boardPanel.setBackground(Color.ORANGE);
 		boardPanel.setPreferredSize(boardDimension);

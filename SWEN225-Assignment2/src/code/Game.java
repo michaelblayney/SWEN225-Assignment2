@@ -67,7 +67,7 @@ public class Game extends Observable{
 	private void init() {
 		board = new Board(this, roomNames);
 		ui = new UI(this);
-		gui = new GUI();
+		gui = new GUI(board);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		this.addObserver(gui);
 		cardInit();
 		//gameState = GameState.MOVING;

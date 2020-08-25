@@ -12,8 +12,14 @@ import javax.swing.JPanel;
  */
 public class BoardPanel extends JPanel implements MouseListener{
 
-	//TODO Start with drawing the board every time it's called. Simple enough.
 
+
+	private Board boardField;//TODO REMOVE THIS WHEN ABLE
+
+	//Temporary constructor
+	public BoardPanel(Board b){
+		boardField=b;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -61,6 +67,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		//TODO Move this to the drawBoard method when done because this is TEMPORARY.
+		//TODO Particularly, it must be passed in a current snapshot of the board.
 		//Particularly, this is just going to be in effect until enough of the rest of the program works so that the board can be called from the game class (as currently it is not)
 
 
@@ -73,6 +80,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		for(int i=0; i<25; i++){
 			for(int j=0; j<25; j++){
 				g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
+				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1, g, null, i, j);
 			}
 		}
 
@@ -96,6 +104,65 @@ public class BoardPanel extends JPanel implements MouseListener{
 	 * @param cellY
 	 */
 	public void selectivePaintSquare(int xTopLeft, int yTopLeft, int cellWidth, int cellHeight, Graphics g, Board b, int cellX, int cellY){
+		//Location[][] cells = b.getCellsToDraw(); //TODO Implement this when able! Should be passed the board on every draw
+		Location[][] cells = boardField.getCellsToDraw();
+		Location thisCell;
+		if(cellX>=cells.length || cellY>=cells[0].length)
+			thisCell=null;
+		else
+			thisCell=cells[cellX][cellY];
+		if(thisCell==null){//Case one, the cell is null - so draw it as black entirely, then move on.
+			g.setColor(Color.black);
+			g.fillRect(xTopLeft,yTopLeft,cellWidth,cellHeight);
+			return;
+		}
+		if(thisCell instanceof Hallway)
+			g.setColor(Color.lightGray);
+		else if (thisCell instanceof Room)
+			g.setColor(Color.darkGray);
+		else
+			System.out.println("CRITICAL ERROR! TRIED TO PRINT A ROOM TILE OF UNKNOWN TYPE AT COORDINATES X:"+cellX+", Y:"+cellY);
+
+		g.fillRect(xTopLeft,yTopLeft,cellWidth,cellHeight);//Correct color's been chosen, now draw the "background".
+		if(thisCell instanceof Room)
+			if(((Room) thisCell).isDoor())
+				return;//If it's a door, it won't draw any "walls", so return.
+
+		g.setColor(Color.black);//When drawing walls, set color to black.
+		//Top wall
+		if(cellX>=cells.length || cellY-1<0 || cells[cellX][cellY-1]==null)//If top wall would be null, draw line.
+			g.drawLine(xTopLeft, yTopLeft, xTopLeft+cellWidth, yTopLeft);
+		else if (cells[cellX][cellY-1].getClass().equals(thisCell.getClass())|| ((cells[cellX][cellY-1] instanceof Room) && ((Room)cells[cellX][cellY-1]).isDoor())){
+			//Do nothing! This happens if the compared tile is the same as this one, or if it's a doorway.
+		} else//Else, they're definitely different types, so draw a wall
+			g.drawLine(xTopLeft, yTopLeft, xTopLeft+cellWidth, yTopLeft);
+
+
+		//Left wall
+		if(cellX-1<0 || cellY>=cells[0].length || cells[cellX-1][cellY]==null)//If left wall would be null, draw line.
+			g.drawLine(xTopLeft, yTopLeft, xTopLeft, yTopLeft+cellHeight);
+		else if (cells[cellX-1][cellY].getClass().equals(thisCell.getClass())|| ((cells[cellX-1][cellY] instanceof Room) && ((Room)cells[cellX-1][cellY]).isDoor())){
+			//Do nothing! This happens if the compared tile is the same as this one, or if it's a doorway.
+		} else//Else, they're definitely different types, so draw a wall
+			g.drawLine(xTopLeft, yTopLeft, xTopLeft, yTopLeft+cellHeight);
+
+		//Right wall
+		if(cellX+1>=cells.length || cellY>=cells[0].length || cells[cellX+1][cellY]==null)//If right wall would be null, draw line.
+			g.drawLine(xTopLeft+cellWidth, yTopLeft, xTopLeft+cellWidth, yTopLeft+cellHeight);
+		else if (cells[cellX+1][cellY].getClass().equals(thisCell.getClass())|| ((cells[cellX+1][cellY] instanceof Room) && ((Room)cells[cellX+1][cellY]).isDoor())){
+			//Do nothing! This happens if the compared tile is the same as this one, or if it's a doorway.
+		} else//Else, they're definitely different types, so draw a wall
+			g.drawLine(xTopLeft+cellWidth, yTopLeft, xTopLeft+cellWidth, yTopLeft+cellHeight);
+
+		//Bottom wall
+		if(cellX>=cells.length || cellY+1>=cells[0].length || cells[cellX][cellY+1]==null)//If top wall would be null, draw line.
+			g.drawLine(xTopLeft, yTopLeft+cellHeight, xTopLeft+cellWidth, yTopLeft+cellHeight);
+		else if (cells[cellX][cellY+1].getClass().equals(thisCell.getClass())|| ((cells[cellX][cellY+1] instanceof Room) && ((Room)cells[cellX][cellY+1]).isDoor())){
+			//Do nothing! This happens if the compared tile is the same as this one, or if it's a doorway.
+		} else//Else, they're definitely different types, so draw a wall
+			g.drawLine(xTopLeft, yTopLeft+cellHeight, xTopLeft+cellWidth, yTopLeft+cellHeight);
+
+
 
 	}
 
