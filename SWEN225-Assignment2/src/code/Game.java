@@ -71,12 +71,12 @@ public class Game extends Observable{
 		cardInit();
 		players = new Player[numPlayers];
 		
-		gui = new GUI(board, this);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
+		gui = new GUI(board);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
+		gui.addGame(this);
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
 
 		setGameStateTo(GameState.MOVING);
-		//gameState = GameState.MOVING;
 
 		// Getting number of players
 		ui.println("CLUEDO");
@@ -603,17 +603,6 @@ public class Game extends Observable{
 		notifyObservers(currentPlayer);
 	}
 
-	public static void main(String[] args) throws InterruptedException {
-		
-//		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                new GUI();
-//            }
-//        });
-		
-		
-		new Game();
-		
-	}
+	
 
 }

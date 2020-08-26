@@ -38,10 +38,10 @@ public class GUI extends JFrame implements Observer{
 	SwitchPanel interactionPanel;
 	SwitchPanel panelSwitch;
 
-	public GUI(Board b, Game g) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
+	public GUI(Board b) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		
 		
-		this.game = g;
+		
 		this.setTitle("CLUEDO");
 		//frame = new JFrame("CLUEDO");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,6 +111,25 @@ public class GUI extends JFrame implements Observer{
 		
 		}
 	
+	
+	public void addGame(Game g) {
+		// if there is no current game
+		if(this.game==null) {
+			this.game = g;
+		// if there is a current game, confirm discarding it
+		}else {
+			int exitChoice = JOptionPane.showConfirmDialog(
+				    this.getParent(),
+				    "Are you sure you wish to discard the current game?",
+				    "Start New Game",
+				    JOptionPane.YES_NO_OPTION);
+			if(exitChoice==0) {
+				this.game = g;
+			}
+		}
+		
+		
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
