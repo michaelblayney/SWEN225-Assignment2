@@ -74,6 +74,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 
 	public void createCharacterPanel(){
 		characterPanel = new JPanel();
+		ButtonGroup characterRadioButtons = new ButtonGroup();
 		JLabel titleLabel, promptLabel, nameLabel;
 		JRadioButton mrsWhiteRB, mrGreenRB, mrsPeacockRB, profPlumRB, msScarletRB, colMustardRB;
 		JButton confirmCharacter;
@@ -112,6 +113,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		characterPanel.add(mrsWhiteRB, constraints);
+		characterRadioButtons.add(mrsWhiteRB);
 
 		mrGreenRB = new JRadioButton("Mr. Green");
 		constraints.gridx = 0;
@@ -119,6 +121,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 10); //
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		characterPanel.add(mrGreenRB, constraints);
+		characterRadioButtons.add(mrGreenRB);
 
 		mrsPeacockRB = new JRadioButton("Mrs. Peacock");
 		constraints.gridx = 0;
@@ -126,6 +129,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		characterPanel.add(mrsPeacockRB, constraints);
+		characterRadioButtons.add(mrsPeacockRB);
 
 		profPlumRB = new JRadioButton("Professor Plum");
 		constraints.gridx = 0;
@@ -134,6 +138,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		characterPanel.add(profPlumRB, constraints);
+		characterRadioButtons.add(profPlumRB);
 
 		msScarletRB = new JRadioButton("Miss Scarlet");
 		constraints.gridx = 0;
@@ -141,6 +146,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 14, 0, 10); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		characterPanel.add(msScarletRB, constraints);
+		characterRadioButtons.add(msScarletRB);
 
 		colMustardRB = new JRadioButton("Colonel Mustard");
 		constraints.gridx = 0;
@@ -148,6 +154,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 0, 100); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		characterPanel.add(colMustardRB, constraints);
+		characterRadioButtons.add(colMustardRB);
 
 		confirmCharacter = new JButton("Suggest selected character");
 		confirmCharacter.addActionListener(this);
@@ -161,6 +168,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 
 	public void createWeaponPanel(){
 		weaponPanel = new JPanel();
+		ButtonGroup weaponRadioButtons = new ButtonGroup();
 		JLabel titleLabel, promptLabel, nameLabel;
 		JRadioButton candleRB, pipeRB, daggerRB, revolverRB, ropeRB, spannerRB;
 		JButton confirmWeapon;
@@ -199,6 +207,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		weaponPanel.add(candleRB, constraints);
+		weaponRadioButtons.add(candleRB);
 
 		pipeRB = new JRadioButton("Lead Pipe");
 		constraints.gridx = 0;
@@ -206,6 +215,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 10); //
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		weaponPanel.add(pipeRB, constraints);
+		weaponRadioButtons.add(pipeRB);
 
 		daggerRB = new JRadioButton("Dagger");
 		constraints.gridx = 0;
@@ -213,6 +223,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		weaponPanel.add(daggerRB, constraints);
+		weaponRadioButtons.add(daggerRB);
 
 		revolverRB = new JRadioButton("Revolver");
 		constraints.gridx = 0;
@@ -221,6 +232,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		weaponPanel.add(revolverRB, constraints);
+		weaponRadioButtons.add(revolverRB);
 
 		ropeRB = new JRadioButton("Rope");
 		constraints.gridx = 0;
@@ -228,6 +240,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 0, 36); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		weaponPanel.add(ropeRB, constraints);
+		weaponRadioButtons.add(ropeRB);
 
 		spannerRB = new JRadioButton("Spanner");
 		constraints.gridx = 0;
@@ -235,6 +248,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 0, 116); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		weaponPanel.add(spannerRB, constraints);
+		weaponRadioButtons.add(spannerRB);
 
 		confirmWeapon = new JButton("Suggest selected weapon");
 		confirmWeapon.addActionListener(this);

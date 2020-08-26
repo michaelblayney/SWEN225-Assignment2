@@ -73,6 +73,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	public void createCharacterPanel(){
 		characterPanel = new JPanel();
+		ButtonGroup characterRadioButtons = new ButtonGroup();
 		JLabel titleLabel, promptLabel, nameLabel;
 		JRadioButton mrsWhiteRB, mrGreenRB, mrsPeacockRB, profPlumRB, msScarletRB, colMustardRB;
 		JButton confirmCharacter;
@@ -111,6 +112,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		characterPanel.add(mrsWhiteRB, constraints);
+		characterRadioButtons.add(mrsWhiteRB);
 
 		mrGreenRB = new JRadioButton("Mr. Green");
 		constraints.gridx = 0;
@@ -118,6 +120,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 10); //
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		characterPanel.add(mrGreenRB, constraints);
+		characterRadioButtons.add(mrGreenRB);
 
 		mrsPeacockRB = new JRadioButton("Mrs. Peacock");
 		constraints.gridx = 0;
@@ -125,6 +128,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		characterPanel.add(mrsPeacockRB, constraints);
+		characterRadioButtons.add(mrsPeacockRB);
 
 		profPlumRB = new JRadioButton("Professor Plum");
 		constraints.gridx = 0;
@@ -133,6 +137,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		characterPanel.add(profPlumRB, constraints);
+		characterRadioButtons.add(profPlumRB);
 
 		msScarletRB = new JRadioButton("Miss Scarlet");
 		constraints.gridx = 0;
@@ -140,6 +145,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 14, 0, 10); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		characterPanel.add(msScarletRB, constraints);
+		characterRadioButtons.add(msScarletRB);
 
 		colMustardRB = new JRadioButton("Colonel Mustard");
 		constraints.gridx = 0;
@@ -147,6 +153,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 0, 100); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		characterPanel.add(colMustardRB, constraints);
+		characterRadioButtons.add(colMustardRB);
 
 		confirmCharacter = new JButton("Accuse selected character");
 		confirmCharacter.addActionListener(this);
@@ -160,6 +167,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	public void createRoomPanel(){
 		roomPanel = new JPanel();
+		ButtonGroup roomRadioButtons = new ButtonGroup();
 		JLabel titleLabel, promptLabel, nameLabel;
 		JRadioButton BallRB, ConservatoryRB, BilliardRB, LibraryRB, StudyRB, HallRB, LoungeRB, DiningRB, KitchenRB;
 		JButton confirmRoom;
@@ -198,6 +206,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		roomPanel.add(BallRB, constraints);
+		roomRadioButtons.add(BallRB);
 
 		ConservatoryRB = new JRadioButton("Conservatory");
 		constraints.gridx = 0;
@@ -205,6 +214,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 10); //
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		roomPanel.add(ConservatoryRB, constraints);
+		roomRadioButtons.add(ConservatoryRB);
 
 		BilliardRB = new JRadioButton("Billiard Room");
 		constraints.gridx = 0;
@@ -212,6 +222,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		roomPanel.add(BilliardRB, constraints);
+		roomRadioButtons.add(BilliardRB);
 
 		LibraryRB = new JRadioButton("Library");
 		constraints.gridx = 0;
@@ -220,6 +231,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(3, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		roomPanel.add(LibraryRB, constraints);
+		roomRadioButtons.add(LibraryRB);
 
 		StudyRB = new JRadioButton("Study");
 		constraints.gridx = 0;
@@ -227,6 +239,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(3, 0, 0, 58); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		roomPanel.add(StudyRB, constraints);
+		roomRadioButtons.add(StudyRB);
 
 		HallRB = new JRadioButton("Hall");
 		constraints.gridx = 0;
@@ -234,6 +247,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(3, 0, 0, 179); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		roomPanel.add(HallRB, constraints);
+		roomRadioButtons.add(HallRB);
 
 		//
 		LoungeRB = new JRadioButton("Lounge");
@@ -243,6 +257,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 120, 10, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		roomPanel.add(LoungeRB, constraints);
+		roomRadioButtons.add(LoungeRB);
 
 		DiningRB = new JRadioButton("Dining Room");
 		constraints.gridx = 0;
@@ -250,6 +265,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 10, 12); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		roomPanel.add(DiningRB, constraints);
+		roomRadioButtons.add(DiningRB);
 
 		KitchenRB = new JRadioButton("Kitchen");
 		constraints.gridx = 0;
@@ -257,6 +273,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 10, 157); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		roomPanel.add(KitchenRB, constraints);
+		roomRadioButtons.add(KitchenRB);
 		//
 
 		confirmRoom = new JButton("Accuse selected room");
@@ -271,6 +288,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	public void createWeaponPanel(){
 		weaponPanel = new JPanel();
+		ButtonGroup weaponRadioButtons = new ButtonGroup();
 		JLabel titleLabel, promptLabel, nameLabel;
 		JRadioButton candleRB, pipeRB, daggerRB, revolverRB, ropeRB, spannerRB;
 		JButton confirmWeapon;
@@ -309,6 +327,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		weaponPanel.add(candleRB, constraints);
+		weaponRadioButtons.add(candleRB);
 
 		pipeRB = new JRadioButton("Lead Pipe");
 		constraints.gridx = 0;
@@ -316,6 +335,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 10); //
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		weaponPanel.add(pipeRB, constraints);
+		weaponRadioButtons.add(pipeRB);
 
 		daggerRB = new JRadioButton("Dagger");
 		constraints.gridx = 0;
@@ -323,6 +343,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(15, 0, 0, 121); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		weaponPanel.add(daggerRB, constraints);
+		weaponRadioButtons.add(daggerRB);
 
 		revolverRB = new JRadioButton("Revolver");
 		constraints.gridx = 0;
@@ -331,6 +352,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 120, 0, 0); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Anchor left
 		weaponPanel.add(revolverRB, constraints);
+		weaponRadioButtons.add(revolverRB);
 
 		ropeRB = new JRadioButton("Rope");
 		constraints.gridx = 0;
@@ -338,6 +360,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 0, 36); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor middle
 		weaponPanel.add(ropeRB, constraints);
+		weaponRadioButtons.add(ropeRB);
 
 		spannerRB = new JRadioButton("Spanner");
 		constraints.gridx = 0;
@@ -345,6 +368,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(0, 0, 0, 116); // Temp fix on alignment errors
 		constraints.anchor = GridBagConstraints.FIRST_LINE_END;	// Anchor right
 		weaponPanel.add(spannerRB, constraints);
+		weaponRadioButtons.add(spannerRB);
 
 		confirmWeapon = new JButton("Make accusation");
 		confirmWeapon.addActionListener(this);
