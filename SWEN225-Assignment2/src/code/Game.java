@@ -34,6 +34,7 @@ public class Game extends Observable{
 
 	private UI ui;
 	private GUI gui;
+	private InputCollector collector;
 	private Board board;
 	private boolean gameFinished = false; // If set to true, immediately kills the game loop.
 	private CardCombination murderSolution;
@@ -69,6 +70,8 @@ public class Game extends Observable{
 	private void init() {
 		board = new Board(this, roomNames);
 		ui = new UI(this);
+		collector = new InputCollector();
+		collector.setWorkStateTo(WorkState.NOT_WAITING);
 		
 		cardInit();
 		players = new Player[numPlayers];
@@ -303,6 +306,9 @@ public class Game extends Observable{
 		int movesLeft = RollDice();
 		ui.println("You rolled: " + movesLeft);
 
+		setGameStateTo(GameState.MOVING);
+		collector.setWorkStateTo(WorkState.WAITING);
+		
 		//Main turn loop
 		while(movesLeft > 0) {
 			//Update the board
