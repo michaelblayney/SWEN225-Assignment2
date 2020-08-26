@@ -252,6 +252,9 @@ public class Game extends Observable{
 
 		//Main turn loop
 		while(movesLeft > 0) {
+			//Update the board
+			//board.update(this);
+
 			// ---------------
 			// If player is in a room
 			// ---------------
