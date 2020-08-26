@@ -16,7 +16,7 @@ import code.Game.GameState;
 
 
 
-public class GUI implements Observer{
+public class GUI extends JFrame implements Observer{
 	private static int scale = 1;
 	private static int menuHeight = 30;
 	private static int boardHeight = 400;
@@ -33,7 +33,6 @@ public class GUI implements Observer{
 	
 	private Game game; 
 	
-	JFrame frame;	//root component of the GUI
 	BoardPanel boardPanel;//Board, upon which the tileset and character/weapon icons are drawn
 
 	SwitchPanel interactionPanel;
@@ -43,12 +42,13 @@ public class GUI implements Observer{
 		
 		
 		this.game = g;
-		frame = new JFrame("CLUEDO");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("CLUEDO");
+		//frame = new JFrame("CLUEDO");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// lock window size if needed
 		// TODO decide how to handle
-		frame.setResizable(false);
+		this.setResizable(false);
 		
 
 		// make menu bar
@@ -90,7 +90,7 @@ public class GUI implements Observer{
 		interactionPanel.switchToView("Moving");
 				
 		// add stuff to frame
-		frame.setJMenuBar(menuBar);
+		this.setJMenuBar(menuBar);
 		
 		gamePanel.setLayout(new BorderLayout(0,0));
 		gamePanel.add(cardsPanel, BorderLayout.WEST);
@@ -101,12 +101,12 @@ public class GUI implements Observer{
 		panelSwitch = new SwitchPanel(new CardLayout());
 		panelSwitch.add(initPanel, "Game Setup");
 		panelSwitch.add(gamePanel, "Gameplay");
-		frame.getContentPane().add(panelSwitch);
+		this.getContentPane().add(panelSwitch);
 		panelSwitch.switchToView("Game Setup");
 		
 		// display
-		frame.pack();
-		frame.setVisible(true);
+		this.pack();
+		this.setVisible(true);
 		//doPlayerSetup();
 		
 		}
@@ -148,7 +148,7 @@ public class GUI implements Observer{
 		
 		Object[] possibilities = {2, 3, 4, 5, 6};
 		int numPlayers = (Integer)JOptionPane.showInputDialog(
-		                    frame,
+		                    this,
 		                    "How many players will there be?",
 		                    "Setup",
 		                    JOptionPane.PLAIN_MESSAGE,
@@ -160,7 +160,7 @@ public class GUI implements Observer{
 		
 		for(int i=0; i<numPlayers; i++) {
 			String playerName = (String)JOptionPane.showInputDialog(
-                    frame,
+                    this,
                     ("What is Player " + (i+1) + "'s name?"),
                     "Setup",
                     JOptionPane.OK_CANCEL_OPTION,
@@ -169,7 +169,7 @@ public class GUI implements Observer{
                     null);
 			
 			String playerCharacter = (String)JOptionPane.showInputDialog(
-                    frame,
+                    this,
                     ("What character would you like to play, " + playerName+"?"),
                     "Setup",
                     JOptionPane.PLAIN_MESSAGE,
