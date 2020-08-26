@@ -1,8 +1,10 @@
 package code;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Dimension;
 
 import javax.swing.*;
 
@@ -17,6 +19,9 @@ public class CardsPanel extends JPanel {
 
 	private static int cardsWidth = 200;
 	private static int cardsHeight = 400;
+	private static int topGap = 40;
+	private static Dimension cardHolder = new Dimension(cardsWidth-20, 50);
+	JPanel wCards, cCards, lCards;
 	
 	public CardsPanel() {
 		
@@ -28,7 +33,16 @@ public class CardsPanel extends JPanel {
 		
 		label = new JLabel("Cards");
 		
+		wCards = new JPanel();
+		cCards = new JPanel();
+		lCards = new JPanel();
 		
+		wCards.setBackground(Color.red);
+		wCards.setPreferredSize(cardHolder);
+		cCards.setBackground(Color.green);
+		cCards.setPreferredSize(cardHolder);
+		lCards.setBackground(Color.BLUE.brighter());
+		lCards.setPreferredSize(cardHolder);
 		
 		
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -37,7 +51,7 @@ public class CardsPanel extends JPanel {
 		constraints.gridwidth = 3;
 		
 		constraints.weightx = 0;
-		constraints.weighty = 1;	// Removing vertical blank space
+		constraints.weighty = 1;	
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.insets = new Insets(5, 0, 0, 0);
@@ -45,7 +59,7 @@ public class CardsPanel extends JPanel {
 		add(label, constraints);
 
 		label = new JLabel("Your hand:");
-		constraints.weightx = 1;	// Removing horizontal blank space
+		constraints.weightx = 1;	
 		constraints.weighty = 1;
 		constraints.gridx = 0;	
 		constraints.gridy = 1;
@@ -56,11 +70,41 @@ public class CardsPanel extends JPanel {
 		label = new JLabel("Weapons:");
 		constraints.gridx = 0;	
 		constraints.gridy = 2;
-
-		constraints.insets = new Insets(30, 0, 0, 0);
+		constraints.insets = new Insets(40, 0, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(label, constraints);
 		
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.insets = new Insets(55, 10, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(wCards, constraints);
+		
+		label = new JLabel("Characters:");
+		constraints.gridx = 0;	
+		constraints.gridy = 4;
+		constraints.insets = new Insets((topGap*2) + cardHolder.height, 0, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(label, constraints);
+		
+		constraints.gridx = 0;
+		constraints.gridy = 5;
+		constraints.insets = new Insets((topGap*2) + cardHolder.height + 15, 10, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(cCards, constraints);
+		
+		label = new JLabel("Locations:");
+		constraints.gridx = 0;	
+		constraints.gridy = 6;
+		constraints.insets = new Insets((topGap*3) + (cardHolder.height * 2), 0, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(label, constraints);
+		
+		constraints.gridx = 0;
+		constraints.gridy = 7;
+		constraints.insets = new Insets((topGap*3) + (cardHolder.height * 2) + 15, 10, 0, 0);
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(lCards, constraints);
 		
 	}
 	
