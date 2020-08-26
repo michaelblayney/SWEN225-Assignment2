@@ -12,7 +12,9 @@ import java.util.Observer;
 
 public class Game extends Observable{
 
-	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING };
+	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING};
+	public enum WorkState { WAITING, NOT_WAITING };
+	private WorkState workState;
 	private GameState gameState;	// please only use setGameStateTo() to modify this - it has the notify built in
 	
 	// Constants
@@ -315,9 +317,12 @@ public class Game extends Observable{
 				//Suggestion
 				if(!hasSuggested) {
 					//GameState switching and GUI updating
-					gameState = GameState.SUGGESTING;
-					gui.update(this, "Suggesting");
-
+					setGameStateTo(GameState.SUGGESTING);
+					//gui.update(this, "Suggesting");
+					setWorkStateTo(WorkState.WAITING);
+					while(workState.equals(WorkState.WAITING)) {
+						wait();
+					}
 					ui.println("Do you want to make an suggestion? (y / n)");
 					char suggestChar = ui.scanChar(validYesNoChars, scan);
 					if(suggestChar == 'y') {
@@ -531,6 +536,7 @@ public class Game extends Observable{
 			}
 		}
 		ui.println("No one has any of the suggested cards.");
+	setWorkStateTo(WorkState.NOT_WAITING);
 	}
 
 	private boolean leaveRoom(Player currentPlayer) {
@@ -595,6 +601,12 @@ public class Game extends Observable{
 		gameState = state;
 		this.setChanged();
 		notifyObservers(gameState);
+	}
+	
+	public void setWorkStateTo(WorkState state) {
+		workState = state;
+		this.setChanged();
+		notifyObservers(workState);
 	}
 	
 	public void setCurrentPlayerTo(Player player) {
