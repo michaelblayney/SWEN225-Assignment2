@@ -13,6 +13,7 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
 
 	private JButton menuItemExit;
 	private JButton menuItemNew;
+	JLabel currPlayerLabel;
 	
 	public CluedoMenuBar() {
  	
@@ -20,7 +21,7 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
  	menuItemNew.addActionListener(this);
  	add(menuItemNew);*/
 		
-	//JLabel currPlayerLabel = new JLabel(currentPlayer + "'s turn");
+	currPlayerLabel = new JLabel();
  	
 	menuItemExit = new JButton("Exit");
 	menuItemExit.addActionListener(this);
@@ -41,6 +42,11 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
 		}/*else if(e.getSource().equals(menuItemNew)) {
 			((GUI)this.getParent().getParent()).;
 		}*/
+		
+	}
+
+	public void updatePlayerLabel(Player p) {
+		currPlayerLabel.setText(p.getIRLname());
 		
 	}
 }

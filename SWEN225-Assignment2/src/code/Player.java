@@ -107,6 +107,11 @@ public class Player {
 		wasSet = true;
 		return wasSet;
 	}
+	
+	/* return the Player's real name */
+	public String getIRLname() {
+		return nameIRL;
+	}
 
 	/* Add one card to player's hand*/
 	public void addCard(Card c) {

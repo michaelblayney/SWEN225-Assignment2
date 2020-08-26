@@ -76,7 +76,7 @@ public class Game extends Observable{
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
 
-		setGameStateTo(GameState.MOVING);
+		setGameStateTo(GameState.SUGGESTING);
 
 		// Getting number of players
 		ui.println("CLUEDO");
@@ -87,7 +87,7 @@ public class Game extends Observable{
 		ui.println("Num of players: " + numPlayers);
 
 		// Creating Players, and assigning the players to characters
-		String[] playerNames = {"Jim, Harry, Vlad"};
+		//String[] playerNames = {"Jim, Harry, Vlad"};
 		
 		//createPlayer("Vlad");
 		dealCards();
@@ -269,7 +269,7 @@ public class Game extends Observable{
 			}
 			
 			//Getting correct player whom is taking the turn
-			currentPlayer = players[whichPlayersTurn];
+			setCurrentPlayerTo(players[whichPlayersTurn]);
 			
 			if(!currentPlayer.isEliminated()) {
 				ui.println("----------------------------");

@@ -37,6 +37,8 @@ public class GUI extends JFrame implements Observer{
 
 	SwitchPanel interactionPanel;
 	SwitchPanel panelSwitch;
+	
+	CluedoMenuBar menuBar;
 
 	public GUI(Board b) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		
@@ -53,7 +55,7 @@ public class GUI extends JFrame implements Observer{
 
 		// make menu bar
 		// TODO changing colour not working
-		JMenuBar menuBar = new CluedoMenuBar();
+		menuBar = new CluedoMenuBar();
 		menuBar.setOpaque(true);
 		menuBar.setBackground(Color.GREEN);
      	menuBar.setPreferredSize(menuDimension);
@@ -154,7 +156,7 @@ public class GUI extends JFrame implements Observer{
 				break;
 			}
 		}else if(arg instanceof Player) {
-			
+			menuBar.updatePlayerLabel((Player)arg);
 		}
 		
 	}
