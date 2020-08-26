@@ -17,6 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Board boardField;//TODO REMOVE THIS WHEN ABLE
 	private static final int lineWidth=2;
 
+
 	//Temporary constructor
 	public BoardPanel(Board b){
 		boardField=b;
@@ -125,6 +126,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 			System.out.println("CRITICAL ERROR! TRIED TO PRINT A ROOM TILE OF UNKNOWN TYPE AT COORDINATES X:"+cellX+", Y:"+cellY);
 
 		g.fillRect(xTopLeft,yTopLeft,cellWidth,cellHeight);//Correct color's been chosen, now draw the "background".
+
+
+		//Beginning of wall-drawing logic (I'm so sorry. Will tidy up later if possible)
 		if(thisCell instanceof Room)
 			if(((Room) thisCell).isDoor())
 				return;//If it's a door, it won't draw any "walls", so return.
@@ -164,9 +168,72 @@ public class BoardPanel extends JPanel implements MouseListener{
 		} else//Else, they're definitely different types, so draw a wall
 			g.drawLine(xTopLeft, yTopLeft+cellHeight, xTopLeft+cellWidth, yTopLeft+cellHeight);
 
+		//End of wall-drawing logic
+		
+		MoveablePiece pieceToDraw = thisCell.getPiece();
+		if(pieceToDraw!=null){
+			if(pieceToDraw instanceof Character){
+				//Draw the underlying colour, then the border around it.
+				//For characters, this is a circle. so get the character's color with a switch.
+				String charName = ((Character) pieceToDraw).getName();
+				switch (charName){
+					case "Miss Scarlett":
+						g.setColor(Color.red);
+						break;
+
+					case "Col. Mustard":
+						g.setColor(Color.yellow);
+						break;
+
+					case "Mrs. White":
+						g.setColor(Color.white);
+						break;
+
+					case "Mr. Green":
+						g.setColor(Color.green);
+						break;
+
+					case "Mrs. Peacock":
+						g.setColor(Color.blue);
+						break;
+
+					case "Prof. Plum":
+						g.setColor(Color.magenta);
+						break;
+					default:
+						System.out.println("ERROR! TRIED TO DRAW INVALID CHARACTER:"+charName);
+				}//Correct colour is selected, now draw the symbol.
+				g.fillOval(xTopLeft+cellWidth/4,yTopLeft+cellHeight/4,cellWidth/2,cellHeight/2);
+
+
+
+			} else if (pieceToDraw instanceof Weapon){
+				//First, draw generic border
+				//For weapons, this is (currently) a diamond shape
+
+			} else{
+				System.out.println("CRITICAL ERROR! TRIED TO DRAW PIECE:"+pieceToDraw+" WHICH IS NEITHER A CHARACTER NOR A WEAPON.");
+			}
+
+
+
+
+
+
+
+
+
+		}
+
+
 		g.setColor(Color.red);//for debugging. Anything which is drawn which SHOULDN'T be drawn will be in red.
 
+
+
+
 	}
+
+
 
 
 
