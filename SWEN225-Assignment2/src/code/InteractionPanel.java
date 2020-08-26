@@ -32,7 +32,7 @@ public class InteractionPanel extends SwitchPanel {
 	}
 
 	public void switchToView(String s) {
-		initialisePanels();
+		//initialisePanels();
 		((CardLayout) getLayout()).show(this, s);
 	}
 

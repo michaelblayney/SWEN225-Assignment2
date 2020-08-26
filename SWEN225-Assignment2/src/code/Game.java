@@ -12,8 +12,8 @@ import java.util.Observer;
 
 public class Game extends Observable{
 
-	public enum GameState { SUGGESTING, ACCUSING, MOVING, EXITING };
-	private GameState gameState;
+	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING };
+	private GameState gameState;	// please only use setGameStateTo() to modify this - it has the notify built in
 	
 	// Constants
 	int maxNumOfPlayers = 6;
@@ -67,23 +67,31 @@ public class Game extends Observable{
 	private void init() {
 		board = new Board(this, roomNames);
 		ui = new UI(this);
-		gui = new GUI(board);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
-		this.addObserver(gui);
+		
 		cardInit();
+		players = new Player[numPlayers];
+		
+		gui = new GUI(board, this);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
+		this.addObserver(gui);
+		setGameStateTo(GameState.SETTING_UP);
+
+		setGameStateTo(GameState.MOVING);
 		//gameState = GameState.MOVING;
 
 		// Getting number of players
 		ui.println("CLUEDO");
 		ui.println("How many people are playing?");
 
-		numPlayers = ui.scanInt(minNumOfPlayers, maxNumOfPlayers, scan);
+		//numPlayers = ui.scanInt(minNumOfPlayers, maxNumOfPlayers, scan);
 
 		ui.println("Num of players: " + numPlayers);
 
 		// Creating Players, and assigning the players to characters
-		createPlayers(numPlayers);
+		String[] playerNames = {"Jim, Harry, Vlad"};
+		
+		//createPlayer("Vlad");
 		dealCards();
-		notifyObservers();
+		//notifyObservers();
 	}
 
 	/* Creates all cards and the weapons and characters.
@@ -148,6 +156,7 @@ public class Game extends Observable{
 		
 	}
 
+	/* old createPlayers, initialises players without names*/
 	private void createPlayers(int numPlayers) {
 		players = new Player[numPlayers];
 		for(int i = 0; i < numPlayers; i++) { //Asking each player which character they want to be
@@ -180,6 +189,48 @@ public class Game extends Observable{
 
 			ui.println("Player " + (i + 1) + " has chosen: " + board.characters[indexTable.get(selection)].toString());
 		}
+
+		//Move Mrs. Scarlet to the front of players
+		Player missSPlayer = null;
+		int index = -1;
+
+		for(int i = 0; i < players.length; i++) {//Checking to see if someone selected Miss Scarlett and finding the index if possible
+			if(players[i].getCharacter().getName().equals("Miss Scarlett")) {
+				missSPlayer = players[i];
+				index = i;
+				break;
+			}
+		}
+		if(missSPlayer != null) { //If there is a player that selected Miss Scarlett, put them at the front of the player turn array
+			System.arraycopy(players, 0, players, 1, index);
+			players[0] = missSPlayer;
+		}
+	}
+	
+	/* create a single player and add to list of players */
+	public void createPlayer(String playerName, String playerCharacterName) {
+		
+		Character playerCharacter = null;
+		
+		for(Character c : board.characters) {
+			if(c.getName().equals(playerCharacterName)) {
+				playerCharacter = c;
+			}
+		}
+		
+		Player newPlayer = new Player(this, playerCharacter, playerName);
+		playerCharacter.setPlayer(newPlayer);
+	
+		//Add player to players
+		for(int j = 0; j < players.length; j++) {
+			//At the first empty slot in the array, add this character
+			if(players[j] == null) {
+				players[j] = newPlayer;
+				break;
+			}
+		}
+
+		
 
 		//Move Mrs. Scarlet to the front of players
 		Player missSPlayer = null;
@@ -519,8 +570,31 @@ public class Game extends Observable{
 		return currentPlayer;
 	}
 	
+	public void setNumPlayers(int n) {
+		numPlayers = n;
+	}
+	
+	public Object[] getUnassignedCharacters() {
+		ArrayList<String> unassigned = new ArrayList<String>();
+		for(Character c : board.characters) {
+			if(!c.hasPlayer()) {
+				unassigned.add(c.getName());
+			}
+		}
+		return unassigned.toArray();
+		
+	}
+	
 	public GameState getGameState() {
 		return gameState;
+	}
+	
+	
+	
+	public void setGameStateTo(GameState state) {
+		gameState = state;
+		this.setChanged();
+		notifyObservers(gameState);
 	}
 
 	public static void main(String[] args) throws InterruptedException {

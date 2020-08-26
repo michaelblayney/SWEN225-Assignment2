@@ -9,6 +9,7 @@ public class Player {
 	// ------------------------
 
 	// Player Associations
+	private String nameIRL;
 	private Game game;
 	private Character character;
 	private ArrayList<Card> cards;
@@ -18,6 +19,23 @@ public class Player {
 	// CONSTRUCTOR
 	// ------------------------
 
+	public Player(Game aGame, Character aCharacter, String nameIRL) {
+		if (!setGame(aGame)) {
+			throw new RuntimeException(
+					"Unable to create Player due to aGame. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+		}
+		boolean didAddCharacter = setCharacter(aCharacter);
+		if (!didAddCharacter) {
+			throw new RuntimeException(
+					"Unable to create player due to character. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+		}
+		cards = new ArrayList<Card>();
+		isEliminated = false;
+		this.nameIRL = nameIRL;
+	}
+	
+	/* Old constuctor, does not include name*/
+	
 	public Player(Game aGame, Character aCharacter) {
 		if (!setGame(aGame)) {
 			throw new RuntimeException(
