@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.*;
 
@@ -22,12 +23,16 @@ public class CardsPanel extends JPanel {
 	private static int topGap = 40;
 	private static Dimension cardHolder = new Dimension(cardsWidth-20, 50);
 	JPanel wCards, cCards, lCards;
+	Player currentPlayer;
+	Game game;
+	Graphics g;
 	
 	public CardsPanel() {
 		
+		
+		
 		JButton button;
 		JLabel label;
-		
 		
 		this.setLayout(new GridBagLayout());
 		
@@ -105,6 +110,14 @@ public class CardsPanel extends JPanel {
 		constraints.insets = new Insets((topGap*3) + (cardHolder.height * 2) + 15, 10, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(lCards, constraints);
+		
+		
+	}
+	
+	
+	public void updateCards() {
+		
+		currentPlayer = game.getCurrentPlayer();
 		
 	}
 	
