@@ -542,7 +542,7 @@ public class Game extends Observable{
 			}
 		}
 		ui.println("No one has any of the suggested cards.");
-	setWorkStateTo(WorkState.NOT_WAITING);
+	//setWorkStateTo(WorkState.NOT_WAITING);
 	}
 
 	private boolean leaveRoom(Player currentPlayer) {
@@ -609,11 +609,11 @@ public class Game extends Observable{
 		notifyObservers(gameState);
 	}
 	
-	public void setWorkStateTo(WorkState state) {
+	/*public void setWorkStateTo(WorkState state) {
 		workState = state;
 		this.setChanged();
 		notifyObservers(workState);
-	}
+	}*/
 	
 	public void setCurrentPlayerTo(Player player) {
 		currentPlayer = player;
