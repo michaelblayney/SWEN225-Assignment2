@@ -61,49 +61,23 @@ public class GUI extends JFrame implements Observer{
 		menuBar.setBackground(Color.GREEN);
      	menuBar.setPreferredSize(menuDimension);
 
-		// make game (enclosing) panel
-		JPanel gamePanel = new JPanel();
-		gamePanel.setOpaque(true);
-		gamePanel.setBackground(Color.RED);
-		gamePanel.setPreferredSize(windowDimension);
-
-		// make init (enclosing) panel
+     	// make init (enclosing) panel
 		JPanel initPanel = new InitialisationPanel();
 		initPanel.setOpaque(true);
 		initPanel.setBackground(Color.PINK);
 		initPanel.setPreferredSize(windowDimension);
 		
-		// make cards panel
-		JPanel cardsPanel = new CardsPanel();
-		cardsPanel.setOpaque(true);
-		cardsPanel.setBackground(Color.YELLOW);
-		cardsPanel.setPreferredSize(cardDimension);
 		
-		// make board panel
-		boardPanel = new BoardPanel(b);//TODO REMOVE BOARD AS A REQUIREMENT AS SOON AS POSSIBLE
-		boardPanel.setOpaque(true);
-		boardPanel.setBackground(Color.ORANGE);
-		boardPanel.setPreferredSize(boardDimension);
-		
-		// make interaction panel
-		interactionPanel = new InteractionPanel(new CardLayout());
-		interactionPanel.setOpaque(true);
-		interactionPanel.setBackground(Color.BLUE);
-		interactionPanel.setPreferredSize(interactionDimension);
-		interactionPanel.switchToView("Moving");
 				
 		// add stuff to frame
 		this.setJMenuBar(menuBar);
 		
-		gamePanel.setLayout(new BorderLayout(0,0));
-		gamePanel.add(cardsPanel, BorderLayout.WEST);
-		gamePanel.add(boardPanel, BorderLayout.CENTER);
-		gamePanel.add(interactionPanel, BorderLayout.SOUTH);
+		
 		
 		// set up panel to switch between init and gameplay
 		panelSwitch = new SwitchPanel(new CardLayout());
 		panelSwitch.add(initPanel, "Game Setup");
-		panelSwitch.add(gamePanel, "Gameplay");
+		
 		this.getContentPane().add(panelSwitch);
 		panelSwitch.switchToView("Game Setup");
 		
@@ -118,7 +92,7 @@ public class GUI extends JFrame implements Observer{
 	public void addGame(Game g) {
 		// if there is no current game
 		if(this.game==null) {
-			this.game = g;
+			addGame2(g);
 		// if there is a current game, confirm discarding it
 		}else {
 			int exitChoice = JOptionPane.showConfirmDialog(
@@ -127,10 +101,50 @@ public class GUI extends JFrame implements Observer{
 				    "Start New Game",
 				    JOptionPane.YES_NO_OPTION);
 			if(exitChoice==0) {
-				this.game = g;
+				addGame2(g);
 			}
 		}
 		
+		
+	}
+	
+	public void addGame2(Game g) {
+		this.game = g;
+		// make game (enclosing) panel
+		JPanel gamePanel = new JPanel();
+		gamePanel.setOpaque(true);
+		gamePanel.setBackground(Color.RED);
+		gamePanel.setPreferredSize(windowDimension);
+				
+		// make cards panel
+		JPanel cardsPanel = new CardsPanel();
+		cardsPanel.setOpaque(true);
+		cardsPanel.setBackground(Color.YELLOW);
+		cardsPanel.setPreferredSize(cardDimension);
+				
+		// make board panel
+		boardPanel = new BoardPanel(game.getBoard());//TODO REMOVE BOARD AS A REQUIREMENT AS SOON AS POSSIBLE
+		boardPanel.setOpaque(true);
+		boardPanel.setBackground(Color.ORANGE);
+		boardPanel.setPreferredSize(boardDimension);
+				
+		// make interaction panel
+		interactionPanel = new InteractionPanel(new CardLayout());
+		interactionPanel.setOpaque(true);
+		interactionPanel.setBackground(Color.BLUE);
+		interactionPanel.setPreferredSize(interactionDimension);
+		interactionPanel.switchToView("Moving");
+		
+		gamePanel.setLayout(new BorderLayout(0,0));
+		gamePanel.add(cardsPanel, BorderLayout.WEST);
+		gamePanel.add(boardPanel, BorderLayout.CENTER);
+		gamePanel.add(interactionPanel, BorderLayout.SOUTH);
+		
+		panelSwitch.add(gamePanel, "Gameplay");
+		
+		// display
+		this.pack();
+		this.setVisible(true);
 		
 	}
 	

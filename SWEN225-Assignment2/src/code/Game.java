@@ -68,7 +68,7 @@ public class Game extends Observable{
 	 * other way around.
 	 */
 	private void init() {
-		board = new Board(this, roomNames);
+		setBoard(new Board(this, roomNames));
 		ui = new UI(this);
 		collector = new InputCollector();
 		collector.setWorkStateTo(WorkState.NOT_WAITING);
@@ -76,7 +76,7 @@ public class Game extends Observable{
 		cardInit();
 		players = new Player[numPlayers];
 		
-		gui = new GUI(board);//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
+		gui = new GUI(getBoard());//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		gui.addGame(this);
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
@@ -118,14 +118,14 @@ public class Game extends Observable{
 		for (String s : weaponNames) {
 			Weapon w = new Weapon(s);
 			WeaponCard wc = new WeaponCard(s, w);
-			board.addWeapon(w);
+			getBoard().addWeapon(w);
 			weaponDeck.add(wc);
 
 		}
 		for (int i=0; i<characterNames.length; i++) {
 			Character c = new Character(characterNames[i]);
 			CharacterCard cc = new CharacterCard(characterNames[i], c);
-			board.addCharacter(c, charXCoords[i],charYCoords[i]);
+			getBoard().addCharacter(c, charXCoords[i],charYCoords[i]);
 			characterDeck.add(cc);
 		}
 
@@ -171,17 +171,17 @@ public class Game extends Observable{
 			ui.println("-------------------");
 			ui.println("Player " + (i + 1) + " please select your character");
 			//Displaying all the characters without players
-			for(int j = 0; j < board.characters.length; j++) {
-				if(!board.characters[j].hasPlayer()) {
+			for(int j = 0; j < getBoard().characters.length; j++) {
+				if(!getBoard().characters[j].hasPlayer()) {
 					index += 1;
 					indexTable.put(index, j);
-					ui.println(index + ". " + board.characters[j]);
+					ui.println(index + ". " + getBoard().characters[j]);
 				}
 			}
 
 			int selection = ui.scanInt(1, index, scan);
-			Player player = new Player(this, board.characters[indexTable.get(selection)]);
-			board.characters[indexTable.get(selection)].setPlayer(player);
+			Player player = new Player(this, getBoard().characters[indexTable.get(selection)]);
+			getBoard().characters[indexTable.get(selection)].setPlayer(player);
 
 			//Add player to players
 			for(int j = 0; j < players.length; j++) {
@@ -192,7 +192,7 @@ public class Game extends Observable{
 				}
 			}
 
-			ui.println("Player " + (i + 1) + " has chosen: " + board.characters[indexTable.get(selection)].toString());
+			ui.println("Player " + (i + 1) + " has chosen: " + getBoard().characters[indexTable.get(selection)].toString());
 		}
 
 		//Move Mrs. Scarlet to the front of players
@@ -217,7 +217,7 @@ public class Game extends Observable{
 		
 		Character playerCharacter = null;
 		
-		for(Character c : board.characters) {
+		for(Character c : getBoard().characters) {
 			if(c.getName().equals(playerCharacterName)) {
 				playerCharacter = c;
 			}
@@ -300,7 +300,7 @@ public class Game extends Observable{
 		ui.println("");
 		
 		//ui.drawBoard(board, null);
-		gui.drawBoard(board, null);
+		gui.drawBoard(getBoard(), null);
 		ui.println("");
 		
 		int movesLeft = RollDice();
@@ -317,7 +317,7 @@ public class Game extends Observable{
 			// ---------------
 			// If player is in a room
 			// ---------------
-			if(board.isPlayerInRoom(currentPlayer)) {
+			if(getBoard().isPlayerInRoom(currentPlayer)) {
 
 				if(startedInHall) movesLeft = 0;
 				//Suggestion
@@ -378,10 +378,10 @@ public class Game extends Observable{
 				if(moveChar == 'f') {
 					movesLeft = 0;
 				} else {
-					if(board.isPlayerMoveValid(currentPlayer, moveChar)){//If the move entered is valid
-						board.movePlayer(currentPlayer, moveChar);
+					if(getBoard().isPlayerMoveValid(currentPlayer, moveChar)){//If the move entered is valid
+						getBoard().movePlayer(currentPlayer, moveChar);
 						//ui.drawBoard(board, null);
-						gui.drawBoard(board, null);
+						gui.drawBoard(getBoard(), null);
 						movesLeft -= 1;}
 					else{//If the move entered was NOT valid.
 						ui.println("Invalid move, please try again.");
@@ -408,12 +408,12 @@ public class Game extends Observable{
 		//Character accusation
 		ui.println("Accusation:");
 		ui.println("Select who dunnit:");
-		for(int i = 0; i < board.characters.length; i ++) {
-			ui.println((i + 1) + ". " + board.characters[i]);
+		for(int i = 0; i < getBoard().characters.length; i ++) {
+			ui.println((i + 1) + ". " + getBoard().characters[i]);
 		}
-		int accusedCharacter = ui.scanInt(1, board.characters.length, scan) - 1;
+		int accusedCharacter = ui.scanInt(1, getBoard().characters.length, scan) - 1;
 
-		String accusedCharacterName = board.characters[accusedCharacter].getName();
+		String accusedCharacterName = getBoard().characters[accusedCharacter].getName();
 
 
 		//Room accusation
@@ -435,7 +435,7 @@ public class Game extends Observable{
 			ui.println((i + 1) + ". " + weaponNames[i]);
 		}
 		int accusedWeapon = ui.scanInt(1, weaponNames.length, scan) - 1;
-		String accusedWeaponName = board.weapons[accusedWeapon].getName();
+		String accusedWeaponName = getBoard().weapons[accusedWeapon].getName();
 		
 
 		//Final accusation
@@ -445,8 +445,8 @@ public class Game extends Observable{
 		//Store in appropriate structure and check against the murderSolution
 		CardCombination accusation = new CardCombination(
 				new RoomCard(accusedRoomName), 
-				new CharacterCard(accusedCharacterName, board.characters[accusedCharacter]), 
-				new WeaponCard(accusedWeaponName, board.weapons[accusedWeapon]));
+				new CharacterCard(accusedCharacterName, getBoard().characters[accusedCharacter]), 
+				new WeaponCard(accusedWeaponName, getBoard().weapons[accusedWeapon]));
 		
 		//Player wins the game if they're correct
 		if(accusation.equals(murderSolution)) {
@@ -465,14 +465,14 @@ public class Game extends Observable{
 		//Character suggestion
 		ui.println("Suggestion:");
 		ui.println("Select who dunnit:");
-		for(int i = 0; i < board.characters.length; i ++) {
-			ui.println((i + 1) + ". " + board.characters[i]);
+		for(int i = 0; i < getBoard().characters.length; i ++) {
+			ui.println((i + 1) + ". " + getBoard().characters[i]);
 		}
-		int suggestedCharacter = ui.scanInt(1, board.characters.length, scan) - 1;
-		String suggestedCharacterName = board.characters[suggestedCharacter].getName();
+		int suggestedCharacter = ui.scanInt(1, getBoard().characters.length, scan) - 1;
+		String suggestedCharacterName = getBoard().characters[suggestedCharacter].getName();
 		
 		//Get player room
-		Room suggestedRoom = board.getRoomPlayerIsIn(currentPlayer);
+		Room suggestedRoom = getBoard().getRoomPlayerIsIn(currentPlayer);
 		String suggestedRoomName = suggestedRoom.getName();
 		
 		//Weapon suggestion
@@ -482,7 +482,7 @@ public class Game extends Observable{
 			ui.println((i + 1) + ". " + weaponNames[i]);
 		}
 		int suggestedWeapon = ui.scanInt(1, weaponNames.length, scan) - 1;
-		String suggestedWeaponName = board.weapons[suggestedWeapon].getName();
+		String suggestedWeaponName = getBoard().weapons[suggestedWeapon].getName();
 
 		//Final suggestion
 
@@ -491,12 +491,12 @@ public class Game extends Observable{
 		//Store in appropriate structure and check against the murderSolution
 		CardCombination suggested = new CardCombination(
 						new RoomCard(suggestedRoomName), 
-						new CharacterCard(suggestedCharacterName, board.characters[suggestedCharacter]), 
-						new WeaponCard(suggestedWeaponName, board.weapons[suggestedWeapon]));
+						new CharacterCard(suggestedCharacterName, getBoard().characters[suggestedCharacter]), 
+						new WeaponCard(suggestedWeaponName, getBoard().weapons[suggestedWeapon]));
 
 		//summon character and weapon to room
-		board.moveWeaponTo(suggestedWeaponName, suggestedRoomName);
-		board.moveCharacterTo(suggestedCharacterName, suggestedRoomName);
+		getBoard().moveWeaponTo(suggestedWeaponName, suggestedRoomName);
+		getBoard().moveCharacterTo(suggestedCharacterName, suggestedRoomName);
 		
 		//make list of players starting from next player
 		Player[] suggestionPlayers = new Player[players.length];
@@ -546,10 +546,10 @@ public class Game extends Observable{
 	}
 
 	private boolean leaveRoom(Player currentPlayer) {
-		ArrayList<Location> exits = board.getAvailableExits(currentPlayer);
+		ArrayList<Location> exits = getBoard().getAvailableExits(currentPlayer);
 		int numOfExits = exits.size();
 		//ui.drawBoard(board, exits);
-		gui.drawBoard(board, exits);
+		gui.drawBoard(getBoard(), exits);
 		ui.print("Which exit would you like to take? [");
 		//Printing valid exits
 		 ui.print("Exit (1)");
@@ -559,9 +559,9 @@ public class Game extends Observable{
 		if(exit == 0) {
 			return true;
 		}
-		board.vacatePlayerFromRoom(currentPlayer, exits.get(exit-1));//Uses -1 as the array starts from 0, but the questions start from 1.
+		getBoard().vacatePlayerFromRoom(currentPlayer, exits.get(exit-1));//Uses -1 as the array starts from 0, but the questions start from 1.
 		//ui.drawBoard(board, null);
-		gui.drawBoard(board,null);
+		gui.drawBoard(getBoard(),null);
 		return false;
 	}
 
@@ -588,7 +588,7 @@ public class Game extends Observable{
 	
 	public Object[] getUnassignedCharacters() {
 		ArrayList<String> unassigned = new ArrayList<String>();
-		for(Character c : board.characters) {
+		for(Character c : getBoard().characters) {
 			if(!c.hasPlayer()) {
 				unassigned.add(c.getName());
 			}
@@ -619,6 +619,14 @@ public class Game extends Observable{
 		currentPlayer = player;
 		this.setChanged();
 		notifyObservers(currentPlayer);
+	}
+
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
 	}
 
 	
