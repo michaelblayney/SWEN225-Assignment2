@@ -41,7 +41,7 @@ public class GUI extends JFrame implements Observer{
 	CluedoMenuBar menuBar;
 	private InputCollector collector;
 
-	public GUI(Board b) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
+	public GUI() {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		
 		
 		
