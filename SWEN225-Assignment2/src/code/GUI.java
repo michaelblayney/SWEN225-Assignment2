@@ -39,6 +39,7 @@ public class GUI extends JFrame implements Observer{
 	SwitchPanel panelSwitch;
 	
 	CluedoMenuBar menuBar;
+	private InputCollector collector;
 
 	public GUI(Board b) {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		
@@ -131,6 +132,10 @@ public class GUI extends JFrame implements Observer{
 		}
 		
 		
+	}
+	
+	public void addCollector(InputCollector c) {
+		this.collector = c;
 	}
 
 	@Override
