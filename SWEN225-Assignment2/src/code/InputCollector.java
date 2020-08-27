@@ -21,4 +21,12 @@ public class InputCollector {
 		
 	}
 	
+	public void addInput(Object input) {
+		this.input = input;
+	}
+	
+	public Object getInput(Object input) {
+		return input;
+	}
+	
 }

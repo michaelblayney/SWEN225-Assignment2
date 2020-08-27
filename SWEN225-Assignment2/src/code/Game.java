@@ -325,7 +325,7 @@ public class Game extends Observable{
 					//GameState switching and GUI updating
 					setGameStateTo(GameState.SUGGESTING);
 					//gui.update(this, "Suggesting");
-					setWorkStateTo(WorkState.WAITING);
+					collector.setWorkStateTo(WorkState.WAITING);
 					while(workState.equals(WorkState.WAITING)) {
 						wait();
 					}
