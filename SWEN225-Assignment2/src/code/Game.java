@@ -76,7 +76,7 @@ public class Game extends Observable{
 		cardInit();
 		players = new Player[numPlayers];
 		
-		gui = new GUI(getBoard());//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
+		gui = new GUI();//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
 		gui.addGame(this);
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
