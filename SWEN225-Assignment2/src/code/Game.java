@@ -48,7 +48,9 @@ public class Game extends Observable{
 	// CONSTRUCTOR
 	// ------------------------
 
-	public Game() throws InterruptedException {
+	public Game(GUI gui) throws InterruptedException {
+		this.gui = gui;
+		gui.addGame(this);
 		this.init();
 		this.doGameLoop();
 	}
@@ -76,8 +78,8 @@ public class Game extends Observable{
 		cardInit();
 		players = new Player[numPlayers];
 		
-		gui = new GUI();//TODO REMOVE BOARD FROM CONSTRUCTOR AS SOON AS POSSIBLE
-		gui.addGame(this);
+		
+		
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
 

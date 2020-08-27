@@ -10,8 +10,9 @@ public static void main(String[] args) throws InterruptedException {
 //                new GUI();
 //            }
 //        });
+		GUI gui = new GUI();
 		
-		new Game();
+		Game game = new Game(gui);
 		
 	}
 	

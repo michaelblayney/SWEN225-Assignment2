@@ -92,7 +92,7 @@ public class GUI extends JFrame implements Observer{
 	public void addGame(Game g) {
 		// if there is no current game
 		if(this.game==null) {
-			addGame2(g);
+			this.game = g;
 		// if there is a current game, confirm discarding it
 		}else {
 			int exitChoice = JOptionPane.showConfirmDialog(
@@ -101,15 +101,15 @@ public class GUI extends JFrame implements Observer{
 				    "Start New Game",
 				    JOptionPane.YES_NO_OPTION);
 			if(exitChoice==0) {
-				addGame2(g);
+				this.game = g;
 			}
 		}
 		
 		
 	}
 	
-	public void addGame2(Game g) {
-		this.game = g;
+	public void doGamePanelsSetup() {
+		
 		// make game (enclosing) panel
 		JPanel gamePanel = new JPanel();
 		gamePanel.setOpaque(true);
@@ -142,6 +142,7 @@ public class GUI extends JFrame implements Observer{
 		
 		panelSwitch.add(gamePanel, "Gameplay");
 		
+		
 		// display
 		this.pack();
 		this.setVisible(true);
@@ -157,8 +158,8 @@ public class GUI extends JFrame implements Observer{
 		if(arg instanceof GameState) {
 			switch(((Game)o).getGameState()) {
 			case SETTING_UP:
-				panelSwitch.switchToView("Game Setup");
 				doPlayerSetup();
+				doGamePanelsSetup();
 				panelSwitch.switchToView("Gameplay");
 				break;
 			case ACCUSING:
@@ -174,9 +175,9 @@ public class GUI extends JFrame implements Observer{
 				interactionPanel.switchToView("Exiting");
 				break;
 			}
-		}else if(arg instanceof Player) {
+		} /*else if(arg instanceof Player) {
 			menuBar.updatePlayerLabel((Player)arg);
-		}
+		}*/
 		
 	}
 
