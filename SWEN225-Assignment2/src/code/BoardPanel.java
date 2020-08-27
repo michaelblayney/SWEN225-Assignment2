@@ -37,6 +37,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		System.out.println("X: "+e.getX());
+		System.out.println("Y: "+e.getY());
 		// TODO Auto-generated method stub
 		
 	}
