@@ -175,7 +175,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			if(pieceToDraw instanceof Character){
 				//Draw the underlying colour, then the border around it.
 				//For characters, this is a circle. so get the character's color with a switch.
-				String charName = ((Character) pieceToDraw).getName();
+				String charName = pieceToDraw.getName();
 				switch (charName){
 					case "Miss Scarlett":
 						g.setColor(Color.red);
@@ -208,8 +208,37 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 
 			} else if (pieceToDraw instanceof Weapon){
-				//First, draw generic border
-				//For weapons, this is (currently) a diamond shape
+				g.setColor(Color.red);
+				String weaponName = pieceToDraw.getName();
+
+				switch(weaponName){
+					case "Candlestick":
+						g.drawString("C", xTopLeft+cellWidth/2, yTopLeft+cellHeight);
+						break;
+
+					case "Dagger":
+						g.drawString("D", xTopLeft+cellWidth/2, yTopLeft+cellHeight);
+						break;
+
+					case "Lead pipe":
+						g.drawString("L", xTopLeft+cellWidth/2, yTopLeft+cellHeight);
+						break;
+
+					case "Revolver":
+						g.drawString("R", xTopLeft+cellWidth/2, yTopLeft+cellHeight);
+						break;
+
+					case "Rope":
+						g.drawString("r", xTopLeft+cellWidth/2, yTopLeft+cellHeight);
+						break;
+
+					case "Spanner":
+						g.drawString("S", xTopLeft+cellWidth/2, yTopLeft+cellHeight);
+						break;
+					default:
+						System.out.println("CRITICAL ERROR! TRIED TO DRAW NON-WEAPON:"+pieceToDraw.getName());
+				}
+
 
 			} else{
 				System.out.println("CRITICAL ERROR! TRIED TO DRAW PIECE:"+pieceToDraw+" WHICH IS NEITHER A CHARACTER NOR A WEAPON.");
