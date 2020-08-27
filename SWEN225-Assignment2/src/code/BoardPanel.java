@@ -21,6 +21,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	//Temporary constructor
 	public BoardPanel(Board b){
 		boardField=b;
+		addMouseListener(this);
 	}
 
 	@Override
