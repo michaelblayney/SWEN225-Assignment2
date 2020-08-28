@@ -31,7 +31,9 @@ public class GUI extends JFrame implements Observer{
 	private static Dimension interactionDimension = new Dimension(cardsWidth+boardWidth, interactionHeight);
 
 	
-	private Game game; 
+	private Game game;
+
+	public Player currentPlayer = null;
 	
 	BoardPanel boardPanel;//Board, upon which the tileset and character/weapon icons are drawn
 
@@ -220,6 +222,10 @@ public class GUI extends JFrame implements Observer{
 
 			game.createPlayer(playerName, playerCharacter);
 		}
+	}
+
+	public Player getPlayer(){
+		return currentPlayer;
 	}
 
 }

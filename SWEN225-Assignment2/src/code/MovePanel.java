@@ -10,8 +10,11 @@ public class MovePanel extends JPanel implements ActionListener {
 	String currentPlayerName = "Michael";	// Just for now
 	int movesLeft = 6;
 	int roll = 9;
+	Player currentPlayer;
 
 	public MovePanel() {
+		if(this.getParent().getParent().getParent() instanceof GUI)
+			currentPlayer = ((GUI) this.getParent().getParent().getParent()).getPlayer();
 		createMovePanel();
 	}
 

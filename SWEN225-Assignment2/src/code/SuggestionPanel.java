@@ -9,6 +9,8 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 
 	JPanel questionPanel, characterPanel, weaponPanel;
 	String currentPlayerName = "Michael";	// Just for now
+	Card characterCard;
+
 
 	public SuggestionPanel() {
 		setLayout(new CardLayout()); // The SuggestionPanel has multiple panels it switches between
