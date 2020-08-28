@@ -116,8 +116,8 @@ public class CardsPanel extends JPanel {
 	}
 	
 	/*
-	 * TO-DO: actually need to find out how to get this panel to update in the first place.
-	 * TO-DO: find out how to get the current player.
+	 * TODO: actually need to find out how to get this panel to update in the first place.
+	 * TODO: find out how to get the current player.
 	 * */
 	public void updateCards() {
 		
@@ -165,9 +165,14 @@ public class CardsPanel extends JPanel {
 		g.fillRect(10, 5, 20, 40);
 		*/
 		
+		this.revalidate();
 	}
 	
+	/**
+	 * Private method called by the updateCards Method that draws the cards/ writes the names of cards from a given list into a given panel*/
 	private void drawCards(ArrayList<Card> l, JPanel p) {
+		
+		//All this is currently untested.
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		JLabel text;  //just using text for now, can change later
