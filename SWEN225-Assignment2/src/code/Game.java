@@ -73,16 +73,17 @@ public class Game extends Observable{
 		setBoard(new Board(this, roomNames));
 		ui = new UI(this);
 		collector = new InputCollector();
-		collector.setWorkStateTo(WorkState.NOT_WAITING);
+		collector.setWorkStateTo(WorkState.WAITING);
 		
 		cardInit();
-		players = new Player[numPlayers];
+		
 		
 		
 		
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
-
+		
+		setCurrentPlayerTo(players[0]);
 		setGameStateTo(GameState.MOVING);
 		// Getting number of players
 		//ui.println("CLUEDO");
@@ -222,6 +223,7 @@ public class Game extends Observable{
 		for(Character c : getBoard().characters) {
 			if(c.getName().equals(playerCharacterName)) {
 				playerCharacter = c;
+				break;
 			}
 		}
 		
@@ -244,6 +246,9 @@ public class Game extends Observable{
 		int index = -1;
 
 		for(int i = 0; i < players.length; i++) {//Checking to see if someone selected Miss Scarlett and finding the index if possible
+			if(players[i]==null) {
+				break;
+			}
 			if(players[i].getCharacter().getName().equals("Miss Scarlett")) {
 				missSPlayer = players[i];
 				index = i;
@@ -587,6 +592,7 @@ public class Game extends Observable{
 	
 	public void setNumPlayers(int n) {
 		numPlayers = n;
+		players = new Player[numPlayers];
 	}
 	
 	public Object[] getUnassignedCharacters() {
