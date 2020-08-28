@@ -21,11 +21,13 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
  	menuItemNew.addActionListener(this);
  	add(menuItemNew);*/
 		
-	currPlayerLabel = new JLabel();
+	currPlayerLabel = new JLabel("");
  	
 	menuItemExit = new JButton("Exit");
 	menuItemExit.addActionListener(this);
+	
  	add(menuItemExit);
+	add(currPlayerLabel);
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class CluedoMenuBar extends JMenuBar implements ActionListener{
 	}
 
 	public void updatePlayerLabel(Player p) {
-		currPlayerLabel.setText(p.getIRLname());
+		currPlayerLabel.setText("Current Player: "+p.getIRLname());
 		
 	}
 }
