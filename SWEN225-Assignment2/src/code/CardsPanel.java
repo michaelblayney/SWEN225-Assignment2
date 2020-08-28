@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -20,8 +21,8 @@ public class CardsPanel extends JPanel {
 
 	private static int cardsWidth = 200;
 	private static int cardsHeight = 400;
-	private static int topGap = 40;
-	private static Dimension cardHolder = new Dimension(cardsWidth-20, 50);
+	private static int topGap = 70;
+	private static Dimension cardHolder = new Dimension(cardsWidth-20, 100);
 	JPanel wCards, cCards, lCards;
 	Player currentPlayer;
 	Game game;
@@ -75,50 +76,112 @@ public class CardsPanel extends JPanel {
 		label = new JLabel("Weapons:");
 		constraints.gridx = 0;	
 		constraints.gridy = 2;
-		constraints.insets = new Insets(40, 0, 0, 0);
+		constraints.insets = new Insets((topGap), 0, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(label, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = 3;
-		constraints.insets = new Insets(55, 10, 0, 0);
+		constraints.insets = new Insets((topGap) + (cardHolder.height*0) + 15, 10, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(wCards, constraints);
 		
 		label = new JLabel("Characters:");
 		constraints.gridx = 0;	
 		constraints.gridy = 4;
-		constraints.insets = new Insets((topGap*2) + cardHolder.height, 0, 0, 0);
+		constraints.insets = new Insets((topGap) + cardHolder.height + 20, 0, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(label, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = 5;
-		constraints.insets = new Insets((topGap*2) + cardHolder.height + 15, 10, 0, 0);
+		constraints.insets = new Insets((topGap) + cardHolder.height + 35, 10, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(cCards, constraints);
 		
 		label = new JLabel("Locations:");
 		constraints.gridx = 0;	
 		constraints.gridy = 6;
-		constraints.insets = new Insets((topGap*3) + (cardHolder.height * 2), 0, 0, 0);
+		constraints.insets = new Insets((topGap) + (cardHolder.height * 2) + 40, 0, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(label, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = 7;
-		constraints.insets = new Insets((topGap*3) + (cardHolder.height * 2) + 15, 10, 0, 0);
+		constraints.insets = new Insets((topGap) + (cardHolder.height * 2) + 55, 10, 0, 0);
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(lCards, constraints);
 		
 		
 	}
 	
-	
+	/*
+	 * TO-DO: actually need to find out how to get this panel to update in the first place.
+	 * TO-DO: find out how to get the current player.
+	 * */
 	public void updateCards() {
 		
-		currentPlayer = game.getCurrentPlayer();
 		
+		currentPlayer = game.getCurrentPlayer();
+		if (currentPlayer == null) return; //minor safeguard
+		
+		ArrayList<Card> hand = currentPlayer.getCards();
+		ArrayList<Card> wList = new ArrayList<Card>(); //weapons
+		ArrayList<Card> cList = new ArrayList<Card>(); //character
+		ArrayList<Card> lList = new ArrayList<Card>(); //locations/rooms
+		
+		//sort hand into lists of weapons, characters and locations
+		
+		for (Card c : hand) {
+			if (c instanceof WeaponCard) {
+				wList.add(c);
+			} else if(c instanceof CharacterCard) {
+				cList.add(c);
+			} else if(c instanceof RoomCard) {
+				lList.add(c);
+			}
+		}
+		
+		drawCards(wList, wCards);
+		drawCards(cList, cCards);
+		drawCards(lList, lCards);
+		
+		
+		//Test stuff down here - delete later
+		/*
+		//weapon cards
+		g = wCards.getGraphics();
+		g.setColor(Color.black);
+		g.fillRect(10, 5, 20, 40);
+		
+		//character cards
+		g = cCards.getGraphics();
+		g.setColor(Color.black);
+		g.fillRect(10, 5, 20, 40);
+		
+		//location cards
+		g = lCards.getGraphics();
+		g.setColor(Color.black);
+		g.fillRect(10, 5, 20, 40);
+		*/
+		
+	}
+	
+	private void drawCards(ArrayList<Card> l, JPanel p) {
+		
+		GridBagConstraints constraints = new GridBagConstraints();
+		JLabel text;  //just using text for now, can change later
+		int x = 5;
+		int y = 10;
+		
+		for (int i = 0; i <l.size() ; i++) {
+			Card c = l.get(i);
+			if (i == 3) { x = 95; y = 10;} //adjusts the x and y values when reaching the 4th card to move across 1 and back to the top
+			constraints.insets = new Insets(y, x, 0, 0); // set where the text 
+			text = new JLabel(c.getName()); //put card name in label
+			p.add(text, constraints); 
+			y += 30;
+		}
 	}
 	
 }
