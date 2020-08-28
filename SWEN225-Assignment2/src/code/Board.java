@@ -34,6 +34,7 @@ public class Board {
 	// ------------------------
 
 	public Board(Game aGame, String[] roomNamesToInit) {
+		game=aGame;
 		for(String s:roomNamesToInit){
 			exitMap.put(s, new ArrayList<>());
 			roomMap.put(s, new ArrayList<>());

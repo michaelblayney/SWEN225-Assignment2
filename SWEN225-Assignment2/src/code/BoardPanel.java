@@ -12,8 +12,9 @@ import javax.swing.JPanel;
  */
 public class BoardPanel extends JPanel implements MouseListener{
 
-
-
+	private Point clickedPoint;
+	private int cellWidth;
+	private int cellHeight;
 	private Board boardField;//TODO REMOVE THIS WHEN ABLE
 	private static final int lineWidth=2;
 
@@ -38,10 +39,12 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("X: "+e.getX());
-		System.out.println("Y: "+e.getY());
+		System.out.println("Raw X: "+e.getX());
+		System.out.println("Raw Y: "+e.getY());
 		// TODO Auto-generated method stub
-		
+		System.out.println("Coord X: "+(e.getX()/cellWidth));
+		System.out.println("Coord Y: "+(e.getY()/cellHeight));
+		clickedPoint = new Point(e.getX()/cellWidth, e.getX()/cellHeight);
 	}
 
 	@Override
@@ -75,13 +78,12 @@ public class BoardPanel extends JPanel implements MouseListener{
 		//TODO Particularly, it must be passed in a current snapshot of the board.
 		//Particularly, this is just going to be in effect until enough of the rest of the program works so that the board can be called from the game class (as currently it is not)
 
-
 		//Panel's size is 400x400
 		//Cluedo has 24x25 tileset grid
 		//16 pixels per tile in optimal conditions.
 		//Maybe add a set of null tiles so it's 25x25?
-		int cellHeight=(int) (this.getSize().getHeight()/25);
-		int cellWidth=(int) (this.getSize().getWidth()/25);
+		cellHeight=(int) (this.getSize().getHeight()/25);
+		cellWidth=(int) (this.getSize().getWidth()/25);
 		for(int i=0; i<25; i++){
 			for(int j=0; j<25; j++){
 				//g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
@@ -207,8 +209,16 @@ public class BoardPanel extends JPanel implements MouseListener{
 						System.out.println("ERROR! TRIED TO DRAW INVALID CHARACTER:"+charName);
 				}//Correct colour is selected, now draw the symbol.
 				g.fillOval(xTopLeft+cellWidth/4,yTopLeft+cellHeight/4,cellWidth/2,cellHeight/2);
-
-
+				//If this character is the current character, draw a black circle around them!
+				Game gam = boardField.getGame();
+				Player p = gam.getCurrentPlayer();
+				MoveablePiece currentCharacter = p.getCharacter();
+				if(pieceToDraw==currentCharacter) {
+					g.setColor(Color.black);
+					int circleWidth= (int) (cellWidth/1.25);
+					int circleHeight= (int) (cellHeight/1.25);
+					g.drawOval(xTopLeft+cellWidth/8,yTopLeft+cellWidth/8,circleWidth,circleHeight);
+				}
 
 			} else if (pieceToDraw instanceof Weapon){
 				g.setColor(Color.red);
@@ -247,24 +257,62 @@ public class BoardPanel extends JPanel implements MouseListener{
 				System.out.println("CRITICAL ERROR! TRIED TO DRAW PIECE:"+pieceToDraw+" WHICH IS NEITHER A CHARACTER NOR A WEAPON.");
 			}
 
-
-
-
-
-
-
-
-
 		}
-
 
 		g.setColor(Color.red);//for debugging. Anything which is drawn which SHOULDN'T be drawn will be in red.
 
-
-
-
 	}
 
+	public char getUserMovementOneTile(Board b, Player currentPlayer){
+		boolean continueLoop=true;
+		char toReturn='f';
+		while(continueLoop){//This loop constantly checks if the clicked point is "valid" or not. If not then nothing happens.
+            //wait
+			if(true){//TODO Replace with "If clicked point is adjacent to character"
+				if(isValidAdjacentMove(b, currentPlayer, 0, 1))
+					return 's';
+				if(isValidAdjacentMove(b, currentPlayer, 0, -1))
+					return 'n';
+				if(isValidAdjacentMove(b, currentPlayer, 1, 0))
+					return 'e';
+				if(isValidAdjacentMove(b, currentPlayer, -1, 0))
+					return 'w';
+			}
+
+		}
+		return toReturn;
+	}
+
+	/**
+	 * Checks the change in x and y coordinates given and sees if it's a valid move given the current player's position
+	 * Only considers single-space moves, no diagonals.
+	 * @param b
+	 * @param currentPlayer
+	 * @param xchange
+	 * @param ychange
+	 * @return
+	 */
+	private boolean isValidAdjacentMove(Board b, Player currentPlayer, int xchange, int ychange){
+		MoveablePiece currentChar=currentPlayer.getCharacter();
+		Location[][] cells = b.getCellsToDraw();
+		int xToCheck=currentChar.getX()+xchange;
+		int yToCheck=currentChar.getY()+ychange;
+
+		if(cells.length<xToCheck && xToCheck > 0 && cells[0].length<yToCheck && yToCheck>0){//If the spot on the cell array is valid
+			Location checkedCell=cells[xToCheck][yToCheck];
+			if(checkedCell==null)
+				return false;
+			if(checkedCell instanceof Hallway)
+				return true;
+			if(checkedCell instanceof Room){
+				Room doorCheck = (Room) checkedCell;
+				return doorCheck.isDoor();//If it's a door, moving is valid. Else, it's not.
+			}
+
+		}
+
+		return false;
+	}
 
 
 
