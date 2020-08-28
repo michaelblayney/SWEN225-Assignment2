@@ -179,6 +179,7 @@ public class GUI extends JFrame implements Observer{
 			}
 		}else if(arg instanceof Player) {
 			menuBar.updatePlayerLabel((Player)arg);
+			//interactionPanel.updatePlayer((Player)arg);
 		}
 		
 	}

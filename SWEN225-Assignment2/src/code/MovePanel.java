@@ -13,8 +13,8 @@ public class MovePanel extends JPanel implements ActionListener {
 	Player currentPlayer;
 
 	public MovePanel() {
-		if(this.getParent().getParent().getParent() instanceof GUI)
-			currentPlayer = ((GUI) this.getParent().getParent().getParent()).getPlayer();
+//		if(this.getParent().getParent().getParent() instanceof GUI)
+//			currentPlayer = ((GUI) this.getParent().getParent().getParent()).getPlayer();
 		createMovePanel();
 	}
 

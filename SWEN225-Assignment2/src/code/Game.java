@@ -52,7 +52,7 @@ public class Game extends Observable{
 		this.gui = gui;
 		gui.addGame(this);
 		this.init();
-		//this.doGameLoop(); Need to start game loop once the gameplay panel has been switched to
+		this.doGameLoop(); //Need to start game loop once the gameplay panel has been switched to
 	}
 
 	// ------------------------
