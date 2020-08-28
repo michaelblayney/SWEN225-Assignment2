@@ -5,10 +5,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.*;
+
+import code.Game.GameState;
 
 /* Custom JPanel class to display cards in current player's hand
  *  and possibly receive mouse input.
@@ -16,7 +20,7 @@ import javax.swing.*;
  *  gotta figure out how to get access to the game in order to use the getcurrentplayer()
  *  to get the cards.
  */
-public class CardsPanel extends JPanel {
+public class CardsPanel extends JPanel implements Observer{
 	
 
 	private static int cardsWidth = 200;
@@ -119,11 +123,19 @@ public class CardsPanel extends JPanel {
 	 * TODO: actually need to find out how to get this panel to update in the first place.
 	 * TODO: find out how to get the current player.
 	 * */
-	public void updateCards() {
+	public void updateCards(Player p) {
 		
-		this.getParent().getParent().getParent().getParent();
-		currentPlayer = game.getCurrentPlayer();
-		if (currentPlayer == null) return; //minor safeguard
+		wCards.removeAll();
+		cCards.removeAll();
+		lCards.removeAll();
+		
+		
+		currentPlayer = p;
+		if (currentPlayer == null) {
+			this.repaint();
+			this.revalidate();
+			return; 
+		}
 		
 		ArrayList<Card> hand = currentPlayer.getCards();
 		ArrayList<Card> wList = new ArrayList<Card>(); //weapons
@@ -165,27 +177,43 @@ public class CardsPanel extends JPanel {
 		g.fillRect(10, 5, 20, 40);
 		*/
 		
+		//dont know if this is how redrawing these things work
+		this.repaint();
 		this.revalidate();
+		
 	}
 	
 	/**
-	 * Private method called by the updateCards Method that draws the cards/ writes the names of cards from a given list into a given panel*/
+	 * Private method called by the updateCards Method that "draws" the cards/ writes the names of cards from a given list into a given panel*/
 	private void drawCards(ArrayList<Card> l, JPanel p) {
 		
 		//All this is currently untested.
 		
-		GridBagConstraints constraints = new GridBagConstraints();
-		JLabel text;  //just using text for now, can change later
-		int x = 5;
-		int y = 10;
+		GridBagConstraints constraints = new GridBagConstraints(); //used to put text where i want it to go
+		JLabel text;  //just using text for now, can change later if buttons or radios are wanted
+		int x = 5; 	//inset value for the x axis
+		int y = 10;	//inset value for the y axis
 		
 		for (int i = 0; i <l.size() ; i++) {
 			Card c = l.get(i);
 			if (i == 3) { x = 95; y = 10;} //adjusts the x and y values when reaching the 4th card to move across 1 and back to the top
-			constraints.insets = new Insets(y, x, 0, 0); // set where the text 
-			text = new JLabel(c.getName()); //put card name in label
+			constraints.insets = new Insets(y, x, 0, 0); 
+			text = new JLabel(c.getName()); 
 			p.add(text, constraints); 
-			y += 30;
+			y += 30; // pushes the y inset value for the next card (if there is one.)
+		}
+	}
+	
+	/*idea is to update when currentPlayer is changed in the Game, I think, don't think this is actually how it's supposed to work, think cardspanel would
+	 * need to be added as an observer in the Game.
+	 * 
+	 * Might be in the GUI.update() where a switch-case could be made to for (arg instanceof Player) that calls the cardspanel.updateCards(Player p) somehow?
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		if (arg instanceof Player) {
+			this.updateCards((Player) arg);
 		}
 	}
 	
