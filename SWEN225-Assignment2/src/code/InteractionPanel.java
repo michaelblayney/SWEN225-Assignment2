@@ -11,6 +11,13 @@ import javax.swing.*;
  */
 public class InteractionPanel extends SwitchPanel {
 
+	public CardCombination suggestionCards = null;
+	public CardCombination accusationCards = null;
+	public char moveDirection = '\u0000';
+	public int exitDoor = -1;
+	public enum DesiredGameState {SUGGESTING, ACCUSING, MOVING, EXITING};
+	public DesiredGameState desiredGameState = null;
+
 	public InteractionPanel(CardLayout cardLayout) {
 		super(cardLayout);
 

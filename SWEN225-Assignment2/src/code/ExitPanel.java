@@ -103,7 +103,8 @@ public class ExitPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-			if(this.getParent() instanceof InteractionPanel)
-				((InteractionPanel) this.getParent()).switchToView("Moving");
+
+//			if(this.getParent() instanceof InteractionPanel)
+//				((InteractionPanel) this.getParent()).switchToView("Moving");
 	}
 }

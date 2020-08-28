@@ -17,7 +17,7 @@ public class MovePanel extends JPanel implements ActionListener {
 
 	public void createMovePanel(){
 		JLabel titleLabel, promptLabel, nameLabel, rollLabel, movesLabel;
-		JButton endButton, enterRoomButton;
+		JButton northButton, southButton, eastButton, westButton, endButton, enterRoomButton;
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		setLayout(new GridBagLayout());
@@ -38,7 +38,7 @@ public class MovePanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(nameLabel, constraints);
 
-		promptLabel = new JLabel("(Click on a tile to move to that location)");
+		promptLabel = new JLabel("(Click a button or click on a tile to move to that location)");
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.weighty = 20;	// Move it up towards the title
@@ -62,10 +62,46 @@ public class MovePanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Reset anchor
 		add(movesLabel, constraints);
 
+		northButton = new JButton("^");
+		northButton.addActionListener(this);
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.weighty = 1;
+		constraints.insets = new Insets(0, 0, 10, 10); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor right
+		add(northButton, constraints);
+
+		southButton = new JButton("v");
+		southButton.addActionListener(this);
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.weighty = 1;
+		constraints.insets = new Insets(0, 0, 10, 10); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor right
+		add(southButton, constraints);
+
+		eastButton = new JButton(">");
+		eastButton.addActionListener(this);
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.weighty = 1;
+		constraints.insets = new Insets(0, 130, 10, 0); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor right
+		add(eastButton, constraints);
+
+		westButton = new JButton("<");
+		westButton.addActionListener(this);
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.weighty = 1;
+		constraints.insets = new Insets(0, 0, 10, 150); // Push towards horizontal centre line
+		constraints.anchor = GridBagConstraints.PAGE_START;	// Anchor right
+		add(westButton, constraints);
+
 		endButton = new JButton("End turn");
 		endButton.addActionListener(this);
 		constraints.gridx = 0;
-		constraints.gridy = 4;
+		constraints.gridy = 5;
 		constraints.weighty = 1;
 		constraints.insets = new Insets(0, 0, 10, 10); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
@@ -74,7 +110,7 @@ public class MovePanel extends JPanel implements ActionListener {
 		enterRoomButton = new JButton("*Enters a room* (Testing)");
 		enterRoomButton.addActionListener(this);
 		constraints.gridx = 0;
-		constraints.gridy = 4;
+		constraints.gridy = 5;
 		constraints.weighty = 1;
 		constraints.insets = new Insets(0, 0, 10, 100); // Push towards horizontal centre line
 		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
@@ -83,10 +119,10 @@ public class MovePanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("*Enters a room* (Testing)")){
-			if(this.getParent() instanceof InteractionPanel)
-				((InteractionPanel) this.getParent()).switchToView("Suggesting");
-		}
+//		if(e.getActionCommand().equals("*Enters a room* (Testing)")){
+//			if(this.getParent() instanceof InteractionPanel)
+//				((InteractionPanel) this.getParent()).switchToView("Suggesting");
+//		}
 
 		if(e.getActionCommand().equals("End turn")){
 			if(this.getParent() instanceof InteractionPanel)

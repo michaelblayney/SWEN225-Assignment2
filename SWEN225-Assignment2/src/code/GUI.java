@@ -66,9 +66,9 @@ public class GUI extends JFrame implements Observer{
 		initPanel.setOpaque(true);
 		initPanel.setBackground(Color.PINK);
 		initPanel.setPreferredSize(windowDimension);
-		
-		
-				
+
+
+
 		// add stuff to frame
 		this.setJMenuBar(menuBar);
 		
@@ -186,38 +186,38 @@ public class GUI extends JFrame implements Observer{
 	}
 	
 	public void doPlayerSetup() {
-		
+
 		Object[] possibilities = {2, 3, 4, 5, 6};
-		int numPlayers = (Integer)JOptionPane.showInputDialog(
-		                    this,
-		                    "How many players will there be?",
-		                    "Setup",
-		                    JOptionPane.PLAIN_MESSAGE,
-		                    null,
-		                    possibilities,
-		                    2);
+		int numPlayers = (Integer) JOptionPane.showInputDialog(
+				this,
+				"How many players will there be?",
+				"Setup",
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				possibilities,
+				2);
 
 		game.setNumPlayers(numPlayers);
-		
-		for(int i=0; i<numPlayers; i++) {
-			String playerName = (String)JOptionPane.showInputDialog(
-                    this,
-                    ("What is Player " + (i+1) + "'s name?"),
-                    "Setup",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    null,
-                    null,
-                    null);
-			
-			String playerCharacter = (String)JOptionPane.showInputDialog(
-                    this,
-                    ("What character would you like to play, " + playerName+"?"),
-                    "Setup",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    game.getUnassignedCharacters(),
-                    null);
-			
+
+		for (int i = 0; i < numPlayers; i++) {
+			String playerName = (String) JOptionPane.showInputDialog(
+					this,
+					("What is Player " + (i + 1) + "'s name?"),
+					"Setup",
+					JOptionPane.OK_CANCEL_OPTION,
+					null,
+					null,
+					null);
+
+			String playerCharacter = (String) JOptionPane.showInputDialog(
+					this,
+					("What character would you like to play, " + playerName + "?"),
+					"Setup",
+					JOptionPane.PLAIN_MESSAGE,
+					null,
+					game.getUnassignedCharacters(),
+					null);
+
 			game.createPlayer(playerName, playerCharacter);
 		}
 	}

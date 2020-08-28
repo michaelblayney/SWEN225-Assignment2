@@ -52,7 +52,7 @@ public class Game extends Observable{
 		this.gui = gui;
 		gui.addGame(this);
 		this.init();
-		this.doGameLoop();
+		//this.doGameLoop(); Need to start game loop once the gameplay panel has been switched to
 	}
 
 	// ------------------------
@@ -83,21 +83,21 @@ public class Game extends Observable{
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
 
-		setGameStateTo(GameState.SUGGESTING);
-
+		setGameStateTo(GameState.MOVING);
 		// Getting number of players
-		ui.println("CLUEDO");
-		ui.println("How many people are playing?");
+		//ui.println("CLUEDO");
+		//ui.println("How many people are playing?");
 
 		//numPlayers = ui.scanInt(minNumOfPlayers, maxNumOfPlayers, scan);
 
-		ui.println("Num of players: " + numPlayers);
+		//ui.println("Num of players: " + numPlayers);
 
 		// Creating Players, and assigning the players to characters
 		//String[] playerNames = {"Jim, Harry, Vlad"};
 		
 		//createPlayer("Vlad");
-		dealCards();
+
+		//dealCards();
 		//notifyObservers();
 	}
 
@@ -258,6 +258,7 @@ public class Game extends Observable{
 
 
 	private void doGameLoop() throws InterruptedException {
+		System.out.println("Doing game loop, num of Players: " + players.length);
 		int whichPlayersTurn = 0;
 		while (!gameFinished) {
 			
@@ -608,6 +609,7 @@ public class Game extends Observable{
 	public void setGameStateTo(GameState state) {
 		gameState = state;
 		this.setChanged();
+		System.out.println("Game state: " + gameState);
 		notifyObservers(gameState);
 	}
 	

@@ -271,7 +271,11 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 
 		if(e.getActionCommand().equals("No"))
 			if(this.getParent() instanceof InteractionPanel)
-				((InteractionPanel) this.getParent()).switchToView("Accusing");
+				//Set state to accusing
+				//((InteractionPanel) this.getParent()).suggestionCards = null;
+				((InteractionPanel) this.getParent()).desiredGameState = InteractionPanel.DesiredGameState.ACCUSING;
+
+
 
 		if(e.getActionCommand().equals("Suggest selected character"))	// A bit round about but doing it for now
 			switchPanelTo("Weapon");
