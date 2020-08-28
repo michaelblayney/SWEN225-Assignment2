@@ -121,7 +121,7 @@ public class CardsPanel extends JPanel {
 	 * */
 	public void updateCards() {
 		
-		
+		this.getParent().getParent().getParent().getParent();
 		currentPlayer = game.getCurrentPlayer();
 		if (currentPlayer == null) return; //minor safeguard
 		
