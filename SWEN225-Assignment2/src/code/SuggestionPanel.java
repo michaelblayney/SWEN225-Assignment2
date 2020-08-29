@@ -11,7 +11,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 	Player currentPlayer;
 	String currentPlayerName = "";
 	Card characterCard;
-	JLabel nameLabel;
+	JLabel nameLabel, characterLabel;
 
 
 	public SuggestionPanel() {
@@ -42,14 +42,6 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(5, 0, 0, 0);
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		questionPanel.add(titleLabel, constraints);
-
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		questionPanel.add(nameLabel, constraints);
 
 		promptLabel = new JLabel("Would you like to make a suggestion?");
 		constraints.gridx = 0;
@@ -94,13 +86,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		characterPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		characterPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("Who do you suggest?");
 		constraints.gridx = 0;
@@ -188,13 +174,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		weaponPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		weaponPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("What weapon do you suggest?");
 		constraints.gridx = 0;
@@ -270,27 +250,34 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Yes"))
+		if (e.getActionCommand().equals("Yes")){
 			switchPanelTo("Character");
+		}
 
-		if(e.getActionCommand().equals("No"))
-			if(this.getParent() instanceof InteractionPanel)
-				//Set state to accusing
-				//((InteractionPanel) this.getParent()).suggestionCards = null;
-				((InteractionPanel) this.getParent()).desiredGameState = InteractionPanel.DesiredGameState.ACCUSING;
+		if(e.getActionCommand().equals("No")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(null);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
 
-
-
-		if(e.getActionCommand().equals("Suggest selected character"))	// A bit round about but doing it for now
+		if(e.getActionCommand().equals("Suggest selected character")) {
+			//Get this character's card and add it to the combo
 			switchPanelTo("Weapon");
+		}
 
-		if(e.getActionCommand().equals("Suggest selected weapon"))
-				if(this.getParent() instanceof InteractionPanel)
-					((InteractionPanel) this.getParent()).switchToView("Accusing");
+		if(e.getActionCommand().equals("Suggest selected weapon")){
+			//Get this weapon's card and add it to the combo
+			//finalise combo and send card combo back to GUI
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				//((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(*Card Combination*);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
 	}
 
 	public void updatePlayerName(Player p){
-		nameLabel.setText(p.getIRLname() + "'s turn");
+		currentPlayer = p;
 	}
 
 }

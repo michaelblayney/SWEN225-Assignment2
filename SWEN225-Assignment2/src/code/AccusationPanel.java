@@ -9,14 +9,9 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	JPanel questionPanel, characterPanel, roomPanel, weaponPanel;
 	Player currentPlayer;
-	String currentPlayerName = "";
 	JLabel nameLabel;
 
 	public AccusationPanel() {
-		if(this.getParent() instanceof InteractionPanel){
-			currentPlayer = ((InteractionPanel) this.getParent()).currentPlayer;
-			currentPlayerName = currentPlayer.getIRLname();
-		}
 		setLayout(new CardLayout()); // The SuggestionPanel has multiple panels it switches between
 		createQuestionPanel();
 		add(questionPanel, "Question");
@@ -43,14 +38,6 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(5, 0, 0, 0);
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		questionPanel.add(titleLabel, constraints);
-
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		questionPanel.add(nameLabel, constraints);
 
 		promptLabel = new JLabel("Would you like to make an accusation?");
 		constraints.gridx = 0;
@@ -95,13 +82,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		characterPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		characterPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("Who do you accuse?");
 		constraints.gridx = 0;
@@ -189,13 +170,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		roomPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		roomPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("What room was the murder in?");
 		constraints.gridx = 0;
@@ -310,13 +285,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		weaponPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		weaponPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("What weapon did they use?");
 		constraints.gridx = 0;
@@ -392,26 +361,31 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Yes"))
+		if(e.getActionCommand().equals("Yes")) {
 			switchPanelTo("Character");
+		}
 
-		if(e.getActionCommand().equals("No"))
+		if(e.getActionCommand().equals("No")) {
 			if(this.getParent() instanceof InteractionPanel)
 				((InteractionPanel) this.getParent()).switchToView("Exiting");
+		}
 
-		if(e.getActionCommand().equals("Accuse selected character"))	// A bit round about but doing it for now
+		if(e.getActionCommand().equals("Accuse selected character")){	// A bit round about but doing it for now
 			switchPanelTo("Room");
+		}
 
-		if(e.getActionCommand().equals("Accuse selected room"))
+		if(e.getActionCommand().equals("Accuse selected room")) {
 			switchPanelTo("Weapon");
+		}
 
-		if(e.getActionCommand().equals("Make accusation"))
-				if(this.getParent() instanceof InteractionPanel)
-					((InteractionPanel) this.getParent()).switchToView("Exiting");
+		if(e.getActionCommand().equals("Make accusation")) {
+			if(this.getParent() instanceof InteractionPanel)
+				((InteractionPanel) this.getParent()).switchToView("Exiting");
+		}
 	}
 
 	public void updatePlayerName(Player p){
-		nameLabel.setText(p.getIRLname() + "'s turn");
+		currentPlayer = p;
 	}
 	
 }

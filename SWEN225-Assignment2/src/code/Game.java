@@ -333,10 +333,10 @@ public class Game extends Observable{
 					//gui.update(this, "Suggesting");
 					collector.setWorkStateTo(WorkState.WAITING);
 					while(collector.getWorkState().equals(WorkState.WAITING)) {
-						wait(100);
+						Thread.sleep(100);
+						System.out.println("Waiting");
 					}
-
-					if(collector.getInput() == null){}//No suggestion
+					if(collector.getInput() == null){}	//No suggestion
 
 					//ui.println("Do you want to make an suggestion? (y / n)");
 					//char suggestChar = ui.scanChar(validYesNoChars, scan);
@@ -348,28 +348,44 @@ public class Game extends Observable{
 				
 				//Accusation
 				//GameState switching and GUI updating
-				gameState = GameState.ACCUSING;
-				gui.update(this, "Accusing");
-
-				ui.println("Do you want to make an accusation? (y / n)");
-				char accuseChar = ui.scanChar(validYesNoChars, scan);
-				if(accuseChar == 'y') {
-					boolean accuseResult = doAccuse(currentPlayer);
-					if(accuseResult) {
-						winGame(currentPlayer);
-					}
-					break;
+				setGameStateTo(GameState.ACCUSING);
+				//gui.update(this, "Accusing");
+				collector.setWorkStateTo(WorkState.WAITING);
+				while(collector.getWorkState().equals(WorkState.WAITING)) {
+					Thread.sleep(100);
+					System.out.println("Waiting");
 				}
+				if(collector.getInput() == null){}	//No accusation
+
+				//ui.println("Do you want to make an accusation? (y / n)");
+				//char accuseChar = ui.scanChar(validYesNoChars, scan);
+//				if(accuseChar == 'y') {
+//					boolean accuseResult = doAccuse(currentPlayer);
+//					if(accuseResult) {
+//						winGame(currentPlayer);
+//					}
+//					break;
+//				}
 				
 				//Leave room
 				if(movesLeft > 0) {
 					//GameState switching and GUI updating
-					gameState = GameState.EXITING;
-					gui.update(this, "Exiting");
+					setGameStateTo(GameState.EXITING);
+					//gui.update(this, "Exiting");
+					while(collector.getWorkState().equals(WorkState.WAITING)) {
+						Thread.sleep(100);
+						System.out.println("Waiting");
+					}
 
-					boolean isFinished = leaveRoom(currentPlayer);
-					movesLeft -= 1;
-					if(isFinished) break;
+					if(collector.getInput() instanceof java.lang.Character){
+						if(((java.lang.Character) collector.getInput()) == 'f'){
+							movesLeft = 0;
+						}
+					}
+
+					//boolean isFinished = leaveRoom(currentPlayer);
+					//movesLeft -= 1;
+					//if(isFinished) break;
 				}
 			} else {
 				// -------------
@@ -377,15 +393,16 @@ public class Game extends Observable{
 				// ---------------
 				//Move player or end turn
 				//GameState switching and GUI updating
-				gameState = GameState.MOVING;
-				gui.update(this, "Moving");
+				setGameStateTo(GameState.MOVING);
+				//gui.update(this, "Moving");
 				gui.update(this, movesLeft);
 
 				collector.setWorkStateTo(WorkState.WAITING);
 				while(collector.getWorkState().equals(WorkState.WAITING)) {
 					Thread.sleep(100);
+					System.out.println("Waiting");
 				}
-				if(collector.getInput() != null){ //Direction n s e w
+				if(collector.getInput() instanceof java.lang.Character) { //Direction n s e w
 					char c = (java.lang.Character) collector.getInput();
 					if(c == 'f'){
 						//End turn

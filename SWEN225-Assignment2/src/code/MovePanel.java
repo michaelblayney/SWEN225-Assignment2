@@ -108,14 +108,14 @@ public class MovePanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
 		add(endButton, constraints);
 
-		enterRoomButton = new JButton("*Enters a room* (Testing)");
-		enterRoomButton.addActionListener(this);
-		constraints.gridx = 0;
-		constraints.gridy = 5;
-		constraints.weighty = 1;
-		constraints.insets = new Insets(0, 0, 10, 100); // Push towards horizontal centre line
-		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
-		add(enterRoomButton, constraints);
+//		enterRoomButton = new JButton("*Enters a room* (Testing)");
+//		enterRoomButton.addActionListener(this);
+//		constraints.gridx = 0;
+//		constraints.gridy = 5;
+//		constraints.weighty = 1;
+//		constraints.insets = new Insets(0, 0, 10, 100); // Push towards horizontal centre line
+//		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
+//		add(enterRoomButton, constraints);
 	}
 
 	@Override
