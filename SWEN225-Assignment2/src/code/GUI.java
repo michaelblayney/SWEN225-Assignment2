@@ -39,6 +39,7 @@ public class GUI extends JFrame implements Observer{
 
 	SwitchPanel interactionPanel;
 	SwitchPanel panelSwitch;
+	CardsPanel cardsPanel;
 	
 	CluedoMenuBar menuBar;
 	private InputCollector collector;
@@ -119,7 +120,7 @@ public class GUI extends JFrame implements Observer{
 		gamePanel.setPreferredSize(windowDimension);
 				
 		// make cards panel
-		JPanel cardsPanel = new CardsPanel();
+		cardsPanel = new CardsPanel();
 		cardsPanel.setOpaque(true);
 		cardsPanel.setBackground(Color.YELLOW);
 		cardsPanel.setPreferredSize(cardDimension);
@@ -181,6 +182,8 @@ public class GUI extends JFrame implements Observer{
 		}else if(arg instanceof Player) {
 			menuBar.updatePlayerLabel((Player)arg);
 			interactionPanel.updatePlayer((Player)arg);
+			cardsPanel.updateCards((Player)arg);
+			
 		}else if(arg instanceof Integer){
 			interactionPanel.updateMovesLeft((Integer) arg);
 		}

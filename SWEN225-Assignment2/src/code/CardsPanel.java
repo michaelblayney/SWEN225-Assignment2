@@ -28,6 +28,8 @@ public class CardsPanel extends JPanel implements Observer{
 	private static int topGap = 70;
 	private static Dimension cardHolder = new Dimension(cardsWidth-20, 100);
 	JPanel wCards, cCards, lCards;
+
+	JPanel currentPlayerTest;
 	Player currentPlayer;
 	Game game;
 	Graphics g;
@@ -117,6 +119,17 @@ public class CardsPanel extends JPanel implements Observer{
 		add(lCards, constraints);
 		
 		
+		 
+		  
+		//testing uncomment to test panel gets player
+		/*
+		currentPlayerTest = new JPanel();
+		currentPlayerTest.setPreferredSize(new Dimension(100,30));
+		constraints.insets = new Insets(-30,0,0,0);
+		constraints.anchor = GridBagConstraints.SOUTH;
+		add(currentPlayerTest, constraints);
+		*/
+		
 	}
 	
 	/*
@@ -128,7 +141,7 @@ public class CardsPanel extends JPanel implements Observer{
 		wCards.removeAll();
 		cCards.removeAll();
 		lCards.removeAll();
-		
+		//currentPlayerTest.removeAll(); // uncomment to test panel gets player
 		
 		currentPlayer = p;
 		if (currentPlayer == null) {
@@ -136,6 +149,9 @@ public class CardsPanel extends JPanel implements Observer{
 			this.revalidate();
 			return; 
 		}
+		
+		
+		//currentPlayerTest.add(new JLabel(p.getIRLname()));  //uncomment to test panel gets player
 		
 		ArrayList<Card> hand = currentPlayer.getCards();
 		ArrayList<Card> wList = new ArrayList<Card>(); //weapons
