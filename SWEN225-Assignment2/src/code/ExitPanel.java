@@ -64,7 +64,7 @@ public class ExitPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		constraints.insets = new Insets(0, 0, 0, 0);	// Reset insets
 		add(exit3, constraints);
-		exit3.disable();
+		exit3.getModel().setEnabled(false); //TODO Implement these
 
 		exit4 = new JButton("Exit (4)");
 		exit1.addActionListener(this);
@@ -73,7 +73,7 @@ public class ExitPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		constraints.insets = new Insets(0, 0, 30, 0);	// Reset insets
 		add(exit4, constraints);
-		exit4.disable();
+		exit4.getModel().setEnabled(false);
 
 		endButton = new JButton("End turn");
 		endButton.addActionListener(this);
