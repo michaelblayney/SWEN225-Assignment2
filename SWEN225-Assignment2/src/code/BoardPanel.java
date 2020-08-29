@@ -68,6 +68,18 @@ public class BoardPanel extends JPanel implements MouseListener{
 	public void drawBoard(Board board, ArrayList<Location> cellsToHighlight){
 		Graphics g = this.getGraphics();//Gets the graphics object so we can work with it directly.
 
+		//Panel's size is 400x400
+		//Cluedo has 24x25 tileset grid
+		//16 pixels per tile in optimal conditions.
+		//Maybe add a set of null tiles so it's 25x25?
+		cellHeight=(int) (this.getSize().getHeight()/25);
+		cellWidth=(int) (this.getSize().getWidth()/25);
+		for(int i=0; i<25; i++){
+			for(int j=0; j<25; j++){
+				//g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
+				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth,cellHeight, g, null, i, j);//TODO ADD BOARD INPUT HERE
+			}
+		}
 
 	}
 
@@ -264,11 +276,19 @@ public class BoardPanel extends JPanel implements MouseListener{
 	}
 
 	public char getUserMovementOneTile(Board b, Player currentPlayer){
-		boolean continueLoop=true;
+		//boolean continueLoop=true;
 		char toReturn='f';
-		while(continueLoop){//This loop constantly checks if the clicked point is "valid" or not. If not then nothing happens.
+		MoveablePiece character = currentPlayer.getCharacter();
+		int playerx=character.getX();
+		int playery=character.getY();
+		while(true){//This loop constantly checks if the clicked point is "valid" or not. If not then nothing happens.
             //wait
-			if(true){//TODO Replace with "If clicked point is adjacent to character"
+			if(//"If clicked point is adjacent to the character, check if the tile is valid, then return.
+					(clickedPoint.x==playerx && clickedPoint.y==playery+1) ||
+					(clickedPoint.x==playerx && clickedPoint.y==playery-1) ||
+					(clickedPoint.x==playerx+1 && clickedPoint.y==playery)||
+					(clickedPoint.x==playerx-1 && clickedPoint.y==playery)
+			){
 				if(isValidAdjacentMove(b, currentPlayer, 0, 1))
 					return 's';
 				if(isValidAdjacentMove(b, currentPlayer, 0, -1))
@@ -280,7 +300,6 @@ public class BoardPanel extends JPanel implements MouseListener{
 			}
 
 		}
-		return toReturn;
 	}
 
 	/**
