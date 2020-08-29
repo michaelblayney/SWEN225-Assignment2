@@ -43,7 +43,7 @@ public class GUI extends JFrame implements Observer{
 	CluedoMenuBar menuBar;
 	private InputCollector collector;
 
-	public GUI() {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
+	public GUI() {
 		
 		
 		
@@ -169,6 +169,7 @@ public class GUI extends JFrame implements Observer{
 				break;
 			case SUGGESTING:
 				interactionPanel.switchToView("Suggesting");
+				collector.setWorkStateTo(Game.WorkState.WAITING);
 				break;
 			case MOVING:
 				interactionPanel.switchToView("Moving");
@@ -179,7 +180,10 @@ public class GUI extends JFrame implements Observer{
 			}
 		}else if(arg instanceof Player) {
 			menuBar.updatePlayerLabel((Player)arg);
-			//interactionPanel.updatePlayer((Player)arg);
+			interactionPanel.updatePlayer((Player)arg);
+		}else if(arg instanceof Integer){
+			//For roll and movesleft
+
 		}
 		
 	}
@@ -227,6 +231,10 @@ public class GUI extends JFrame implements Observer{
 
 	public Player getPlayer(){
 		return currentPlayer;
+	}
+
+	public void setCollectorState(Game.WorkState workState){
+		
 	}
 
 }

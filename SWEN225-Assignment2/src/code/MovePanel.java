@@ -7,19 +7,18 @@ import java.awt.event.ActionListener;
 
 public class MovePanel extends JPanel implements ActionListener {
 
-	String currentPlayerName = "Michael";	// Just for now
+	String currentPlayerName = "";
 	int movesLeft = 6;
 	int roll = 9;
 	Player currentPlayer;
+	JLabel nameLabel;
 
 	public MovePanel() {
-//		if(this.getParent().getParent().getParent() instanceof GUI)
-//			currentPlayer = ((GUI) this.getParent().getParent().getParent()).getPlayer();
 		createMovePanel();
 	}
 
 	public void createMovePanel(){
-		JLabel titleLabel, promptLabel, nameLabel, rollLabel, movesLabel;
+		JLabel titleLabel, promptLabel, rollLabel, movesLabel;
 		JButton northButton, southButton, eastButton, westButton, endButton, enterRoomButton;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -131,5 +130,9 @@ public class MovePanel extends JPanel implements ActionListener {
 			if(this.getParent() instanceof InteractionPanel)
 				((InteractionPanel) this.getParent()).switchToView("Moving");
 		}
+	}
+
+	public void updatePlayerName(Player p){
+		nameLabel.setText(p.getIRLname() + "'s turn");
 	}
 }

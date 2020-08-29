@@ -8,9 +8,15 @@ import java.awt.event.ActionListener;
 public class AccusationPanel extends JPanel implements ActionListener {
 
 	JPanel questionPanel, characterPanel, roomPanel, weaponPanel;
-	String currentPlayerName = "Michael";	// Just for now
+	Player currentPlayer;
+	String currentPlayerName = "";
+	JLabel nameLabel;
 
 	public AccusationPanel() {
+		if(this.getParent() instanceof InteractionPanel){
+			currentPlayer = ((InteractionPanel) this.getParent()).currentPlayer;
+			currentPlayerName = currentPlayer.getIRLname();
+		}
 		setLayout(new CardLayout()); // The SuggestionPanel has multiple panels it switches between
 		createQuestionPanel();
 		add(questionPanel, "Question");
@@ -74,7 +80,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 	public void createCharacterPanel(){
 		characterPanel = new JPanel();
 		ButtonGroup characterRadioButtons = new ButtonGroup();
-		JLabel titleLabel, promptLabel, nameLabel;
+		JLabel titleLabel, promptLabel;
 		JRadioButton mrsWhiteRB, mrGreenRB, mrsPeacockRB, profPlumRB, msScarletRB, colMustardRB;
 		JButton confirmCharacter;
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -402,6 +408,10 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		if(e.getActionCommand().equals("Make accusation"))
 				if(this.getParent() instanceof InteractionPanel)
 					((InteractionPanel) this.getParent()).switchToView("Exiting");
+	}
+
+	public void updatePlayerName(Player p){
+		nameLabel.setText(p.getIRLname() + "'s turn");
 	}
 	
 }

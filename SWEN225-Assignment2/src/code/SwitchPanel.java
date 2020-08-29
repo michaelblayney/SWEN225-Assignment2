@@ -22,5 +22,8 @@ public class SwitchPanel extends JPanel {
 	public void switchToView(String s) {
 		((CardLayout) getLayout()).show(this, s);
 	}
-	
+
+    public void updatePlayer(Player arg) {
+
+    }
 }

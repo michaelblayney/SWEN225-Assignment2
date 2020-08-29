@@ -7,17 +7,18 @@ import java.awt.event.ActionListener;
 
 public class ExitPanel extends JPanel implements ActionListener {
 
-	String currentPlayerName = "Michael";	// Just for now
+	Player currentPlayer;
+	String currentPlayerName = "";
 	int movesLeft = 6;
 	int roll = 9;
+	JLabel nameLabel;
 
 	public ExitPanel() {
-		//This whole thing could be done by clicking the board GUI
 		createExitPanel();
 	}
 
 	public void createExitPanel(){
-		JLabel titleLabel, promptLabel, nameLabel, rollLabel, movesLabel;
+		JLabel titleLabel, promptLabel, rollLabel, movesLabel;
 		JButton exit1, exit2, exit3, exit4;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -106,5 +107,9 @@ public class ExitPanel extends JPanel implements ActionListener {
 
 //			if(this.getParent() instanceof InteractionPanel)
 //				((InteractionPanel) this.getParent()).switchToView("Moving");
+	}
+
+	public void updatePlayerName(Player p){
+		nameLabel.setText(p.getIRLname() + "'s turn");
 	}
 }

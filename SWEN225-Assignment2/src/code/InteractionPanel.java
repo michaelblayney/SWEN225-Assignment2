@@ -17,6 +17,11 @@ public class InteractionPanel extends SwitchPanel {
 	public int exitDoor = -1;
 	public enum DesiredGameState {SUGGESTING, ACCUSING, MOVING, EXITING};
 	public DesiredGameState desiredGameState = null;
+	public Player currentPlayer;
+	JPanel accusationPanel = new AccusationPanel();
+	JPanel suggestionPanel;
+	JPanel movePanel;
+	JPanel exitPanel;
 
 	public InteractionPanel(CardLayout cardLayout) {
 		super(cardLayout);
@@ -27,10 +32,10 @@ public class InteractionPanel extends SwitchPanel {
 	public void initialisePanels(){
 		removeAll();
 
-		JPanel accusationPanel = new AccusationPanel();
-		JPanel suggestionPanel = new SuggestionPanel();
-		JPanel movePanel = new MovePanel();
-		JPanel exitPanel = new ExitPanel();
+		accusationPanel = new AccusationPanel();
+		suggestionPanel = new SuggestionPanel();
+		movePanel = new MovePanel();
+		exitPanel = new ExitPanel();
 
 		add(accusationPanel, "Accusing");
 		add(suggestionPanel, "Suggesting");
@@ -41,6 +46,15 @@ public class InteractionPanel extends SwitchPanel {
 	public void switchToView(String s) {
 		//initialisePanels();
 		((CardLayout) getLayout()).show(this, s);
+	}
+
+	@Override
+	public void updatePlayer(Player p){
+		currentPlayer = p;
+		((AccusationPanel) accusationPanel).updatePlayerName(p);
+		((SuggestionPanel) suggestionPanel).updatePlayerName(p);
+		((MovePanel) movePanel).updatePlayerName(p);
+		((ExitPanel) exitPanel).updatePlayerName(p);
 	}
 
 }

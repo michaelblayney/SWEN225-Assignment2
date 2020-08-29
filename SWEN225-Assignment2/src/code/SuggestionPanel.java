@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 public class SuggestionPanel extends JPanel implements ActionListener {
 
 	JPanel questionPanel, characterPanel, weaponPanel;
-	String currentPlayerName = "Michael";	// Just for now
+	Player currentPlayer;
+	String currentPlayerName = "";
 	Card characterCard;
+	JLabel nameLabel;
 
 
 	public SuggestionPanel() {
@@ -27,7 +29,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 
 	public void createQuestionPanel(){
 		questionPanel = new JPanel();
-		JLabel titleLabel, promptLabel, nameLabel;
+		JLabel titleLabel, promptLabel;
 		JButton yesButton, noButton;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -286,4 +288,9 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 				if(this.getParent() instanceof InteractionPanel)
 					((InteractionPanel) this.getParent()).switchToView("Accusing");
 	}
+
+	public void updatePlayerName(Player p){
+		nameLabel.setText(p.getIRLname() + "'s turn");
+	}
+
 }
