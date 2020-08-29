@@ -26,4 +26,8 @@ public class SwitchPanel extends JPanel {
     public void updatePlayer(Player arg) {
 
     }
+
+	public void updateMovesLeft(Integer arg) {
+
+	}
 }

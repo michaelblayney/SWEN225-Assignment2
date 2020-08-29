@@ -48,13 +48,16 @@ public class InteractionPanel extends SwitchPanel {
 		((CardLayout) getLayout()).show(this, s);
 	}
 
-	@Override
 	public void updatePlayer(Player p){
 		currentPlayer = p;
 		((AccusationPanel) accusationPanel).updatePlayerName(p);
 		((SuggestionPanel) suggestionPanel).updatePlayerName(p);
 		((MovePanel) movePanel).updatePlayerName(p);
 		((ExitPanel) exitPanel).updatePlayerName(p);
+	}
+
+	public void updateMovesLeft(Integer i){
+		((MovePanel) movePanel).updateMovesLeft(i);
 	}
 
 }

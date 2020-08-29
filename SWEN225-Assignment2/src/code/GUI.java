@@ -182,8 +182,7 @@ public class GUI extends JFrame implements Observer{
 			menuBar.updatePlayerLabel((Player)arg);
 			interactionPanel.updatePlayer((Player)arg);
 		}else if(arg instanceof Integer){
-			//For roll and movesleft
-
+			interactionPanel.updateMovesLeft((Integer) arg);
 		}
 		
 	}
@@ -233,8 +232,12 @@ public class GUI extends JFrame implements Observer{
 		return currentPlayer;
 	}
 
-	public void setCollectorState(Game.WorkState workState){
-		
+	public void setCollectorState(Game.WorkState s){
+		collector.setWorkStateTo(s);
+	}
+
+	public void setCollectorInput(Object o){
+		collector.addInput(o);
 	}
 
 }

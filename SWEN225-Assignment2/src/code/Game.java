@@ -14,7 +14,7 @@ public class Game extends Observable{
 
 	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING};
 	public enum WorkState { WAITING, NOT_WAITING };
-	private WorkState workState;
+	//private WorkState workState;
 	private GameState gameState;	// please only use setGameStateTo() to modify this - it has the notify built in
 	
 	// Constants
@@ -73,13 +73,11 @@ public class Game extends Observable{
 		setBoard(new Board(this, roomNames));
 		ui = new UI(this);
 		collector = new InputCollector();
-		collector.setWorkStateTo(WorkState.WAITING);
-		
+		collector.setWorkStateTo(WorkState.NOT_WAITING);
+		gui.addCollector(collector);
+
 		cardInit();
-		
-		
-		
-		
+
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
 		
@@ -334,15 +332,18 @@ public class Game extends Observable{
 					setGameStateTo(GameState.SUGGESTING);
 					//gui.update(this, "Suggesting");
 					collector.setWorkStateTo(WorkState.WAITING);
-					while(workState.equals(WorkState.WAITING)) {
-						wait();
+					while(collector.getWorkState().equals(WorkState.WAITING)) {
+						wait(100);
 					}
-					ui.println("Do you want to make an suggestion? (y / n)");
-					char suggestChar = ui.scanChar(validYesNoChars, scan);
-					if(suggestChar == 'y') {
-						doSuggest(currentPlayer);
-						hasSuggested = true;
-					}
+
+					if(collector.getInput() == null){}//No suggestion
+
+					//ui.println("Do you want to make an suggestion? (y / n)");
+					//char suggestChar = ui.scanChar(validYesNoChars, scan);
+					//if(suggestChar == 'y') {
+					//	doSuggest(currentPlayer);
+					//	hasSuggested = true;
+					//}
 				}
 				
 				//Accusation
@@ -378,25 +379,46 @@ public class Game extends Observable{
 				//GameState switching and GUI updating
 				gameState = GameState.MOVING;
 				gui.update(this, "Moving");
+				gui.update(this, movesLeft);
 
-				startedInHall = true;
-				ui.println("Moves left: " + movesLeft);
-				ui.println("Please enter a direction to move in (n, s, e, w, or f to finish your turn)");
-				char moveChar = ui.scanChar(validMoveChars, scan);
-				if(moveChar == 'f') {
-					movesLeft = 0;
-				} else {
-					if(getBoard().isPlayerMoveValid(currentPlayer, moveChar)){//If the move entered is valid
-						getBoard().movePlayer(currentPlayer, moveChar);
-						//ui.drawBoard(board, null);
+				collector.setWorkStateTo(WorkState.WAITING);
+				while(collector.getWorkState().equals(WorkState.WAITING)) {
+					Thread.sleep(100);
+				}
+				if(collector.getInput() != null){ //Direction n s e w
+					char c = (java.lang.Character) collector.getInput();
+					if(c == 'f'){
+						//End turn
+						movesLeft = 0;
+					} else {
+						if(getBoard().isPlayerMoveValid(currentPlayer, c)){ //If the move entered is valid
+						getBoard().movePlayer(currentPlayer, c);
 						gui.drawBoard(getBoard(), null);
-						movesLeft -= 1;}
-					else{//If the move entered was NOT valid.
-						ui.println("Invalid move, please try again.");
+						movesLeft -= 1;
+						}
 					}
 				}
+
+//				startedInHall = true;
+//				gui.update(this, movesLeft);
+//				ui.println("Moves left: " + movesLeft);
+//				ui.println("Please enter a direction to move in (n, s, e, w, or f to finish your turn)");
+//				char moveChar = ui.scanChar(validMoveChars, scan);
+//				if(moveChar == 'f') {
+//					movesLeft = 0;
+//				} else {
+//					if(getBoard().isPlayerMoveValid(currentPlayer, moveChar)){//If the move entered is valid
+//						getBoard().movePlayer(currentPlayer, moveChar);
+//						//ui.drawBoard(board, null);
+//						gui.drawBoard(getBoard(), null);
+//						movesLeft -= 1;}
+//					else{//If the move entered was NOT valid.
+//						ui.println("Invalid move, please try again.");
+//					}
+//				}
 			}
 		}
+		gui.update(this, 0);
 		ui.println("----------------------------");
 		ui.println("END OF TURN");
 		TimeUnit.SECONDS.sleep(2);
@@ -638,7 +660,6 @@ public class Game extends Observable{
 	public void setBoard(Board board) {
 		this.board = board;
 	}
-
 	
 
 }

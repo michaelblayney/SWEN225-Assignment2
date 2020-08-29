@@ -16,16 +16,15 @@ public class InputCollector {
 		
 	}
 	
-	public WorkState getWorkStateTo(WorkState state) {
+	public WorkState getWorkState() {
 		return workState;
-		
 	}
 	
 	public void addInput(Object input) {
 		this.input = input;
 	}
 	
-	public Object getInput(Object input) {
+	public Object getInput() {
 		return input;
 	}
 	
