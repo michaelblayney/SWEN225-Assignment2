@@ -134,7 +134,7 @@ public class GUI extends JFrame implements Observer{
 		// make interaction panel
 		interactionPanel = new InteractionPanel(new CardLayout());
 		interactionPanel.setOpaque(true);
-		interactionPanel.setBackground(Color.BLUE);
+		//interactionPanel.setBackground(Color.GRAY);
 		interactionPanel.setPreferredSize(interactionDimension);
 		interactionPanel.switchToView("Moving");
 		
