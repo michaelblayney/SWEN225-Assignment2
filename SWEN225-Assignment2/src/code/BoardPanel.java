@@ -17,11 +17,13 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private int cellHeight;
 	private Board boardField;//TODO REMOVE THIS WHEN ABLE
 	private static final int lineWidth=2;
+	private GUI gui;//Stores the GUI. Since it's all part of the controller, should be fine.
 
 
 	//Temporary constructor
-	public BoardPanel(Board b){
+	public BoardPanel(Board b, GUI g){
 		boardField=b;
+		gui=g;
 		addMouseListener(this);
 	}
 
@@ -44,7 +46,15 @@ public class BoardPanel extends JPanel implements MouseListener{
 		// TODO Auto-generated method stub
 		System.out.println("Coord X: "+(e.getX()/cellWidth));
 		System.out.println("Coord Y: "+(e.getY()/cellHeight));
-		clickedPoint = new Point(e.getX()/cellWidth, e.getX()/cellHeight);
+		clickedPoint = new Point(e.getX()/cellWidth, e.getY()/cellHeight);
+		if(gui.isCollectorWaiting()&& (gui.getGame().getGameState()== Game.GameState.MOVING)){//If the program is waiting for an input...
+			char output = getUserMovementOneTile(boardField, gui.getGame().getCurrentPlayer());
+			if(output=='f')
+				return;
+			//Else, the given result is valid and a move can occur.
+			gui.setCollectorInput(output);
+			gui.setCollectorState(Game.WorkState.NOT_WAITING);
+		}
 	}
 
 	@Override
@@ -78,7 +88,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			for(int j=0; j<25; j++){
 				//g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
 				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth,cellHeight, g, null, i, j);//TODO ADD BOARD INPUT HERE
-			}
+			} 
 		}
 
 	}
@@ -281,25 +291,20 @@ public class BoardPanel extends JPanel implements MouseListener{
 		MoveablePiece character = currentPlayer.getCharacter();
 		int playerx=character.getX();
 		int playery=character.getY();
-		while(true){//This loop constantly checks if the clicked point is "valid" or not. If not then nothing happens.
-            //wait
-			if(//"If clicked point is adjacent to the character, check if the tile is valid, then return.
-					(clickedPoint.x==playerx && clickedPoint.y==playery+1) ||
-					(clickedPoint.x==playerx && clickedPoint.y==playery-1) ||
-					(clickedPoint.x==playerx+1 && clickedPoint.y==playery)||
-					(clickedPoint.x==playerx-1 && clickedPoint.y==playery)
-			){
-				if(isValidAdjacentMove(b, currentPlayer, 0, 1))
+		System.out.println("Character x:"+playerx+". Click x:"+clickedPoint.x);
+		System.out.println("Character y:"+playery+". Click y:"+clickedPoint.y);
+			//"If clicked point is adjacent to the character, check if the tile is valid, then return.
+				if((clickedPoint.x==playerx && clickedPoint.y==playery+1) && isValidAdjacentMove(b, currentPlayer, 0, 1))
 					return 's';
-				if(isValidAdjacentMove(b, currentPlayer, 0, -1))
+				if((clickedPoint.x==playerx && clickedPoint.y==playery-1) && isValidAdjacentMove(b, currentPlayer, 0, -1))
 					return 'n';
-				if(isValidAdjacentMove(b, currentPlayer, 1, 0))
+				if((clickedPoint.x==playerx+1 && clickedPoint.y==playery) && isValidAdjacentMove(b, currentPlayer, 1, 0))
 					return 'e';
-				if(isValidAdjacentMove(b, currentPlayer, -1, 0))
+				if(clickedPoint.x==playerx-1 && clickedPoint.y==playery && isValidAdjacentMove(b, currentPlayer, -1, 0))
 					return 'w';
-			}
 
-		}
+
+		return toReturn;
 	}
 
 	/**
@@ -316,8 +321,10 @@ public class BoardPanel extends JPanel implements MouseListener{
 		Location[][] cells = b.getCellsToDraw();
 		int xToCheck=currentChar.getX()+xchange;
 		int yToCheck=currentChar.getY()+ychange;
+		System.out.println("Running isValidAdjacentMove!");
 
-		if(cells.length<xToCheck && xToCheck > 0 && cells[0].length<yToCheck && yToCheck>0){//If the spot on the cell array is valid
+		if(cells.length>xToCheck && xToCheck >= 0 && cells[0].length>yToCheck && yToCheck>=0){//If the spot on the cell array is valid
+			System.out.println("IsValidMove sees the given coordinates as valid!");
 			Location checkedCell=cells[xToCheck][yToCheck];
 			if(checkedCell==null)
 				return false;

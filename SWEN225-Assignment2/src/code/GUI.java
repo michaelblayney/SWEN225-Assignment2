@@ -126,7 +126,7 @@ public class GUI extends JFrame implements Observer{
 		cardsPanel.setPreferredSize(cardDimension);
 				
 		// make board panel
-		boardPanel = new BoardPanel(game.getBoard());//TODO REMOVE BOARD AS A REQUIREMENT AS SOON AS POSSIBLE
+		boardPanel = new BoardPanel(game.getBoard(),this);
 		boardPanel.setOpaque(true);
 		boardPanel.setBackground(Color.ORANGE);
 		boardPanel.setPreferredSize(boardDimension);
@@ -234,6 +234,10 @@ public class GUI extends JFrame implements Observer{
 	public Player getPlayer(){
 		return currentPlayer;
 	}
+
+	public Game getGame(){ return game; }
+
+	public boolean isCollectorWaiting(){return (collector.getWorkState()== Game.WorkState.WAITING);}
 
 	public void setCollectorState(Game.WorkState s){
 		collector.setWorkStateTo(s);
