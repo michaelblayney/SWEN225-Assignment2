@@ -39,11 +39,12 @@ public class GUI extends JFrame implements Observer{
 
 	SwitchPanel interactionPanel;
 	SwitchPanel panelSwitch;
+	CardsPanel cardsPanel;
 	
 	CluedoMenuBar menuBar;
 	private InputCollector collector;
 
-	public GUI() {//TODO REMOVE BOARD DEPENDENCY FROM CONSTRUCTOR AS SOON AS POSSIBLE
+	public GUI() {
 		
 		
 		
@@ -119,13 +120,13 @@ public class GUI extends JFrame implements Observer{
 		gamePanel.setPreferredSize(windowDimension);
 				
 		// make cards panel
-		JPanel cardsPanel = new CardsPanel();
+		cardsPanel = new CardsPanel();
 		cardsPanel.setOpaque(true);
 		cardsPanel.setBackground(Color.YELLOW);
 		cardsPanel.setPreferredSize(cardDimension);
 				
 		// make board panel
-		boardPanel = new BoardPanel(game.getBoard());//TODO REMOVE BOARD AS A REQUIREMENT AS SOON AS POSSIBLE
+		boardPanel = new BoardPanel(game.getBoard(),this);
 		boardPanel.setOpaque(true);
 		boardPanel.setBackground(Color.ORANGE);
 		boardPanel.setPreferredSize(boardDimension);
@@ -169,6 +170,7 @@ public class GUI extends JFrame implements Observer{
 				break;
 			case SUGGESTING:
 				interactionPanel.switchToView("Suggesting");
+				collector.setWorkStateTo(Game.WorkState.WAITING);
 				break;
 			case MOVING:
 				interactionPanel.switchToView("Moving");
@@ -179,7 +181,11 @@ public class GUI extends JFrame implements Observer{
 			}
 		}else if(arg instanceof Player) {
 			menuBar.updatePlayerLabel((Player)arg);
-			//interactionPanel.updatePlayer((Player)arg);
+			interactionPanel.updatePlayer((Player)arg);
+			cardsPanel.updateCards((Player)arg);
+			
+		}else if(arg instanceof Integer){
+			interactionPanel.updateMovesLeft((Integer) arg);
 		}
 		
 	}
@@ -227,6 +233,18 @@ public class GUI extends JFrame implements Observer{
 
 	public Player getPlayer(){
 		return currentPlayer;
+	}
+
+	public Game getGame(){ return game; }
+
+	public boolean isCollectorWaiting(){return (collector.getWorkState()== Game.WorkState.WAITING);}
+
+	public void setCollectorState(Game.WorkState s){
+		collector.setWorkStateTo(s);
+	}
+
+	public void setCollectorInput(Object o){
+		collector.addInput(o);
 	}
 
 }

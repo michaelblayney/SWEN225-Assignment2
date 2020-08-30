@@ -14,7 +14,7 @@ public class Game extends Observable{
 
 	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING};
 	public enum WorkState { WAITING, NOT_WAITING };
-	private WorkState workState;
+	//private WorkState workState;
 	private GameState gameState;	// please only use setGameStateTo() to modify this - it has the notify built in
 	
 	// Constants
@@ -24,8 +24,7 @@ public class Game extends Observable{
 	// For NOW, these are hard-coded. It may be beneficial to replace them with
 	// enums.
 	private final String[] weaponNames = { "Candlestick", "Lead pipe", "Dagger", "Revolver", "Rope", "Spanner" };
-	private final String[] characterNames = { "Mrs. White", "Mr. Green", "Mrs. Peacock", "Prof. Plum", "Miss Scarlett",
-			"Col. Mustard" };
+	private final String[] characterNames = { "Mrs. White", "Mr. Green", "Mrs. Peacock", "Prof. Plum", "Miss Scarlett", "Col. Mustard" };
 	private final int[] charXCoords={9,14,23,23,7,0};
 	private final int[] charYCoords={0,0,6,19,24,17};
 	private final String[] roomNames = { "Ball Room", "Conservatory", "Billiard Room", "Library", "Study", "Hall", "Lounge", "Dining Room", "Kitchen" };
@@ -73,13 +72,11 @@ public class Game extends Observable{
 		setBoard(new Board(this, roomNames));
 		ui = new UI(this);
 		collector = new InputCollector();
-		collector.setWorkStateTo(WorkState.WAITING);
-		
+		collector.setWorkStateTo(WorkState.NOT_WAITING);
+		gui.addCollector(collector);
+
 		cardInit();
-		
-		
-		
-		
+
 		this.addObserver(gui);
 		setGameStateTo(GameState.SETTING_UP);
 		
@@ -326,49 +323,71 @@ public class Game extends Observable{
 			// If player is in a room
 			// ---------------
 			if(getBoard().isPlayerInRoom(currentPlayer)) {
-
 				if(startedInHall) movesLeft = 0;
+
+
 				//Suggestion
 				if(!hasSuggested) {
 					//GameState switching and GUI updating
 					setGameStateTo(GameState.SUGGESTING);
 					//gui.update(this, "Suggesting");
 					collector.setWorkStateTo(WorkState.WAITING);
-					while(workState.equals(WorkState.WAITING)) {
-						wait();
+					while(collector.getWorkState().equals(WorkState.WAITING)) {
+						Thread.sleep(100);
+						//System.out.println("Waiting");
 					}
-					ui.println("Do you want to make an suggestion? (y / n)");
-					char suggestChar = ui.scanChar(validYesNoChars, scan);
-					if(suggestChar == 'y') {
-						doSuggest(currentPlayer);
-						hasSuggested = true;
+					if(collector.getInput() instanceof CardCombination){
+						doSuggest(currentPlayer, (CardCombination) collector.getInput());
+					} else {
+
 					}
+					hasSuggested = true;
 				}
-				
+
+
 				//Accusation
 				//GameState switching and GUI updating
-				gameState = GameState.ACCUSING;
-				gui.update(this, "Accusing");
-
-				ui.println("Do you want to make an accusation? (y / n)");
-				char accuseChar = ui.scanChar(validYesNoChars, scan);
-				if(accuseChar == 'y') {
-					boolean accuseResult = doAccuse(currentPlayer);
-					if(accuseResult) {
-						winGame(currentPlayer);
-					}
+				setGameStateTo(GameState.ACCUSING);
+				//gui.update(this, "Accusing");
+				collector.setWorkStateTo(WorkState.WAITING);
+				while(collector.getWorkState().equals(WorkState.WAITING)) {
+					Thread.sleep(100);
+					//System.out.println("Waiting");
+				}
+				boolean accuseResult = false;
+				if(collector.getInput() instanceof CardCombination){
+					accuseResult = doAccuse(currentPlayer, (CardCombination) collector.getInput());
+				}
+				if(accuseResult) {
+					winGame(currentPlayer);
+				} else {
 					break;
 				}
+
 				
 				//Leave room
 				if(movesLeft > 0) {
+					System.out.println("Heading into Leave room");
 					//GameState switching and GUI updating
-					gameState = GameState.EXITING;
-					gui.update(this, "Exiting");
+					setGameStateTo(GameState.EXITING);
+					//gui.update(this, "Exiting");
+					collector.setWorkStateTo(WorkState.WAITING);
+					while(collector.getWorkState().equals(WorkState.WAITING)) {
+						Thread.sleep(100);
+						//System.out.println("Waiting");
+					}
 
-					boolean isFinished = leaveRoom(currentPlayer);
-					movesLeft -= 1;
-					if(isFinished) break;
+					if(collector.getInput() instanceof java.lang.Character){
+						if(((java.lang.Character) collector.getInput()) == 'f'){
+							movesLeft = 0;
+						}
+					}
+
+					if(collector.getInput() instanceof Integer){
+						boolean isFinished = leaveRoom(currentPlayer, (Integer) collector.getInput());
+						movesLeft -= 1;
+					}
+
 				}
 			} else {
 				// -------------
@@ -376,27 +395,33 @@ public class Game extends Observable{
 				// ---------------
 				//Move player or end turn
 				//GameState switching and GUI updating
-				gameState = GameState.MOVING;
-				gui.update(this, "Moving");
+				setGameStateTo(GameState.MOVING);
+				//gui.update(this, "Moving");
+				gui.update(this, movesLeft);
 
-				startedInHall = true;
-				ui.println("Moves left: " + movesLeft);
-				ui.println("Please enter a direction to move in (n, s, e, w, or f to finish your turn)");
-				char moveChar = ui.scanChar(validMoveChars, scan);
-				if(moveChar == 'f') {
-					movesLeft = 0;
-				} else {
-					if(getBoard().isPlayerMoveValid(currentPlayer, moveChar)){//If the move entered is valid
-						getBoard().movePlayer(currentPlayer, moveChar);
-						//ui.drawBoard(board, null);
+				collector.setWorkStateTo(WorkState.WAITING);
+				while(collector.getWorkState().equals(WorkState.WAITING)) {
+					Thread.sleep(100);
+					//System.out.println("Waiting");
+				}
+				if(collector.getInput() instanceof java.lang.Character) { //Direction n s e w
+					char c = (java.lang.Character) collector.getInput();
+					if(c == 'f'){
+						//End turn
+						movesLeft = 0;
+					} else {
+						if(getBoard().isPlayerMoveValid(currentPlayer, c)){ //If the move entered is valid
+						getBoard().movePlayer(currentPlayer, c);
 						gui.drawBoard(getBoard(), null);
-						movesLeft -= 1;}
-					else{//If the move entered was NOT valid.
-						ui.println("Invalid move, please try again.");
+						movesLeft -= 1;
+						}
 					}
 				}
+
+				startedInHall = true;
 			}
 		}
+		gui.update(this, 0);
 		ui.println("----------------------------");
 		ui.println("END OF TURN");
 		TimeUnit.SECONDS.sleep(2);
@@ -412,103 +437,125 @@ public class Game extends Observable{
 	
 	
 	/* returns true if accusation was correct, false if it was not & player was eliminated */
-	private boolean doAccuse(Player currentPlayer) {
-		//Character accusation
-		ui.println("Accusation:");
-		ui.println("Select who dunnit:");
-		for(int i = 0; i < getBoard().characters.length; i ++) {
-			ui.println((i + 1) + ". " + getBoard().characters[i]);
-		}
-		int accusedCharacter = ui.scanInt(1, getBoard().characters.length, scan) - 1;
-
-		String accusedCharacterName = getBoard().characters[accusedCharacter].getName();
-
-
-		//Room accusation
-
-		ui.println("Accusation: " + accusedCharacterName + " committed the murder in the ...");
-
-		ui.println("Select what room the murder was commited in: ");
-		for(int i = 0; i < roomNames.length; i ++) {
-			ui.println((i + 1) + ". " + roomNames[i]);
-		}
-		int accusedRoom = ui.scanInt(1, roomNames.length, scan) - 1;
-		String accusedRoomName = roomNames[accusedRoom];
-
-
-		//Weapon accusation
-		ui.println("Accusation: " + accusedCharacterName + " committed the murder in the " + accusedRoomName +" with a ...");
-		ui.println("Select the murder weapon:");
-		for(int i = 0; i < weaponNames.length; i ++) {
-			ui.println((i + 1) + ". " + weaponNames[i]);
-		}
-		int accusedWeapon = ui.scanInt(1, weaponNames.length, scan) - 1;
-		String accusedWeaponName = getBoard().weapons[accusedWeapon].getName();
-		
-
-		//Final accusation
-
-		ui.println("|Final Accusation: " + accusedCharacterName + " committed the murder in the " + accusedRoomName + " with a " + accusedWeaponName +   ".|");
+	private boolean doAccuse(Player currentPlayer, CardCombination combo) {
+//		//Character accusation
+//		ui.println("Accusation:");
+//		ui.println("Select who dunnit:");
+//		for(int i = 0; i < getBoard().characters.length; i ++) {
+//			ui.println((i + 1) + ". " + getBoard().characters[i]);
+//		}
+//		int accusedCharacter = ui.scanInt(1, getBoard().characters.length, scan) - 1;
+//
+//		String accusedCharacterName = getBoard().characters[accusedCharacter].getName();
+//
+//
+//		//Room accusation
+//
+//		ui.println("Accusation: " + accusedCharacterName + " committed the murder in the ...");
+//
+//		ui.println("Select what room the murder was commited in: ");
+//		for(int i = 0; i < roomNames.length; i ++) {
+//			ui.println((i + 1) + ". " + roomNames[i]);
+//		}
+//		int accusedRoom = ui.scanInt(1, roomNames.length, scan) - 1;
+//		String accusedRoomName = roomNames[accusedRoom];
+//
+//
+//		//Weapon accusation
+//		ui.println("Accusation: " + accusedCharacterName + " committed the murder in the " + accusedRoomName +" with a ...");
+//		ui.println("Select the murder weapon:");
+//		for(int i = 0; i < weaponNames.length; i ++) {
+//			ui.println((i + 1) + ". " + weaponNames[i]);
+//		}
+//		int accusedWeapon = ui.scanInt(1, weaponNames.length, scan) - 1;
+//		String accusedWeaponName = getBoard().weapons[accusedWeapon].getName();
+//
+//
+//		//Final accusation
+//
+//		ui.println("|Final Accusation: " + accusedCharacterName + " committed the murder in the " + accusedRoomName + " with a " + accusedWeaponName +   ".|");
 
 		//Store in appropriate structure and check against the murderSolution
-		CardCombination accusation = new CardCombination(
-				new RoomCard(accusedRoomName), 
-				new CharacterCard(accusedCharacterName, getBoard().characters[accusedCharacter]), 
-				new WeaponCard(accusedWeaponName, getBoard().weapons[accusedWeapon]));
+
+		String roomName = combo.getRoom().name;
+		String characterName = combo.getCharacter().name;
+		String weaponName = combo.getWeapon().name;
+
+		int characterIndex = 0;
+		int weaponIndex = 0;
+
+		for(int i = 0; i < board.characters.length; i++){
+			if(board.characters[i].getName().equals(characterName)){
+				characterIndex = i;
+				break;
+			}
+		}
+
+		for(int i = 0; i < board.weapons.length; i++){
+			if(board.weapons[i].getName().equals(weaponName)){
+				weaponIndex = i;
+				break;
+			}
+		}
+
+		CardCombination finalAccusation = new CardCombination(
+				new RoomCard(roomName),
+				new CharacterCard(characterName, getBoard().characters[characterIndex]),
+				new WeaponCard(weaponName, getBoard().weapons[weaponIndex]));
 		
 		//Player wins the game if they're correct
-		if(accusation.equals(murderSolution)) {
+		if(finalAccusation.equals(murderSolution)) {
 			ui.println("You've solved the murder. You win!");
 			return true;
 			
-		//Remove player from the game if wrong]
+		//Remove player from the game if wrong
 		}else {
 			currentPlayer.eliminate();
 			ui.println("You have made a false accusation. You have been eliminated.");
+			//TODO Pop up saying elim
 			return false;
 		}
 	}
 
-	private void doSuggest(Player currentPlayer) {
-		//Character suggestion
-		ui.println("Suggestion:");
-		ui.println("Select who dunnit:");
-		for(int i = 0; i < getBoard().characters.length; i ++) {
-			ui.println((i + 1) + ". " + getBoard().characters[i]);
-		}
-		int suggestedCharacter = ui.scanInt(1, getBoard().characters.length, scan) - 1;
-		String suggestedCharacterName = getBoard().characters[suggestedCharacter].getName();
-		
+	private void doSuggest(Player currentPlayer, CardCombination combo) { //TODO Link to card panel
+
+		String characterName = combo.getCharacter().name;
+		String weaponName = combo.getWeapon().name;
+
 		//Get player room
 		Room suggestedRoom = getBoard().getRoomPlayerIsIn(currentPlayer);
 		String suggestedRoomName = suggestedRoom.getName();
-		
-		//Weapon suggestion
-		ui.println("Suggestion: " + suggestedCharacterName + " committed the murder in the " + suggestedRoomName +" with a ...");
-		ui.println("Select the murder weapon:");
-		for(int i = 0; i < weaponNames.length; i ++) {
-			ui.println((i + 1) + ". " + weaponNames[i]);
+
+		//Find array indexes of character and weapon
+		int characterIndex = 0;
+		int weaponIndex = 0;
+
+		for(int i = 0; i < board.characters.length; i++){
+			if(board.characters[i].getName().equals(characterName)){
+				characterIndex = i;
+				break;
+			}
 		}
-		int suggestedWeapon = ui.scanInt(1, weaponNames.length, scan) - 1;
-		String suggestedWeaponName = getBoard().weapons[suggestedWeapon].getName();
 
-		//Final suggestion
+		for(int i = 0; i < board.weapons.length; i++){
+			if(board.weapons[i].getName().equals(weaponName)){
+				weaponIndex = i;
+				break;
+			}
+		}
 
-		ui.println("|Final Suggestion: " + suggestedCharacterName + " committed the murder in the " + suggestedRoomName + " with a " + suggestedWeaponName +   ".|");
-
-		//Store in appropriate structure and check against the murderSolution
-		CardCombination suggested = new CardCombination(
-						new RoomCard(suggestedRoomName), 
-						new CharacterCard(suggestedCharacterName, getBoard().characters[suggestedCharacter]), 
-						new WeaponCard(suggestedWeaponName, getBoard().weapons[suggestedWeapon]));
+		CardCombination finalSuggestion = new CardCombination(
+			new RoomCard(suggestedRoomName),
+			new CharacterCard(characterName, board.characters[characterIndex]),
+			new WeaponCard(weaponName, board.weapons[weaponIndex]));
 
 		//summon character and weapon to room
-		getBoard().moveWeaponTo(suggestedWeaponName, suggestedRoomName);
-		getBoard().moveCharacterTo(suggestedCharacterName, suggestedRoomName);
-		
+		getBoard().moveWeaponTo(finalSuggestion.getWeapon().name, finalSuggestion.getRoom().name);
+		getBoard().moveCharacterTo(finalSuggestion.getCharacter().name, finalSuggestion.getRoom().name);
+
 		//make list of players starting from next player
 		Player[] suggestionPlayers = new Player[players.length];
-		
+
 		//find the currentPlayer's position in list
 		int currPlayerIndex = 0;
 		for(int i=0; i<players.length; i++) {
@@ -521,14 +568,14 @@ public class Game extends Observable{
 		for(int x = 0; x < players.length; x++){
 			  suggestionPlayers[(x+players.length-currPlayerIndex) % players.length] = players[x];
 			}
-		
+
 		//iterate through players and get the matching cards from their hand
 		//first player in array is current player so skip them
 		for(int k=1; k<suggestionPlayers.length; k++) {
 			//player chooses a card from matching to show (if none, skip them)
 			Player p = suggestionPlayers[k];
 			//returns list of cards in player's hand that match suggestion
-			ArrayList<Card> matchingCards = suggested.getMatchingCards(p.getCards());
+			ArrayList<Card> matchingCards = finalSuggestion.getMatchingCards(p.getCards());
 			if(matchingCards.isEmpty()) {
 				//player has no matching cards, skip them
 				ui.println(p.getCharacter().getName() + " doesn't have any of the suggested cards.");
@@ -550,23 +597,23 @@ public class Game extends Observable{
 			}
 		}
 		ui.println("No one has any of the suggested cards.");
-	//setWorkStateTo(WorkState.NOT_WAITING);
+		//setWorkStateTo(WorkState.NOT_WAITING);
 	}
 
-	private boolean leaveRoom(Player currentPlayer) {
+	private boolean leaveRoom(Player currentPlayer, int exit) {
 		ArrayList<Location> exits = getBoard().getAvailableExits(currentPlayer);
 		int numOfExits = exits.size();
 		//ui.drawBoard(board, exits);
 		gui.drawBoard(getBoard(), exits);
-		ui.print("Which exit would you like to take? [");
+		//ui.print("Which exit would you like to take? [");
 		//Printing valid exits
-		 ui.print("Exit (1)");
-		for(int i = 1; i < numOfExits; i++) ui.print(", Exit (" + (i + 1) +")");
-		ui.println("], or 0 to end turn");
-		int exit = ui.scanInt(0, numOfExits, scan);
-		if(exit == 0) {
-			return true;
-		}
+		 //ui.print("Exit (1)");
+		//for(int i = 1; i < numOfExits; i++) ui.print(", Exit (" + (i + 1) +")");
+		//ui.println("], or 0 to end turn");
+		//int exit = ui.scanInt(0, numOfExits, scan);
+//		if(exit == 0) {
+//			return true;
+//		}
 		getBoard().vacatePlayerFromRoom(currentPlayer, exits.get(exit-1));//Uses -1 as the array starts from 0, but the questions start from 1.
 		//ui.drawBoard(board, null);
 		gui.drawBoard(getBoard(),null);
@@ -577,6 +624,7 @@ public class Game extends Observable{
 		ui.println("GAME OVER");
 		ui.println(currentPlayer.getCharacter().getName() + " WINS!");
 		gameFinished = true;
+		//TODO Pop up displaying winner (Probably will just exit on confirmation)
 	}
 	
 	// Method to get the sum of 2 rolled dice
@@ -638,7 +686,6 @@ public class Game extends Observable{
 	public void setBoard(Board board) {
 		this.board = board;
 	}
-
 	
 
 }

@@ -7,19 +7,17 @@ import java.awt.event.ActionListener;
 
 public class MovePanel extends JPanel implements ActionListener {
 
-	String currentPlayerName = "Michael";	// Just for now
-	int movesLeft = 6;
-	int roll = 9;
+	String currentPlayerName = "";
+	int movesLeft = -1;
 	Player currentPlayer;
+	JLabel nameLabel, characterLabel, movesLabel;
 
 	public MovePanel() {
-//		if(this.getParent().getParent().getParent() instanceof GUI)
-//			currentPlayer = ((GUI) this.getParent().getParent().getParent()).getPlayer();
 		createMovePanel();
 	}
 
 	public void createMovePanel(){
-		JLabel titleLabel, promptLabel, nameLabel, rollLabel, movesLabel;
+		JLabel titleLabel, promptLabel;
 		JButton northButton, southButton, eastButton, westButton, endButton, enterRoomButton;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -49,15 +47,15 @@ public class MovePanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;	// Reset anchor
 		add(promptLabel, constraints);
 
-		rollLabel = new JLabel("You rolled: " + roll);
+		characterLabel = new JLabel("");
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.weighty = 100;	// Move it up towards the title
-		constraints.insets = new Insets(3, 7, 0, 0); // Reset insets
+		constraints.insets = new Insets(3, 5, 0, 0); // Reset insets
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;	// Reset anchor
-		add(rollLabel, constraints);
+		add(characterLabel, constraints);
 
-		movesLabel = new JLabel("Moves left: " + movesLeft);
+		movesLabel = new JLabel("Moves left: ");
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.weighty = 200;	// Move it up towards the title
@@ -110,14 +108,14 @@ public class MovePanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
 		add(endButton, constraints);
 
-		enterRoomButton = new JButton("*Enters a room* (Testing)");
-		enterRoomButton.addActionListener(this);
-		constraints.gridx = 0;
-		constraints.gridy = 5;
-		constraints.weighty = 1;
-		constraints.insets = new Insets(0, 0, 10, 100); // Push towards horizontal centre line
-		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
-		add(enterRoomButton, constraints);
+//		enterRoomButton = new JButton("*Enters a room* (Testing)");
+//		enterRoomButton.addActionListener(this);
+//		constraints.gridx = 0;
+//		constraints.gridy = 5;
+//		constraints.weighty = 1;
+//		constraints.insets = new Insets(0, 0, 10, 100); // Push towards horizontal centre line
+//		constraints.anchor = GridBagConstraints.LAST_LINE_END;	// Anchor right
+//		add(enterRoomButton, constraints);
 	}
 
 	@Override
@@ -127,9 +125,49 @@ public class MovePanel extends JPanel implements ActionListener {
 //				((InteractionPanel) this.getParent()).switchToView("Suggesting");
 //		}
 
-		if(e.getActionCommand().equals("End turn")){
-			if(this.getParent() instanceof InteractionPanel)
-				((InteractionPanel) this.getParent()).switchToView("Moving");
+		if(e.getActionCommand().equals("^")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput('n');
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
 		}
+
+		if(e.getActionCommand().equals("v")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput('s');
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+
+		if(e.getActionCommand().equals(">")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput('e');
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+
+		if(e.getActionCommand().equals("<")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput('w');
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+
+		if(e.getActionCommand().equals("End turn")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput('f');
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+	}
+
+	public void updatePlayerName(Player p){
+		nameLabel.setText(p.getIRLname() + "'s turn");
+		if(p != null && p.getCharacter() != null) characterLabel.setText("(" + p.getCharacter().getName() + ")");
+	}
+
+	public void updateMovesLeft(Integer i){
+		movesLeft = i;
+		movesLabel.setText("Moves left: " + movesLeft);
 	}
 }

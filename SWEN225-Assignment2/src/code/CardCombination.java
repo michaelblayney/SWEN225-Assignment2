@@ -66,7 +66,9 @@ public class CardCombination {
 	}
 
 	public String toString() {
-		return "[Room: "+room.getName()+", Character: "+character.getName()+", Weapon: "+weapon.getName()+"]";
+		if(room != null && character != null && weapon != null){
+			return "[Room: "+room.getName()+", Character: "+character.getName()+", Weapon: "+weapon.getName()+"]";
+		} else return "Incomplete combination";
 	}
 	
 	/* Code from template association_SetUnidirectionalOne */

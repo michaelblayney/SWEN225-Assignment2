@@ -8,7 +8,11 @@ import java.awt.event.ActionListener;
 public class AccusationPanel extends JPanel implements ActionListener {
 
 	JPanel questionPanel, characterPanel, roomPanel, weaponPanel;
-	String currentPlayerName = "Michael";	// Just for now
+	Player currentPlayer;
+	JRadioButton mrsWhiteRB, mrGreenRB, mrsPeacockRB, profPlumRB, msScarletRB, colMustardRB;
+	JRadioButton BallRB, ConservatoryRB, BilliardRB, LibraryRB, StudyRB, HallRB, LoungeRB, DiningRB, KitchenRB;
+	JRadioButton candleRB, pipeRB, daggerRB, revolverRB, ropeRB, spannerRB;
+	String suggestedCharacterName, suggestedRoomName, suggestedWeaponName;
 
 	public AccusationPanel() {
 		setLayout(new CardLayout()); // The SuggestionPanel has multiple panels it switches between
@@ -24,7 +28,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	public void createQuestionPanel(){
 		questionPanel = new JPanel();
-		JLabel titleLabel, promptLabel, nameLabel;
+		JLabel titleLabel, promptLabel;
 		JButton yesButton, noButton;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -37,14 +41,6 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.insets = new Insets(5, 0, 0, 0);
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		questionPanel.add(titleLabel, constraints);
-
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		questionPanel.add(nameLabel, constraints);
 
 		promptLabel = new JLabel("Would you like to make an accusation?");
 		constraints.gridx = 0;
@@ -74,8 +70,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 	public void createCharacterPanel(){
 		characterPanel = new JPanel();
 		ButtonGroup characterRadioButtons = new ButtonGroup();
-		JLabel titleLabel, promptLabel, nameLabel;
-		JRadioButton mrsWhiteRB, mrGreenRB, mrsPeacockRB, profPlumRB, msScarletRB, colMustardRB;
+		JLabel titleLabel, promptLabel;
 		JButton confirmCharacter;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -89,13 +84,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		characterPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		characterPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("Who do you accuse?");
 		constraints.gridx = 0;
@@ -168,8 +157,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 	public void createRoomPanel(){
 		roomPanel = new JPanel();
 		ButtonGroup roomRadioButtons = new ButtonGroup();
-		JLabel titleLabel, promptLabel, nameLabel;
-		JRadioButton BallRB, ConservatoryRB, BilliardRB, LibraryRB, StudyRB, HallRB, LoungeRB, DiningRB, KitchenRB;
+		JLabel titleLabel, promptLabel;
 		JButton confirmRoom;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -183,13 +171,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		roomPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		roomPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("What room was the murder in?");
 		constraints.gridx = 0;
@@ -290,7 +272,6 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		weaponPanel = new JPanel();
 		ButtonGroup weaponRadioButtons = new ButtonGroup();
 		JLabel titleLabel, promptLabel, nameLabel;
-		JRadioButton candleRB, pipeRB, daggerRB, revolverRB, ropeRB, spannerRB;
 		JButton confirmWeapon;
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -304,13 +285,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		weaponPanel.add(titleLabel, constraints);
 
-		nameLabel = new JLabel(currentPlayerName + "'s turn");
-		constraints.weightx = 1;	// Removing horizontal blank space
-		constraints.gridx = 0;	// Both in the same grid square, just anchored differently
-		constraints.gridy = 0;
-		constraints.insets = new Insets(5, 5, 0, 0);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		weaponPanel.add(nameLabel, constraints);
+		constraints.weightx = 1;
 
 		promptLabel = new JLabel("What weapon did they use?");
 		constraints.gridx = 0;
@@ -370,7 +345,7 @@ public class AccusationPanel extends JPanel implements ActionListener {
 		weaponPanel.add(spannerRB, constraints);
 		weaponRadioButtons.add(spannerRB);
 
-		confirmWeapon = new JButton("Make accusation");
+		confirmWeapon = new JButton("Accuse selected weapon");
 		confirmWeapon.addActionListener(this);
 		constraints.gridx = 0;
 		constraints.gridy = 4;
@@ -386,22 +361,116 @@ public class AccusationPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Yes"))
+
+		if (e.getActionCommand().equals("Yes")){
 			switchPanelTo("Character");
+		}
 
-		if(e.getActionCommand().equals("No"))
-			if(this.getParent() instanceof InteractionPanel)
-				((InteractionPanel) this.getParent()).switchToView("Exiting");
+		if(e.getActionCommand().equals("No")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(null);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
 
-		if(e.getActionCommand().equals("Accuse selected character"))	// A bit round about but doing it for now
+		if(e.getActionCommand().equals("Accuse selected character")) {
+			//Get this character's card and add it to the combo
+			if(mrsWhiteRB.isSelected()){
+				suggestedCharacterName = "Mrs. White";
+			} else if(mrGreenRB.isSelected()){
+				suggestedCharacterName = "Mr. Green";
+			} else if(mrsPeacockRB.isSelected()){
+				suggestedCharacterName = "Mrs. Peacock";
+			} else if(profPlumRB.isSelected()){
+				suggestedCharacterName = "Prof. Plum";
+			} else if(msScarletRB.isSelected()){
+				suggestedCharacterName = "Miss Scarlett";
+			} else if(colMustardRB.isSelected()){
+				suggestedCharacterName = "Col. Mustard";
+			}
+
 			switchPanelTo("Room");
+		}
 
-		if(e.getActionCommand().equals("Accuse selected room"))
+		if(e.getActionCommand().equals("Accuse selected room")) {
+			//Get this character's card and add it to the combo
+			if(BallRB.isSelected()){
+				suggestedRoomName = "Ball Room";
+			} else if(ConservatoryRB.isSelected()){
+				suggestedRoomName = "Conservatory";
+			} else if(BilliardRB.isSelected()){
+				suggestedRoomName = "Billiard Room";
+			} else if(LibraryRB.isSelected()){
+				suggestedRoomName = "Library";
+			} else if(StudyRB.isSelected()){
+				suggestedRoomName = "Study";
+			} else if(HallRB.isSelected()){
+				suggestedRoomName = "Hall";
+			} else if(LoungeRB.isSelected()){
+				suggestedRoomName = "Lounge";
+			} else if(DiningRB.isSelected()){
+				suggestedRoomName = "Dining Room";
+			} else if(KitchenRB.isSelected()){
+				suggestedRoomName = "Kitchen";
+			}
+
 			switchPanelTo("Weapon");
+		}
 
-		if(e.getActionCommand().equals("Make accusation"))
-				if(this.getParent() instanceof InteractionPanel)
-					((InteractionPanel) this.getParent()).switchToView("Exiting");
+		if(e.getActionCommand().equals("Accuse selected weapon")){
+			//Get this weapon's card and add it to the combo
+			//Get this character's card and add it to the combo
+			if(candleRB.isSelected()){
+				suggestedWeaponName = "Candlestick";
+			} else if(pipeRB.isSelected()){
+				suggestedWeaponName = "Lead pipe";
+			} else if(daggerRB.isSelected()){
+				suggestedWeaponName = "Dagger";
+			} else if(revolverRB.isSelected()){
+				suggestedWeaponName = "Revolver";
+			} else if(ropeRB.isSelected()){
+				suggestedWeaponName = "Rope";
+			} else if(spannerRB.isSelected()){
+				suggestedWeaponName = "Spanner";
+			}
+
+			//finalise combo and send card combo back to GUI
+			CardCombination accused = new CardCombination(
+					new RoomCard(suggestedRoomName),
+					new CharacterCard(suggestedCharacterName, null),
+					new WeaponCard(suggestedWeaponName, null));
+
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				System.out.println("Sending card combo");
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(accused);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+	}
+
+	public void updatePlayerName(Player p){
+		currentPlayer = p;
+
+		//Disable the radiobutton for the current player's character
+		mrsWhiteRB.getModel().setEnabled(true);
+		mrGreenRB.getModel().setEnabled(true);
+		mrsPeacockRB.getModel().setEnabled(true);
+		profPlumRB.getModel().setEnabled(true);
+		msScarletRB.getModel().setEnabled(true);
+		colMustardRB.getModel().setEnabled(true);
+		if(p.getCharacter().getName().equals("Mrs. White")) {
+			mrsWhiteRB.getModel().setEnabled(false);
+		} else if(p.getCharacter().getName().equals("Mr. Green")) {
+			mrGreenRB.getModel().setEnabled(false);
+		} else if(p.getCharacter().getName().equals("Mrs. Peacock")) {
+			mrsPeacockRB.getModel().setEnabled(false);
+		} else if(p.getCharacter().getName().equals("Prof. Plum")) {
+			profPlumRB.getModel().setEnabled(false);
+		} else if(p.getCharacter().getName().equals("Miss Scarlett")) {
+			msScarletRB.getModel().setEnabled(false);
+		} else if(p.getCharacter().getName().equals("Col. Mustard")) {
+			colMustardRB.getModel().setEnabled(false);
+		}
 	}
 	
 }
