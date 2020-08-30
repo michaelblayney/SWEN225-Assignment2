@@ -341,8 +341,10 @@ public class Game extends Observable{
 					} else {
 
 					}
+					gui.drawBoard(getBoard(), null);
 					hasSuggested = true;
 				}
+
 
 
 				//Accusation
