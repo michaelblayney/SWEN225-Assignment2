@@ -12,7 +12,7 @@ import java.util.Observer;
 
 public class Game extends Observable{
 
-	public enum GameState { SETTING_UP, SUGGESTING, ACCUSING, MOVING, EXITING};
+	public enum GameState { SETTING_UP, SUGGESTING, CONFIRMING_SUGGESTION, ACCUSING, MOVING, EXITING};
 	public enum WorkState { WAITING, NOT_WAITING };
 	//private WorkState workState;
 	private GameState gameState;	// please only use setGameStateTo() to modify this - it has the notify built in

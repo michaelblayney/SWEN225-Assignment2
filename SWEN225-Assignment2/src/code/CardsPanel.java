@@ -241,6 +241,10 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 		// TODO suggesting?
 		// e = the name of the card
 		
+		((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(e);
+		((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+	
+		
 	}
 	
 }
