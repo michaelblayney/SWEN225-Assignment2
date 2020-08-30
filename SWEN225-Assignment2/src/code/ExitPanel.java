@@ -48,7 +48,7 @@ public class ExitPanel extends JPanel implements ActionListener {
 		add(exit1, constraints);
 
 		exit2 = new JButton("Exit (2)");
-		exit1.addActionListener(this);
+		exit2.addActionListener(this);
 		constraints.gridx = 0;
 		constraints.gridy = 4;
 		constraints.anchor = GridBagConstraints.PAGE_START;
@@ -56,7 +56,7 @@ public class ExitPanel extends JPanel implements ActionListener {
 		add(exit2, constraints);
 
 		exit3 = new JButton("Exit (3)");
-		exit1.addActionListener(this);
+		exit3.addActionListener(this);
 		constraints.gridx = 0;
 		constraints.gridy = 5;
 		constraints.anchor = GridBagConstraints.PAGE_START;
@@ -64,7 +64,7 @@ public class ExitPanel extends JPanel implements ActionListener {
 		add(exit3, constraints);
 
 		exit4 = new JButton("Exit (4)");
-		exit1.addActionListener(this);
+		exit4.addActionListener(this);
 		constraints.gridx = 0;
 		constraints.gridy = 6;
 		constraints.anchor = GridBagConstraints.PAGE_START;
