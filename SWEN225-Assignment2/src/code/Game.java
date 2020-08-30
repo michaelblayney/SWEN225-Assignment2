@@ -359,12 +359,13 @@ public class Game extends Observable{
 				boolean accuseResult = false;
 				if(collector.getInput() instanceof CardCombination){
 					accuseResult = doAccuse(currentPlayer, (CardCombination) collector.getInput());
+					if(accuseResult) {
+						winGame(currentPlayer);
+					} else {
+						break;
+					}
 				}
-				if(accuseResult) {
-					winGame(currentPlayer);
-				} else {
-					break;
-				}
+
 
 				
 				//Leave room
