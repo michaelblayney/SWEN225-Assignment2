@@ -314,7 +314,7 @@ public class SuggestionPanel extends JPanel implements ActionListener {
 						new WeaponCard(suggestedWeaponName, null));
 
 			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
-				System.out.println("Sending card combo");
+				//System.out.println("Sending card combo");
 				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(suggested);
 				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
 			}

@@ -228,8 +228,11 @@ public class Board {
 
 
 	public ArrayList<Location> getAvailableExits(Player p){
-		String roomname= p.getCharacter().getRoom().getName();
-		return exitMap.get(roomname);
+		if(p.getCharacter().isInRoom()) {
+			String roomname = p.getCharacter().getRoom().getName();
+			return exitMap.get(roomname);
+		}
+		return null;
 	}
 
 	public Character[] getCharacters() {

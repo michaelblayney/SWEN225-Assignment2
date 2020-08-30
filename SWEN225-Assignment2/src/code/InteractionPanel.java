@@ -22,6 +22,7 @@ public class InteractionPanel extends SwitchPanel {
 	JPanel suggestionPanel;
 	JPanel movePanel;
 	JPanel exitPanel;
+	int movesLeft = 0;
 
 	public InteractionPanel(CardLayout cardLayout) {
 		super(cardLayout);
@@ -44,7 +45,9 @@ public class InteractionPanel extends SwitchPanel {
 	}
 
 	public void switchToView(String s) {
-		//initialisePanels();
+		initialisePanels();
+		if(currentPlayer != null && currentPlayer.getCharacter() != null) updatePlayer(currentPlayer);
+		//updateMovesLeft(movesLeft);
 		((CardLayout) getLayout()).show(this, s);
 	}
 
@@ -57,7 +60,8 @@ public class InteractionPanel extends SwitchPanel {
 	}
 
 	public void updateMovesLeft(Integer i){
-		((MovePanel) movePanel).updateMovesLeft(i);
+		movesLeft = i;
+		((MovePanel) movePanel).updateMovesLeft(movesLeft);
 	}
 
 }

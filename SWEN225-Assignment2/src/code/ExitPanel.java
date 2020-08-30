@@ -4,14 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ExitPanel extends JPanel implements ActionListener {
 
 	Player currentPlayer;
-	String currentPlayerName = "";
-	int movesLeft = 6;
-	int roll = 9;
-	JLabel nameLabel;
+	int exits = 0;
+	JButton exit1, exit2, exit3, exit4, endButton;
 
 	public ExitPanel() {
 		createExitPanel();
@@ -19,7 +18,6 @@ public class ExitPanel extends JPanel implements ActionListener {
 
 	public void createExitPanel(){
 		JLabel titleLabel, promptLabel;
-		JButton exit1, exit2, exit3, exit4, endButton;
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		setLayout(new GridBagLayout());
@@ -64,7 +62,6 @@ public class ExitPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		constraints.insets = new Insets(0, 0, 0, 0);	// Reset insets
 		add(exit3, constraints);
-		exit3.getModel().setEnabled(false); //TODO Implement these
 
 		exit4 = new JButton("Exit (4)");
 		exit1.addActionListener(this);
@@ -73,7 +70,6 @@ public class ExitPanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.PAGE_START;
 		constraints.insets = new Insets(0, 0, 30, 0);	// Reset insets
 		add(exit4, constraints);
-		exit4.getModel().setEnabled(false);
 
 		endButton = new JButton("End turn");
 		endButton.addActionListener(this);
@@ -91,6 +87,33 @@ public class ExitPanel extends JPanel implements ActionListener {
 
 //			if(this.getParent() instanceof InteractionPanel)
 //				((InteractionPanel) this.getParent()).switchToView("Moving");
+		if(e.getActionCommand().equals("Exit (1)")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(1);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+
+		if(e.getActionCommand().equals("Exit (2)")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(2);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+
+		if(e.getActionCommand().equals("Exit (3)")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(3);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
+
+		if(e.getActionCommand().equals("Exit (4)")){
+			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(4);
+				((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
+			}
+		}
 
 		if(e.getActionCommand().equals("End turn")){
 			if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
@@ -102,5 +125,21 @@ public class ExitPanel extends JPanel implements ActionListener {
 
 	public void updatePlayerName(Player p){
 		currentPlayer = p;
+		findNumExits();
+		exit2.getModel().setEnabled(true);
+		exit3.getModel().setEnabled(true);
+		exit4.getModel().setEnabled(true);
+		if(exits < 2) exit2.setEnabled(false);
+		if(exits < 3) exit3.setEnabled(false);
+		if(exits < 4) exit4.setEnabled(false);
+	}
+
+	public int findNumExits(){
+		exits = 0;
+		if(this.getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof GUI) {
+			ArrayList<Location> exitList = ((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent()).getGame().getBoard().getAvailableExits(currentPlayer);
+			if(exitList != null) exits = exitList.size();
+		}
+		return exits;
 	}
 }

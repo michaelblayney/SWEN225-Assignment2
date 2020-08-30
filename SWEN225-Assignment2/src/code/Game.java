@@ -323,8 +323,9 @@ public class Game extends Observable{
 			// If player is in a room
 			// ---------------
 			if(getBoard().isPlayerInRoom(currentPlayer)) {
-
 				if(startedInHall) movesLeft = 0;
+
+
 				//Suggestion
 				if(!hasSuggested) {
 					//GameState switching and GUI updating
@@ -340,16 +341,10 @@ public class Game extends Observable{
 					} else {
 
 					}
-
-
-					//ui.println("Do you want to make an suggestion? (y / n)");
-					//char suggestChar = ui.scanChar(validYesNoChars, scan);
-					//if(suggestChar == 'y') {
-					//	doSuggest(currentPlayer);
-					//	hasSuggested = true;
-					//}
+					hasSuggested = true;
 				}
-				
+
+
 				//Accusation
 				//GameState switching and GUI updating
 				setGameStateTo(GameState.ACCUSING);
@@ -359,28 +354,27 @@ public class Game extends Observable{
 					Thread.sleep(100);
 					//System.out.println("Waiting");
 				}
+				boolean accuseResult = false;
 				if(collector.getInput() instanceof CardCombination){
-					doAccuse(currentPlayer, (CardCombination) collector.getInput());
+					accuseResult = doAccuse(currentPlayer, (CardCombination) collector.getInput());
+				}
+				if(accuseResult) {
+					winGame(currentPlayer);
+				} else {
+					break;
 				}
 
-				//ui.println("Do you want to make an accusation? (y / n)");
-				//char accuseChar = ui.scanChar(validYesNoChars, scan);
-//				if(accuseChar == 'y') {
-//					boolean accuseResult = doAccuse(currentPlayer);
-//					if(accuseResult) {
-//						winGame(currentPlayer);
-//					}
-//					break;
-//				}
 				
 				//Leave room
 				if(movesLeft > 0) {
+					System.out.println("Heading into Leave room");
 					//GameState switching and GUI updating
 					setGameStateTo(GameState.EXITING);
 					//gui.update(this, "Exiting");
+					collector.setWorkStateTo(WorkState.WAITING);
 					while(collector.getWorkState().equals(WorkState.WAITING)) {
 						Thread.sleep(100);
-						System.out.println("Waiting");
+						//System.out.println("Waiting");
 					}
 
 					if(collector.getInput() instanceof java.lang.Character){
@@ -389,9 +383,11 @@ public class Game extends Observable{
 						}
 					}
 
-					//boolean isFinished = leaveRoom(currentPlayer);
-					//movesLeft -= 1;
-					//if(isFinished) break;
+					if(collector.getInput() instanceof Integer){
+						boolean isFinished = leaveRoom(currentPlayer, (Integer) collector.getInput());
+						movesLeft -= 1;
+					}
+
 				}
 			} else {
 				// -------------
@@ -422,7 +418,7 @@ public class Game extends Observable{
 					}
 				}
 
-//				startedInHall = true;
+				startedInHall = true;
 			}
 		}
 		gui.update(this, 0);
@@ -512,10 +508,11 @@ public class Game extends Observable{
 			ui.println("You've solved the murder. You win!");
 			return true;
 			
-		//Remove player from the game if wrong]
+		//Remove player from the game if wrong
 		}else {
 			currentPlayer.eliminate();
 			ui.println("You have made a false accusation. You have been eliminated.");
+			//TODO Pop up saying elim
 			return false;
 		}
 	}
@@ -603,20 +600,20 @@ public class Game extends Observable{
 		//setWorkStateTo(WorkState.NOT_WAITING);
 	}
 
-	private boolean leaveRoom(Player currentPlayer) {
+	private boolean leaveRoom(Player currentPlayer, int exit) {
 		ArrayList<Location> exits = getBoard().getAvailableExits(currentPlayer);
 		int numOfExits = exits.size();
 		//ui.drawBoard(board, exits);
 		gui.drawBoard(getBoard(), exits);
-		ui.print("Which exit would you like to take? [");
+		//ui.print("Which exit would you like to take? [");
 		//Printing valid exits
-		 ui.print("Exit (1)");
-		for(int i = 1; i < numOfExits; i++) ui.print(", Exit (" + (i + 1) +")");
-		ui.println("], or 0 to end turn");
-		int exit = ui.scanInt(0, numOfExits, scan);
-		if(exit == 0) {
-			return true;
-		}
+		 //ui.print("Exit (1)");
+		//for(int i = 1; i < numOfExits; i++) ui.print(", Exit (" + (i + 1) +")");
+		//ui.println("], or 0 to end turn");
+		//int exit = ui.scanInt(0, numOfExits, scan);
+//		if(exit == 0) {
+//			return true;
+//		}
 		getBoard().vacatePlayerFromRoom(currentPlayer, exits.get(exit-1));//Uses -1 as the array starts from 0, but the questions start from 1.
 		//ui.drawBoard(board, null);
 		gui.drawBoard(getBoard(),null);
@@ -627,6 +624,7 @@ public class Game extends Observable{
 		ui.println("GAME OVER");
 		ui.println(currentPlayer.getCharacter().getName() + " WINS!");
 		gameFinished = true;
+		//TODO Pop up displaying winner (Probably will just exit on confirmation)
 	}
 	
 	// Method to get the sum of 2 rolled dice
