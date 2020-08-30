@@ -95,7 +95,7 @@ public class Game extends Observable{
 		
 		//createPlayer("Vlad");
 
-		//dealCards();
+		dealCards();
 		//notifyObservers();
 	}
 
