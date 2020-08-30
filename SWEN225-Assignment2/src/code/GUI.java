@@ -37,7 +37,7 @@ public class GUI extends JFrame implements Observer{
 	
 	BoardPanel boardPanel;//Board, upon which the tileset and character/weapon icons are drawn
 
-	SwitchPanel interactionPanel;
+	InteractionPanel interactionPanel;
 	SwitchPanel panelSwitch;
 	CardsPanel cardsPanel;
 	
@@ -177,6 +177,11 @@ public class GUI extends JFrame implements Observer{
 				break;
 			case EXITING:
 				interactionPanel.switchToView("Exiting");
+				break;
+			case CONFIRMING_SUGGESTION:
+				interactionPanel.switchToView("Confirming Suggestion");
+				interactionPanel.suggestionConfirmingPanel.resetText();
+				//cardsPanel.disableInvalidCards();
 				break;
 			}
 		}else if(arg instanceof Player) {

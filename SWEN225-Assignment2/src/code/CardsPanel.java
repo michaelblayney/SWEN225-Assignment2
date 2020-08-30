@@ -35,6 +35,11 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 	Player currentPlayer;
 	Game game;
 	Graphics g;
+	GUI gui;
+	
+	ArrayList<Card> wList;
+	ArrayList<Card> cList;
+	ArrayList<Card> lList;
 	
 	public CardsPanel() {
 		
@@ -156,9 +161,9 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 		//currentPlayerTest.add(new JLabel(p.getIRLname()));  //uncomment to test panel gets player
 		
 		ArrayList<Card> hand = currentPlayer.getCards();
-		ArrayList<Card> wList = new ArrayList<Card>(); //weapons
-		ArrayList<Card> cList = new ArrayList<Card>(); //character
-		ArrayList<Card> lList = new ArrayList<Card>(); //locations/rooms
+		wList = new ArrayList<Card>(); //weapons
+		cList = new ArrayList<Card>(); //character
+		lList = new ArrayList<Card>(); //locations/rooms
 		
 		//sort hand into lists of weapons, characters and locations
 		
@@ -241,10 +246,20 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 		// TODO suggesting?
 		// e = the name of the card
 		
-		((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(e);
+		((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorInput(new Card(e.getActionCommand()));
 		((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).setCollectorState(Game.WorkState.NOT_WAITING);
 	
 		
 	}
+	//TODO restrict card choices somehow
+	/*public void disableInvalidCards() {
+		ArrayList<Card> validCards = ((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).getGame().getValidSuggestCards();
+		for(Card c : wList) {
+			if(!validCards.contains(c)) {
+				
+			}
+		}
+	
+	}*/
 	
 }

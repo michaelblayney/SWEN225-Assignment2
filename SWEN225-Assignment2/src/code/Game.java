@@ -42,7 +42,8 @@ public class Game extends Observable{
 	private int numPlayers;
 	private ArrayList<Card> dealDeck;
 	private Player currentPlayer;
-
+	private Player storedCurrentPlayer; // use when suggestion confirming
+	private ArrayList<Card> validSuggestCards; // use when suggestion confirming
 	// ------------------------
 	// CONSTRUCTOR
 	// ------------------------
@@ -81,6 +82,7 @@ public class Game extends Observable{
 		setGameStateTo(GameState.SETTING_UP);
 		
 		setCurrentPlayerTo(players[0]);
+		storedCurrentPlayer = currentPlayer;
 		setGameStateTo(GameState.MOVING);
 		// Getting number of players
 		//ui.println("CLUEDO");
@@ -94,7 +96,7 @@ public class Game extends Observable{
 		//String[] playerNames = {"Jim, Harry, Vlad"};
 		
 		//createPlayer("Vlad");
-
+		
 		dealCards();
 		//notifyObservers();
 	}
@@ -528,7 +530,7 @@ public class Game extends Observable{
 		}
 	}
 
-	private void doSuggest(Player currentPlayer, CardCombination combo) { //TODO Link to card panel
+	private void doSuggest(Player currentPlayer, CardCombination combo) throws InterruptedException { //TODO Link to card panel
 
 		String characterName = combo.getCharacter().name;
 		String weaponName = combo.getWeapon().name;
@@ -564,10 +566,13 @@ public class Game extends Observable{
 		getBoard().moveWeaponTo(finalSuggestion.getWeapon().name, finalSuggestion.getRoom().name);
 		getBoard().moveCharacterTo(finalSuggestion.getCharacter().name, finalSuggestion.getRoom().name);
 
+		//temp store the currentPlayer while passing round suggestion
+		
+		
 		//make list of players starting from next player
+		// 1
 		Player[] suggestionPlayers = new Player[players.length];
-
-		//find the currentPlayer's position in list
+		// 2 find the currentPlayer's position in list
 		int currPlayerIndex = 0;
 		for(int i=0; i<players.length; i++) {
 			if(currentPlayer.equals(players[i])) {
@@ -575,7 +580,7 @@ public class Game extends Observable{
 				break;
 			}
 		}
-		//rotate array
+		// 3 rotate array
 		for(int x = 0; x < players.length; x++){
 			  suggestionPlayers[(x+players.length-currPlayerIndex) % players.length] = players[x];
 			}
@@ -590,26 +595,60 @@ public class Game extends Observable{
 			if(matchingCards.isEmpty()) {
 				//player has no matching cards, skip them
 				ui.println(p.getCharacter().getName() + " doesn't have any of the suggested cards.");
+				JOptionPane.showMessageDialog(null,
+						p.getIRLname()+" doesn't have any of the suggested cards"
+					   );
 			}else if(matchingCards.size()==1) {
 				//player has one matching card, show it
 				ui.println(p.getCharacter().getName() + " shows you the card: " + matchingCards.get(0).getName());
+				JOptionPane.showMessageDialog(null,
+						p.getIRLname() + " shows you the card: " + matchingCards.get(0).getName()
+					   );
 				return;
 			}else {
 				//player chooses a card from matching to show
 				ui.println("-------------------");
 				ui.println(p.getCharacter().getName() + " please select which card to show " + players[currPlayerIndex].getCharacter().getName());
+				
 				for(int j = 0; j < matchingCards.size(); j ++) {
 					ui.println((j + 1) + ". " + matchingCards.get(j).getName());
 				}
-				int chosenCard = ui.scanInt(1, matchingCards.size(), scan) - 1;
+				storedCurrentPlayer = currentPlayer;
+				setCurrentPlayerTo(p);
+				setValidSuggestCards(matchingCards);
+				
+				setGameStateTo(GameState.CONFIRMING_SUGGESTION);
+				collector.setWorkStateTo(WorkState.WAITING);
+				while(collector.getWorkState().equals(WorkState.WAITING)) {
+					Thread.sleep(100);
+					//System.out.println("Waiting");
+				}
+				
+				Card chosenCard = null;	// TODO initialise with first item in list? leaving null for easier debugging
+				if(collector.getInput() instanceof Card) { 
+					chosenCard = (Card) collector.getInput();
+				}
+				
+				
+				//int chosenCard = ui.scanInt(1, matchingCards.size(), scan) - 1;
 				ui.println("-------------------");
-				ui.println(p.getCharacter().getName() + " shows " + players[currPlayerIndex].getCharacter().getName() + " the card: " + matchingCards.get(chosenCard).getName());
+				ui.println(p.getCharacter().getName() + " shows " + storedCurrentPlayer.getIRLname() + " the card: " + chosenCard.getName());
+				
+				setCurrentPlayerTo(storedCurrentPlayer);
+				JOptionPane.showMessageDialog(null,
+						p.getIRLname() + " shows you the card: " + chosenCard.name
+					   );
+				
+				
 				return;
 			}
 		}
+		
 		ui.println("No one has any of the suggested cards.");
 		//setWorkStateTo(WorkState.NOT_WAITING);
 	}
+	
+	
 
 	private boolean leaveRoom(Player currentPlayer, int exit) {
 		ArrayList<Location> exits = getBoard().getAvailableExits(currentPlayer);
@@ -699,6 +738,22 @@ public class Game extends Observable{
 
 	public void setBoard(Board board) {
 		this.board = board;
+	}
+
+	public Player getStoredCurrentPlayer() {
+		return storedCurrentPlayer;
+	}
+
+	public void setStoredCurrentPlayer(Player storedCurrentPlayer) {
+		this.storedCurrentPlayer = storedCurrentPlayer;
+	}
+
+	public ArrayList<Card> getValidSuggestCards() {
+		return validSuggestCards;
+	}
+
+	public void setValidSuggestCards(ArrayList<Card> validSuggestCards) {
+		this.validSuggestCards = validSuggestCards;
 	}
 	
 

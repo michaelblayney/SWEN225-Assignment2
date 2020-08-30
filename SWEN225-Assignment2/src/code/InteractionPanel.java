@@ -22,6 +22,7 @@ public class InteractionPanel extends SwitchPanel {
 	JPanel suggestionPanel;
 	JPanel movePanel;
 	JPanel exitPanel;
+	public SuggestionConfirmingPanel suggestionConfirmingPanel;
 	int movesLeft = 0;
 
 	public InteractionPanel(CardLayout cardLayout) {
@@ -37,11 +38,13 @@ public class InteractionPanel extends SwitchPanel {
 		suggestionPanel = new SuggestionPanel();
 		movePanel = new MovePanel();
 		exitPanel = new ExitPanel();
+		suggestionConfirmingPanel = new SuggestionConfirmingPanel();
 
 		add(accusationPanel, "Accusing");
 		add(suggestionPanel, "Suggesting");
 		add(movePanel, "Moving");
 		add(exitPanel, "Exiting");
+		add(suggestionConfirmingPanel, "Confirming Suggestion");
 	}
 
 	public void switchToView(String s) {
@@ -57,6 +60,7 @@ public class InteractionPanel extends SwitchPanel {
 		((SuggestionPanel) suggestionPanel).updatePlayerName(p);
 		((MovePanel) movePanel).updatePlayerName(p);
 		((ExitPanel) exitPanel).updatePlayerName(p);
+		((SuggestionConfirmingPanel) suggestionConfirmingPanel).updatePlayerName(p);
 	}
 
 	public void updateMovesLeft(Integer i){
