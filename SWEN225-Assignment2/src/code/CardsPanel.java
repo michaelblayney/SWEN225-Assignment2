@@ -49,11 +49,11 @@ public class CardsPanel extends JPanel implements Observer{
 		cCards = new JPanel();
 		lCards = new JPanel();
 		
-		wCards.setBackground(Color.red);
+		wCards.setBackground(Color.WHITE);
 		wCards.setPreferredSize(cardHolder);
-		cCards.setBackground(Color.green);
+		cCards.setBackground(Color.WHITE);
 		cCards.setPreferredSize(cardHolder);
-		lCards.setBackground(Color.BLUE.brighter());
+		lCards.setBackground(Color.WHITE);
 		lCards.setPreferredSize(cardHolder);
 		
 		

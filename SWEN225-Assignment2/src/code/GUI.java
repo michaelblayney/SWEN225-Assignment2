@@ -67,7 +67,7 @@ public class GUI extends JFrame implements Observer{
      	// make init (enclosing) panel
 		JPanel initPanel = new InitialisationPanel();
 		initPanel.setOpaque(true);
-		initPanel.setBackground(Color.PINK);
+		//initPanel.setBackground(Color.PINK);
 		initPanel.setPreferredSize(windowDimension);
 		
 		
@@ -122,7 +122,7 @@ public class GUI extends JFrame implements Observer{
 		// make cards panel
 		cardsPanel = new CardsPanel();
 		cardsPanel.setOpaque(true);
-		cardsPanel.setBackground(Color.YELLOW);
+		//cardsPanel.setBackground(Color.YELLOW);
 		cardsPanel.setPreferredSize(cardDimension);
 				
 		// make board panel
