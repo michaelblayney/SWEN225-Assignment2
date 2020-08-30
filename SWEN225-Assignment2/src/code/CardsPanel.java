@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,7 +22,7 @@ import code.Game.GameState;
  *  gotta figure out how to get access to the game in order to use the getcurrentplayer()
  *  to get the cards.
  */
-public class CardsPanel extends JPanel implements Observer{
+public class CardsPanel extends JPanel implements Observer, ActionListener{
 	
 
 	private static int cardsWidth = 200;
@@ -206,7 +208,7 @@ public class CardsPanel extends JPanel implements Observer{
 		//All this is currently untested.
 		
 		GridBagConstraints constraints = new GridBagConstraints(); //used to put text where i want it to go
-		JLabel text;  //just using text for now, can change later if buttons or radios are wanted
+		JButton cardButton;  //just using text for now, can change later if buttons or radios are wanted
 		int x = 5; 	//inset value for the x axis
 		int y = 10;	//inset value for the y axis
 		
@@ -214,8 +216,9 @@ public class CardsPanel extends JPanel implements Observer{
 			Card c = l.get(i);
 			if (i == 3) { x = 95; y = 10;} //adjusts the x and y values when reaching the 4th card to move across 1 and back to the top
 			constraints.insets = new Insets(y, x, 0, 0); 
-			text = new JLabel(c.getName()); 
-			p.add(text, constraints); 
+			cardButton = new JButton(c.getName()); 
+			cardButton.addActionListener(this);
+			p.add(cardButton, constraints); 
 			y += 30; // pushes the y inset value for the next card (if there is one.)
 		}
 	}
@@ -231,6 +234,13 @@ public class CardsPanel extends JPanel implements Observer{
 		if (arg instanceof Player) {
 			this.updateCards((Player) arg);
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO suggesting?
+		// e = the name of the card
+		
 	}
 	
 }
