@@ -514,7 +514,7 @@ public class Game extends Observable{
 		}else {
 			currentPlayer.eliminate();
 			ui.println("You have made a false accusation. You have been eliminated.");
-			//TODO Pop up saying elim
+			//TODO JESSIE Pop up saying elim
 			return false;
 		}
 	}
@@ -626,7 +626,7 @@ public class Game extends Observable{
 		ui.println("GAME OVER");
 		ui.println(currentPlayer.getCharacter().getName() + " WINS!");
 		gameFinished = true;
-		//TODO Pop up displaying winner (Probably will just exit on confirmation)
+		//TODO JESSIE Pop up displaying winner (Probably will just exit on confirmation)
 	}
 	
 	// Method to get the sum of 2 rolled dice
