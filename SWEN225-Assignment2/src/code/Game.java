@@ -508,13 +508,21 @@ public class Game extends Observable{
 		//Player wins the game if they're correct
 		if(finalAccusation.equals(murderSolution)) {
 			ui.println("You've solved the murder. You win!");
+			JOptionPane.showMessageDialog(null,
+				    "You've solved the murder. " + currentPlayer.getIRLname() + " wins!"
+				   );
+			System.exit(0);
+			
 			return true;
 			
 		//Remove player from the game if wrong
 		}else {
 			currentPlayer.eliminate();
 			ui.println("You have made a false accusation. You have been eliminated.");
-			//TODO JESSIE Pop up saying elim
+			JOptionPane.showMessageDialog(null,
+				    "You have made a false accusation. "+currentPlayer.getIRLname()+" has been eliminated"
+				   );
+			
 			return false;
 		}
 	}
@@ -626,7 +634,10 @@ public class Game extends Observable{
 		ui.println("GAME OVER");
 		ui.println(currentPlayer.getCharacter().getName() + " WINS!");
 		gameFinished = true;
-		//TODO JESSIE Pop up displaying winner (Probably will just exit on confirmation)
+		JOptionPane.showMessageDialog(null,
+				"You've solved the murder. " + currentPlayer.getIRLname() + " wins!"
+			   );
+		System.exit(0);
 	}
 	
 	// Method to get the sum of 2 rolled dice
