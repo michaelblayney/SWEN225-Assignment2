@@ -39,7 +39,7 @@ public class MovePanel extends JPanel implements ActionListener {
 		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(nameLabel, constraints);
 
-		promptLabel = new JLabel("(Click a button or click on a tile to move to that location)");
+		promptLabel = new JLabel("(Click a button or click on an adjacent tile to move to that location)");
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.weighty = 20;	// Move it up towards the title
