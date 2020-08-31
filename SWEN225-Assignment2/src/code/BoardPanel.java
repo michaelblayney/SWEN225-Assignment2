@@ -41,11 +41,11 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("Raw X: "+e.getX());
-		System.out.println("Raw Y: "+e.getY());
+		//System.out.println("Raw X: "+e.getX());
+		//System.out.println("Raw Y: "+e.getY());
 		// TODO Auto-generated method stub
-		System.out.println("Coord X: "+(e.getX()/cellWidth));
-		System.out.println("Coord Y: "+(e.getY()/cellHeight));
+		//System.out.println("Coord X: "+(e.getX()/cellWidth));
+		//System.out.println("Coord Y: "+(e.getY()/cellHeight));
 		clickedPoint = new Point(e.getX()/cellWidth, e.getY()/cellHeight);
 		if(gui.isCollectorWaiting()&& (gui.getGame().getGameState()== Game.GameState.MOVING)){//If the program is waiting for an input...
 			char output = getUserMovementOneTile(boardField, gui.getGame().getCurrentPlayer());
@@ -94,11 +94,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 	}
 
 	@Override
-	public void paintComponent(Graphics g){
+	public void paintComponent(Graphics g){//This is a one-time print!
 		super.paintComponent(g);
-		//TODO Move this to the drawBoard method when done because this is TEMPORARY.
-		//TODO Particularly, it must be passed in a current snapshot of the board.
-		//Particularly, this is just going to be in effect until enough of the rest of the program works so that the board can be called from the game class (as currently it is not)
 
 		//Panel's size is 400x400
 		//Cluedo has 24x25 tileset grid
@@ -109,7 +106,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		for(int i=0; i<25; i++){
 			for(int j=0; j<25; j++){
 				//g.drawRect(i*cellWidth, j*cellHeight, cellWidth-1,cellHeight-1);
-				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth,cellHeight, g, null, i, j);//TODO ADD BOARD INPUT HERE
+				selectivePaintSquare(i*cellWidth, j*cellHeight, cellWidth,cellHeight, g, null, i, j);
 			}
 		}
 
@@ -291,8 +288,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 		MoveablePiece character = currentPlayer.getCharacter();
 		int playerx=character.getX();
 		int playery=character.getY();
-		System.out.println("Character x:"+playerx+". Click x:"+clickedPoint.x);
-		System.out.println("Character y:"+playery+". Click y:"+clickedPoint.y);
+		//System.out.println("Character x:"+playerx+". Click x:"+clickedPoint.x);
+		//System.out.println("Character y:"+playery+". Click y:"+clickedPoint.y);
 			//"If clicked point is adjacent to the character, check if the tile is valid, then return.
 				if((clickedPoint.x==playerx && clickedPoint.y==playery+1) && isValidAdjacentMove(b, currentPlayer, 0, 1))
 					return 's';
@@ -321,10 +318,10 @@ public class BoardPanel extends JPanel implements MouseListener{
 		Location[][] cells = b.getCellsToDraw();
 		int xToCheck=currentChar.getX()+xchange;
 		int yToCheck=currentChar.getY()+ychange;
-		System.out.println("Running isValidAdjacentMove!");
+		//System.out.println("Running isValidAdjacentMove!");
 
 		if(cells.length>xToCheck && xToCheck >= 0 && cells[0].length>yToCheck && yToCheck>=0){//If the spot on the cell array is valid
-			System.out.println("IsValidMove sees the given coordinates as valid!");
+			//System.out.println("IsValidMove sees the given coordinates as valid!");
 			Location checkedCell=cells[xToCheck][yToCheck];
 			if(checkedCell==null)
 				return false;

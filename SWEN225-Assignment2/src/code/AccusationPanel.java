@@ -451,26 +451,26 @@ public class AccusationPanel extends JPanel implements ActionListener {
 	public void updatePlayerName(Player p){
 		currentPlayer = p;
 
-		//Disable the radiobutton for the current player's character
-		mrsWhiteRB.getModel().setEnabled(true);
-		mrGreenRB.getModel().setEnabled(true);
-		mrsPeacockRB.getModel().setEnabled(true);
-		profPlumRB.getModel().setEnabled(true);
-		msScarletRB.getModel().setEnabled(true);
-		colMustardRB.getModel().setEnabled(true);
-		if(p.getCharacter().getName().equals("Mrs. White")) {
-			mrsWhiteRB.getModel().setEnabled(false);
-		} else if(p.getCharacter().getName().equals("Mr. Green")) {
-			mrGreenRB.getModel().setEnabled(false);
-		} else if(p.getCharacter().getName().equals("Mrs. Peacock")) {
-			mrsPeacockRB.getModel().setEnabled(false);
-		} else if(p.getCharacter().getName().equals("Prof. Plum")) {
-			profPlumRB.getModel().setEnabled(false);
-		} else if(p.getCharacter().getName().equals("Miss Scarlett")) {
-			msScarletRB.getModel().setEnabled(false);
-		} else if(p.getCharacter().getName().equals("Col. Mustard")) {
-			colMustardRB.getModel().setEnabled(false);
-		}
+//		//Disable the radiobutton for the current player's character
+//		mrsWhiteRB.getModel().setEnabled(true);
+//		mrGreenRB.getModel().setEnabled(true);
+//		mrsPeacockRB.getModel().setEnabled(true);
+//		profPlumRB.getModel().setEnabled(true);
+//		msScarletRB.getModel().setEnabled(true);
+//		colMustardRB.getModel().setEnabled(true);
+//		if(p.getCharacter().getName().equals("Mrs. White")) {
+//			mrsWhiteRB.getModel().setEnabled(false);
+//		} else if(p.getCharacter().getName().equals("Mr. Green")) {
+//			mrGreenRB.getModel().setEnabled(false);
+//		} else if(p.getCharacter().getName().equals("Mrs. Peacock")) {
+//			mrsPeacockRB.getModel().setEnabled(false);
+//		} else if(p.getCharacter().getName().equals("Prof. Plum")) {
+//			profPlumRB.getModel().setEnabled(false);
+//		} else if(p.getCharacter().getName().equals("Miss Scarlett")) {
+//			msScarletRB.getModel().setEnabled(false);
+//		} else if(p.getCharacter().getName().equals("Col. Mustard")) {
+//			colMustardRB.getModel().setEnabled(false);
+//		}
 	}
 	
 }
