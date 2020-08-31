@@ -614,10 +614,12 @@ public class Game extends Observable{
 					ui.println((j + 1) + ". " + matchingCards.get(j).getName());
 				}
 				storedCurrentPlayer = currentPlayer;
-				setCurrentPlayerTo(p);
-				setValidSuggestCards(matchingCards);
+				setValidSuggestCardsTo(matchingCards);
+				
+				
 				
 				setGameStateTo(GameState.CONFIRMING_SUGGESTION);
+				setCurrentPlayerTo(p);
 				collector.setWorkStateTo(WorkState.WAITING);
 				while(collector.getWorkState().equals(WorkState.WAITING)) {
 					Thread.sleep(100);
@@ -634,7 +636,10 @@ public class Game extends Observable{
 				ui.println("-------------------");
 				ui.println(p.getCharacter().getName() + " shows " + storedCurrentPlayer.getIRLname() + " the card: " + chosenCard.getName());
 				
+				setValidSuggestCardsTo(null);
+				
 				setCurrentPlayerTo(storedCurrentPlayer);
+				
 				JOptionPane.showMessageDialog(null,
 						p.getIRLname() + " shows you the card: " + chosenCard.name
 					   );
@@ -645,6 +650,9 @@ public class Game extends Observable{
 		}
 		
 		ui.println("No one has any of the suggested cards.");
+		JOptionPane.showMessageDialog(null,
+				"No one has any of the suggested cards."
+			   );
 		//setWorkStateTo(WorkState.NOT_WAITING);
 	}
 	
@@ -730,6 +738,12 @@ public class Game extends Observable{
 		currentPlayer = player;
 		this.setChanged();
 		notifyObservers(currentPlayer);
+	}
+	
+	public void setValidSuggestCardsTo(ArrayList<Card> cards) {
+		validSuggestCards = cards;
+		this.setChanged();
+		notifyObservers(validSuggestCards);
 	}
 
 	public Board getBoard() {

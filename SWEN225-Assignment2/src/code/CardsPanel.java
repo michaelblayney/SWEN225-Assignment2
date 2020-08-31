@@ -41,6 +41,8 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 	ArrayList<Card> cList;
 	ArrayList<Card> lList;
 	
+	ArrayList<Card> validCards;
+	
 	public CardsPanel() {
 		
 		
@@ -143,7 +145,8 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 	 * TODO: actually need to find out how to get this panel to update in the first place.
 	 * TODO: find out how to get the current player.
 	 * */
-	public void updateCards(Player p) {
+	public void updateCards(Game g, Player p) {
+		
 		
 		wCards.removeAll();
 		cCards.removeAll();
@@ -170,12 +173,15 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 		for (Card c : hand) {
 			if (c instanceof WeaponCard) {
 				wList.add(c);
+				
 			} else if(c instanceof CharacterCard) {
 				cList.add(c);
 			} else if(c instanceof RoomCard) {
 				lList.add(c);
 			}
 		}
+		
+		
 		
 		drawCards(wList, wCards);
 		drawCards(cList, cCards);
@@ -224,6 +230,10 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 			cardButton = new JButton(c.getName()); 
 			cardButton.addActionListener(this);
 			p.add(cardButton, constraints); 
+			if(validCards!=null&&!validCards.contains(c)) {
+				cardButton.setEnabled(false);
+			}
+			
 			y += 30; // pushes the y inset value for the next card (if there is one.)
 		}
 	}
@@ -237,7 +247,7 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 	public void update(Observable o, Object arg) {
 		
 		if (arg instanceof Player) {
-			this.updateCards((Player) arg);
+			this.updateCards((Game)o, (Player) arg);
 		}
 	}
 
@@ -252,14 +262,10 @@ public class CardsPanel extends JPanel implements Observer, ActionListener{
 		
 	}
 	//TODO restrict card choices somehow
-	/*public void disableInvalidCards() {
-		ArrayList<Card> validCards = ((GUI) this.getParent().getParent().getParent().getParent().getParent().getParent()).getGame().getValidSuggestCards();
-		for(Card c : wList) {
-			if(!validCards.contains(c)) {
-				
-			}
-		}
+	public void disableInvalidCards(Game g) {
+		validCards = g.getValidSuggestCards();
 	
-	}*/
+	}
+
 	
 }

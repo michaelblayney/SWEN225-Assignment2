@@ -181,13 +181,13 @@ public class GUI extends JFrame implements Observer{
 			case CONFIRMING_SUGGESTION:
 				interactionPanel.switchToView("Confirming Suggestion");
 				interactionPanel.suggestionConfirmingPanel.resetText();
-				//cardsPanel.disableInvalidCards();
+				cardsPanel.disableInvalidCards((Game)o);
 				break;
 			}
 		}else if(arg instanceof Player) {
 			menuBar.updatePlayerLabel((Player)arg);
 			interactionPanel.updatePlayer((Player)arg);
-			cardsPanel.updateCards((Player)arg);
+			cardsPanel.updateCards((Game)o, (Player)arg);
 			
 		}else if(arg instanceof Integer){
 			interactionPanel.updateMovesLeft((Integer) arg);
